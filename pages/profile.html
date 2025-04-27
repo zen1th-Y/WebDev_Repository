@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Admin</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      background: #f4f4f4;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background: linear-gradient(to bottom, #1c1c1c, #2c2c2c);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      font-size: 24px;
+      margin-bottom: 40px;
+      color: #71d7f7;
+    }
+
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      margin-bottom: 20px;
+      font-size: 18px;
+      display: block;
+    }
+
+    .sidebar a:hover {
+      color: #4b99ff;
+    }
+
+    /* Main content */
+    .main-content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+      padding: 40px;
+    }
+
+    .card {
+      width: 250px;
+      height: 250px;
+      background: white;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: 0.3s;
+      text-align: center;
+    }
+
+    .card img {
+      width: 100px;
+      height: auto;
+      margin-bottom: 15px;
+    }
+
+    .card h3 {
+      color: black;
+    }
+
+    .card.non-returned {
+      background-color: #dbe7fd;
+    }
+
+    .card.issued {
+      background-color: #ffcdd2;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+    
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <h2>Admin</h2>
+    <a href="#">Home</a>
+    <a href="../pages/admin.html">Create</a>
+    <a href="../pages/profile.html">Profile</a>
+    <a href="../index2.html">Logout</a>
+  </div>
+
+  <div class="main-content">
+    <div class="card non-returned">
+      <img src="../pages/img_bg/non-returned.png" alt="Non Returned Books">
+      <h3>Non Returned Books</h3>
+    </div>
+    <div class="card issued">
+      <img src="../pages/img_bg/issued-books.png" alt="Issued Books">
+      <h3>Issued Books</h3>
+    </div>
+  </div>
+
+</body>
+</html>

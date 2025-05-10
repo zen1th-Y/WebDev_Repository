@@ -8,7 +8,7 @@
             display: none;
         }
         header {
-            background: url("../04 WebDev/pages/img_bg/books_bg.jpg") no-repeat center center;
+            background: url("../assets/img_bg/books_bg.jpg") no-repeat center center;
             color: white;
             padding: 1em;
             height: 200px;

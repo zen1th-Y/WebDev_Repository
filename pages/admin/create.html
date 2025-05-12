@@ -1,19 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Add Book - Admin</title>
-  <link rel="stylesheet" href="/styles/admin_sidebar.css">
+  <link rel="stylesheet" href="/styles/admin_sidebar.css" />
   <style>
-    
-    /* Main content */
     .main-content {
       flex: 1;
       display: flex;
       justify-content: center;
       align-items: center;
-      
     }
 
     .form-container {
@@ -59,42 +56,34 @@
     .form-container button:hover {
       background-color: #2896d6;
     }
-
-
-
-
   </style>
 </head>
 <body>
 
-    <div class="sidebar">
-      <div class="admin-header">
-      <img src="/assets/img_icon/granby_logo.png" alt="Logo" class="logo">
-         <h2> GCST Library
-
-
-         </h2>
-      </div>
-      <a href="/pages/admin/home.html"><img src="/assets/img_icon/home.png" class="icon"><strong>Home</strong> </a>
-      <a href="/pages/admin/admin_book.html"><img src="/assets/img_icon/book.png" class="icon"> <strong>Books</strong></a>
-      <a href="/pages/admin/create.html"><img src="/assets/img_icon/create.png" class="icon"><strong>Create</strong></a>
-      <a href="/pages/admin/profile.html"><img src="/assets/img_icon/user (3).png"><strong>Profile</strong></a>
-      <a href="/index2.html"><img src="/assets/img_icon/sign-out.png" class="icon"> <strong>Logout</strong></a>
+  <div class="sidebar">
+    <div class="admin-header">
+      <img src="/assets/img_icon/granby_logo.png" alt="Logo" class="logo" />
+      <h2>GCST Library</h2>
     </div>
-
-    
+    <a href="/pages/admin/home.html"><img src="/assets/img_icon/home.png" class="icon" /><strong>Home</strong></a>
+    <a href="/pages/admin/admin_book.html"><img src="/assets/img_icon/book.png" class="icon" /><strong>Books</strong></a>
+    <a href="/pages/admin/create.html"><img src="/assets/img_icon/create.png" class="icon" /><strong>Create</strong></a>
+    <a href="/pages/admin/profile.html"><img src="/assets/img_icon/user (3).png" /><strong>Profile</strong></a>
+    <a href="/pages/user/user_home.html"><img src="/assets/img_icon/logout0.png" class="icon" /><strong>Logout</strong></a>
+  </div>
 
   <div class="main-content">
     <div class="form-container">
-      <img src="/assets/img_bg/book_details.png" alt="Book Image">
+      <img src="/assets/img_bg/book_details.png" alt="Book Image" />
       <h2>Enter Book Details</h2>
-        <form action="save_book.php" method="POST" enctype="multipart/form-data">
-          <input type="file" name="book_image" required>
-          <input type="text" name="book_name" placeholder="Enter Book Name" required>
-          <input type="text" name="book_category" placeholder="Enter Book Category" required>
-          <input type="text" name="book_author" placeholder="Enter Book Author" required>
-          <button type="submit">Add Book</button>
-        </form>
+      <form action="http://localhost/granby/sign_up1.php" method="POST" enctype="multipart/form-data">
+
+        <input type="text" name="book_name" placeholder="Enter Book Name" required />
+        <input type="text" name="book_category" placeholder="Enter Book Category" required />
+        <input type="text" name="book_author" placeholder="Enter Book Author" required />
+        
+        <button type="submit">Add Book</button>
+      </form>
     </div>
   </div>
 

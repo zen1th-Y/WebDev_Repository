@@ -1,9 +1,10 @@
 <?php
 // Connection settings
-$host = 'localhost';
-$db = 'library_db'; // Change to your actual DB name
-$user = 'root';         // Change if using a different MySQL user
-$pass = '';             // Change if your MySQL has a password
+$host = '127.0.0.1';
+$db = 'library_db'; 
+$user = 'root';       
+$pass = '';   
+$port = 3306; // Default MySQL port         
 
 // Try to connect
 $conn = new mysqli($host, $user, $pass, $db);

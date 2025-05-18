@@ -1,11 +1,10 @@
 <?php
-// Database connection settings
-$servername = "localhost";
-$username = "root"; // default MySQL username
-$password = ""; // default MySQL password (empty if using XAMPP)
-$dbname = "library_db"; // database name is library_db
 
-// Create a connection (without selecting a database)
+$servername = "localhost";
+$username = "root"; 
+$password = ""; 
+$dbname = "library_db"; 
+
 $conn = new mysqli($servername, $username, $password);
 
 // Check connection
@@ -21,7 +20,6 @@ if ($conn->query($db_check_query) === TRUE) {
     echo "Error creating database: " . $conn->error . "<br>";
 }
 
-// Now select the database
 $conn->select_db($dbname);
 
 // Create table if it doesn't exist
@@ -31,7 +29,7 @@ CREATE TABLE IF NOT EXISTS users (
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    phone VARCHAR(15) NOT NULL
+    phone int(11) NOT NULL
 )";
 
 // Execute table creation query

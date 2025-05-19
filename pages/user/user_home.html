@@ -216,7 +216,7 @@
     <div style="display: flex; align-items: center; gap: 1rem;">
       <div class="auth-links">
         <a href="/pages/sign_up.html" class="signin">Sign in</a>
-        <a href="#" class="signup">Sign up</a>
+        <a href="/pages/sign_up.html" class="signup">Sign up</a>
       </div>
 
       <nav class="nav-links">
@@ -246,32 +246,10 @@
           <div class="book-cover"></div>
           <div class="book-title">Book 1</div>
           <div class="book-author">Author 1</div>
-        </div>
-        <div class="book-card">
-          <div class="book-cover"></div>
-          <div class="book-title">Book 2</div>
-          <div class="book-author">Author 2</div>
-        </div>
-        <div class="book-card">
-          <div class="book-cover"></div>
-          <div class="book-title">Book 3</div>
-          <div class="book-author">Author 3</div>
-        </div>
-        <div class="book-card">
-          <div class="book-cover"></div>
-          <div class="book-title">Book 4</div>
-          <div class="book-author">Author 4</div>
-        </div>
-        <div class="book-card">
-          <div class="book-cover"></div>
-          <div class="book-title">Book 5</div>
-          <div class="book-author">Author 5</div>
-        </div>
-        <div class="book-card">
-          <div class="book-cover"></div>
-          <div class="book-title">Book 6</div>
-          <div class="book-author">Author 6</div>
-        </div>
+  </div>
+</div>
+
+
       </div>
     </div>
 
@@ -300,5 +278,41 @@
       }
     });
   </script>
+  <script>
+  window.addEventListener('DOMContentLoaded', () => {
+  fetch('http://localhost/WebDev_Repository/utils/fetch.php')
+    .then(response => response.json())
+    .then(data => {
+      const container = document.querySelector('.books-grid');
+      container.innerHTML = ''; // Clear existing content
+
+      if (Array.isArray(data)) {
+        data.forEach(book => {
+          const card = document.createElement('div');
+          card.className = 'book-card';
+
+          // Use book_image if exists, else fallback image
+          const imgSrc = book.book_image ? book.book_image : '/assets/img_bg/book_details.png';
+
+          card.innerHTML = `
+            <div class="book-cover">
+              <img src="${imgSrc}" alt="Cover of ${book.book_name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 6px;" />
+            </div>
+            <div class="book-title">${book.book_name}</div>
+            <div class="book-author">${book.book_author}</div>
+          `;
+          container.appendChild(card);
+        });
+      } else {
+        container.innerHTML = '<p>Failed to load books.</p>';
+      }
+    })
+    .catch(error => {
+      console.error('Error loading books:', error);
+      document.querySelector('.books-grid').innerHTML = '<p>Error loading books.</p>';
+    });
+});
+
+</script>
 </body>
 </html>

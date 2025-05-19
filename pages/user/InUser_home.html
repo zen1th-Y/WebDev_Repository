@@ -108,11 +108,14 @@
     }
 
     .book-cover {
-      background: #ccc;
-      height: 100px;
-      border-radius: 6px;
+      height: 150px;
+      width: 100%;
       margin-bottom: 0.75rem;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #ccc; /* fallback background */
     }
+
 
     .book-title {
       font-weight: bold;
@@ -178,25 +181,34 @@
       .section {
         min-width: 100%;
       }
+
+    .welcome-message {
+      flex: 1;
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #333;
+    }
+
+
     }
   </style>
 </head>
 <body>
   <!-- Inside the <header> -->
-  <header>
-    <div class="logo">
-      <img src="/assets/img_icon/granbylogo.png" alt="Library Logo">
-      <strong>GCST Library</strong>
-    </div>
-    <nav class="nav-links">
-      <a href="#">Home</a>
-      <a href="#">Books</a>
-      <a href="#">About</a>
-      <a href="#" class="menu-icon" id="menu-icon" title="Menu">
-        &#9776;
-      </a>
-    </nav>
-  </header>
+<header>
+  <div class="logo">
+    <img src="/assets/img_icon/granbylogo.png" alt="Library Logo">
+    <strong>GCST Library</strong>
+  </div>
+  
+  <nav class="nav-links">
+    <a href="/pages/user/InUser_books.html">Books</a>
+    <a href="#">About</a>
+    <a href="#" class="menu-icon" id="menu-icon" title="Menu">&#9776;</a>
+  </nav>
+</header>
+
 
   <!-- Floating Box for Menu -->
   <div class="floating-box" id="floating-box">
@@ -224,32 +236,10 @@
           <div class="book-cover"></div>
           <div class="book-title">Book 1</div>
           <div class="book-author">Author 1</div>
-        </div>
-        <div class="book-card">
-          <div class="book-cover"></div>
-          <div class="book-title">Book 2</div>
-          <div class="book-author">Author 2</div>
-        </div>
-        <div class="book-card">
-          <div class="book-cover"></div>
-          <div class="book-title">Book 3</div>
-          <div class="book-author">Author 3</div>
-        </div>
-        <div class="book-card">
-          <div class="book-cover"></div>
-          <div class="book-title">Book 4</div>
-          <div class="book-author">Author 4</div>
-        </div>
-        <div class="book-card">
-          <div class="book-cover"></div>
-          <div class="book-title">Book 5</div>
-          <div class="book-author">Author 5</div>
-        </div>
-        <div class="book-card">
-          <div class="book-cover"></div>
-          <div class="book-title">Book 6</div>
-          <div class="book-author">Author 6</div>
-        </div>
+  </div>
+</div>
+
+
       </div>
     </div>
 
@@ -278,5 +268,59 @@
       }
     });
   </script>
+  <script>
+  window.addEventListener('DOMContentLoaded', () => {
+  fetch('http://localhost/WebDev_Repository/utils/fetch.php')
+    .then(response => response.json())
+    .then(data => {
+      const container = document.querySelector('.books-grid');
+      container.innerHTML = ''; // Clear existing content
+
+      if (Array.isArray(data)) {
+        data.forEach(book => {
+          const card = document.createElement('div');
+          card.className = 'book-card';
+
+          // Use book_image if exists, else fallback image
+          const imgSrc = book.book_image ? book.book_image : '/assets/img_bg/book_details.png';
+
+          card.innerHTML = `
+            <div class="book-cover">
+              <img src="${imgSrc}" alt="Cover of ${book.book_name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 6px;" />
+            </div>
+            <div class="book-title">${book.book_name}</div>
+            <div class="book-author">${book.book_author}</div>
+          `;
+          container.appendChild(card);
+        });
+      } else {
+        container.innerHTML = '<p>Failed to load books.</p>';
+      }
+    })
+    .catch(error => {
+      console.error('Error loading books:', error);
+      document.querySelector('.books-grid').innerHTML = '<p>Error loading books.</p>';
+    });
+});
+
+</script>
+
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+    fetch('http://localhost/WebDev_Repository/utils/get_user.php')
+      .then(res => res.json())
+      .then(data => {
+        if (data.name) {
+          document.getElementById('welcome').innerText = "Welcome, " + data.name;
+        } else {
+          document.getElementById('welcome').innerText = "Welcome, Guest";
+        }
+      });
+
+});
+</script>
+
+
+
 </body>
 </html>

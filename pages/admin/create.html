@@ -5,96 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Add Book - Admin</title>
   <link rel="stylesheet" href="/styles/admin_sidebar.css" />
-  <style>
-    .main-content {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  <link rel="stylesheet" href="/styles/admin_create.css" />
 
-    .form-container {
-      background: white;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      width: 400px;
-      text-align: center;
-    }
-
-    .form-container img {
-      width: 100px;
-      margin-bottom: 20px;
-      object-fit: contain;
-    }
-
-    .form-container h2 {
-      margin-bottom: 20px;
-      color: #333;
-    }
-
-    .form-container input[type="text"],
-    .form-container input[type="file"] {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-
-    .form-container button {
-      width: 100%;
-      padding: 12px;
-      background-color: #3976e6;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      margin-top: 15px;
-      cursor: pointer;
-    }
-
-    .form-container button:hover {
-      background-color: #2896d6;
-    }
-  </style>
 </head>
 <body>
 
-
-    <div class="sidebar">
-      <div class="admin-header">
+  <div class="sidebar">
+    <div class="admin-header">
       <img src="/assets/img_icon/granby_logo.png" alt="Logo" class="logo">
-         <h3> GCST Library
-         </h3>
-      </div>
-      <a href="/pages/admin/home.html"><img src="/assets/img_icon/home-color.png" class="icon"><strong>Home</strong> </a>
-      <a href="/pages/admin/admin_book.html"><img src="/assets/img_icon/book-colored.png" class="icon"> <strong>Books</strong></a>
-      <a href="/pages/admin/create.html"><img src="/assets/img_icon/create-color.png" class="icon"><strong>Create</strong></a>
-      <a href="/pages/admin/request.html"><img src="/assets/img_icon/request-color.png" class="icon"><strong>Requests</strong></a>
-      <a href="/pages/admin/profile.html"><img src="/assets/img_icon/students-color.png" class="icon"><strong>Profile</strong></a>
-      <a href="/pages/admin/report.html"><img src="/assets/img_icon/report-color.png" class="icon"><strong>Reports</strong></a>
-      <a href="/pages/user/user_home.html"><img src="/assets/img_icon/logout-color.png" class="icon"> <strong>Logout</strong></a>
+      <h3>GCST Library</h3>
     </div>
-
+    <a href="/pages/admin/home.html"><img src="/assets/img_icon/home-color.png" class="icon"><strong>Home</strong> </a>
+    <a href="/pages/admin/admin_book.html"><img src="/assets/img_icon/book-colored.png" class="icon"> <strong>Books</strong></a>
+    <a href="/pages/admin/create.html"><img src="/assets/img_icon/create-color.png" class="icon"><strong>Create</strong></a>
+    <a href="/pages/admin/request.html"><img src="/assets/img_icon/request-color.png" class="icon"><strong>Requests</strong></a>
+    <a href="/pages/admin/profile.html"><img src="/assets/img_icon/students-color.png" class="icon"><strong>Profile</strong></a>
+    <a href="/pages/admin/report.html"><img src="/assets/img_icon/report-color.png" class="icon"><strong>Reports</strong></a>
+    <a href="/pages/user/user_home.html"><img src="/assets/img_icon/logout-color.png" class="icon"> <strong>Logout</strong></a>
+  </div>
 
   <div class="main-content">
-    <div class="form-container">
-      <img id="previewImage" src="/assets/img_bg/book_details.png" alt="Book Image" />
-      <h2>Enter Book Details</h2>
-      <form action="http://localhost/WebDev_Repository/utils/book_data.php" method="POST" enctype="multipart/form-data">
-
-        <input type="text" name="book_name" placeholder="Enter Book Name" required />
-        <input type="text" name="book_category" placeholder="Enter Book Category" required />
-        <input type="text" name="book_author" placeholder="Enter Book Author" required />
-
-        <!-- File input for image -->
-        <input type="file" name="book_image" id="bookImageInput" accept="image/*" />
-
-        <button type="submit">Add Book</button>
-      </form>
-    </div>
+    <form action="http://localhost/WebDev_Repository/utils/book_data.php" method="POST" enctype="multipart/form-data">
+      <div class="form-container">
+  <div class="form-left">
+    <img id="previewImage" src="/assets/img_bg/book_details.png" alt="Book Image" />
+    <h2>Enter Book Details</h2>
+    <input type="text" name="book_name" placeholder="Enter Book Name" required />
+    <input type="text" name="book_category" placeholder="Enter Book Category" required />
+    <input type="text" name="book_author" placeholder="Enter Book Author" required />
+    <input type="file" name="book_image" id="bookImageInput" accept="image/*" />
   </div>
+
+  <div class="form-right">
+    <textarea name="book_description" placeholder="About the Book (Detailed Description)"></textarea>
+    <button type="submit">Add Book</button>
+  </div>
+</div>
 
   <script>
     const fileInput = document.getElementById('bookImageInput');
@@ -110,7 +56,6 @@
         }
         reader.readAsDataURL(file);
       } else {
-        // Reset to default image if no file selected
         previewImage.src = defaultImage;
       }
     });

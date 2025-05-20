@@ -1,0 +1,92 @@
+.main-content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .form-container {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 1000px; /* wider for side-by-side */
+      text-align: center;
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      align-items: flex-start;
+      margin-left: 229px;
+    }
+
+    .form-left,
+    .form-right {
+      flex: 1;
+    }
+
+    .form-left {
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .form-container img {
+      width: 100px;
+      margin-bottom: 20px;
+      object-fit: contain;
+    }
+
+    .form-container h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .form-container input[type="text"],
+    .form-container input[type="file"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .form-container button {
+      width: 100%;
+      padding: 12px;
+      background-color: #3976e6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    .form-container button:hover {
+      background-color: #2896d6;
+    }
+
+    .form-right textarea {
+      width: 100%;
+      height: 357px;  /* big textarea height */
+      padding: 15px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      resize: vertical;
+      font-family: inherit;
+    }
+    .form-right button {
+  margin-top: 15px;
+  width: 100%;
+  padding: 12px;
+  background-color: #3976e6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.form-right button:hover {
+  background-color: #2896d6;
+}

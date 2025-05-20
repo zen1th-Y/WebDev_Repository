@@ -1,29 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard - Admin</title>
-  <link rel="stylesheet" href="/styles/admin_sidebar.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reports - Admin</title>
+  <link rel="stylesheet" href="/styles/admin_sidebar.css" />
+  <style>
+      html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f2f5;
+      overflow: hidden; 
+    }
 
-  
+    .main-content {
+      margin-left: 223px; /* Sidebar width */
+      height: 100vh;
+      overflow-y: auto; /* Enable vertical scrolling */
+      padding: 30px;
+      box-sizing: border-box;
+    }
+    .content-box {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+      vertical-align: top;
+    }
+    th {
+      background-color: #e1e8eb;
+    }
+    button {
+      padding: 6px 12px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1e7e34;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="sidebar">
-      <div class="admin-header">
+  <div class="sidebar">
+    <div class="admin-header">
       <img src="/assets/img_icon/granby_logo.png" alt="Logo" class="logo">
-         <h3> GCST Library
-         </h3>
-      </div>
-      <a href="/pages/admin/home.html"><img src="/assets/img_icon/home-color.png" class="icon"><strong>Home</strong> </a>
-      <a href="/pages/admin/admin_book.html"><img src="/assets/img_icon/book-colored.png" class="icon"> <strong>Books</strong></a>
-      <a href="/pages/admin/create.html"><img src="/assets/img_icon/create-color.png" class="icon"><strong>Create</strong></a>
-      <a href="/pages/admin/request.html"><img src="/assets/img_icon/request-color.png" class="icon"><strong>Requests</strong></a>
-      <a href="/pages/admin/profile.html"><img src="/assets/img_icon/students-color.png" class="icon"><strong>Profile</strong></a>
-      <a href="/pages/admin/report.html"><img src="/assets/img_icon/report-color.png" class="icon"><strong>Reports</strong></a>
-      <a href="/pages/user/user_home.html"><img src="/assets/img_icon/logout-color.png" class="icon"> <strong>Logout</strong></a>
+      <h3>GCST Library</h3>
     </div>
+    <a href="/pages/admin/home.html"><img src="/assets/img_icon/home-color.png" class="icon"><strong>Home</strong></a>
+    <a href="/pages/admin/admin_book.html"><img src="/assets/img_icon/book-colored.png" class="icon"><strong>Books</strong></a>
+    <a href="/pages/admin/create.html"><img src="/assets/img_icon/create-color.png" class="icon"><strong>Create</strong></a>
+    <a href="/pages/admin/request.html"><img src="/assets/img_icon/request-color.png" class="icon"><strong>Requests</strong></a>
+    <a href="/pages/admin/profile.html"><img src="/assets/img_icon/students-color.png" class="icon"><strong>Profile</strong></a>
+    <a href="/pages/admin/report.html"><img src="/assets/img_icon/report-color.png" class="icon"><strong>Reports</strong></a>
+    <a href="/pages/user/user_home.html"><img src="/assets/img_icon/logout-color.png" class="icon"><strong>Logout</strong></a>
+  </div>
 
-    </body>
+  <div class="main-content">
+    <div class="content-box">
+      <h2>Submitted Reports</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Date Submitted</th>
+            <th>Student ID</th>
+            <th>Student Name</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Response</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2025-05-19</td>
+            <td>2021001</td>
+            <td>Juan Dela Cruz</td>
+            <td>Missing Book</td>
+            <td>The book I returned was marked as unreturned in the system.</td>
+            <td><button>Message</button></td>
+          </tr>
+          <tr>
+            <td>2025-05-18</td>
+            <td>2021002</td>
+            <td>Maria Santos</td>
+            <td>Damaged Book</td>
+            <td>The borrowed book had torn pages when I received it.</td>
+            <td><button>Message</button></td>
+          </tr>
+                    <tr>
+            <td>2025-05-18</td>
+            <td>2021002</td>
+            <td>Maria Santos</td>
+            <td>Damaged Book</td>
+            <td>The borrowed book had torn pages when I received it.</td>
+            <td><button>Message</button></td>
+          </tr>
+                    <tr>
+            <td>2025-05-18</td>
+            <td>2021002</td>
+            <td>Maria Santos</td>
+            <td>Damaged Book</td>
+            <td>The borrowed book had torn pages when I received it.</td>
+            <td><button>Message</button></td>
+          </tr>
+                    <tr>
+            <td>2025-05-18</td>
+            <td>2021002</td>
+            <td>Maria Santos</td>
+            <td>Damaged Book</td>
+            <td>The borrowed book had torn pages when I received it.</td>
+            <td><button>Message</button></td>
+          </tr>
+                    <tr>
+            <td>2025-05-18</td>
+            <td>2021002</td>
+            <td>Maria Santos</td>
+            <td>Damaged Book</td>
+            <td>The borrowed book had torn pages when I received it.</td>
+            <td><button>Message</button></td>
+          </tr>
+                    <tr>
+            <td>2025-05-18</td>
+            <td>2021002</td>
+            <td>Maria Santos</td>
+            <td>Damaged Book</td>
+            <td>The borrowed book had torn pages when I received it.</td>
+            <td><button>Message</button></td>
+          </tr>
+                    <tr>
+            <td>2025-05-18</td>
+            <td>2021002</td>
+            <td>Maria Santos</td>
+            <td>Damaged Book</td>
+            <td>The borrowed book had torn pages when I received it.</td>
+            <td><button>Message</button></td>
+          </tr>
+                    <tr>
+            <td>2025-05-18</td>
+            <td>2021002</td>
+            <td>Maria Santos</td>
+            <td>Damaged Book</td>
+            <td>The borrowed book had torn pages when I received it.</td>
+            <td><button>Message</button></td>
+          </tr>
+                    <tr>
+            <td>2025-05-18</td>
+            <td>2021002</td>
+            <td>Maria Santos</td>
+            <td>Damaged Book</td>
+            <td>The borrowed book had torn pages when I received it.</td>
+            <td><button>Message</button></td>
+          </tr>
+                    <tr>
+            <td>2025-05-18</td>
+            <td>2021002</td>
+            <td>Maria Santos</td>
+            <td>Damaged Book</td>
+            <td>The borrowed book had torn pages when I received it.</td>
+            <td><button>Message</button></td>
+          </tr>
+                    <tr>
+            <td>2025-05-18</td>
+            <td>2021002</td>
+            <td>Maria Santos</td>
+            <td>Damaged Book</td>
+            <td>The borrowed book had torn pages when I received it.</td>
+            <td><button>Message</button></td>
+          </tr>
+                    <tr>
+            <td>2025-05-18</td>
+            <td>2021002</td>
+            <td>Maria Santos</td>
+            <td>Damaged Book</td>
+            <td>The borrowed book had torn pages when I received it.</td>
+            <td><button>Message</button></td>
+          </tr>
+
+          <!-- Add more rows as needed -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
 </html>

@@ -9,6 +9,7 @@ body {
   display: flex;
   height: 100vh;
   background: linear-gradient(to bottom, #48647a, #1f2225);
+
 }
 
 .admin-header {
@@ -25,12 +26,16 @@ body {
 
     /* Sidebar */
     .sidebar {
+      position: fixed;
+
+      height: 100vh;
       width: 220px;
       background: linear-gradient(to bottom, #dde2e6, #bfd4e6);
       color: rgb(241, 239, 239);
       display: flex;
       flex-direction: column;
       padding: 20px;
+      
       
     }
 

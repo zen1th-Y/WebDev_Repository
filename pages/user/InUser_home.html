@@ -40,10 +40,14 @@
 
     .hero {
       background: linear-gradient(to right, #e0e7ff, #f0f4ff);
-      padding: 2rem 2rem;
+      padding: 17px;
       text-align: center;
       border-radius: 10px;
-      margin: 1rem;
+      margin: 50px;
+      height: 200px;
+      margin-bottom: 0px;
+      margin-top: 30px;
+      box-shadow: 0 8px 10px rgba(0,0,0,0.1);
     }
 
     .hero h1 {
@@ -56,7 +60,7 @@
       max-width: 600px;
       background: #fff;
       padding: 0.75rem 1rem;
-      border-radius: 8px;
+      border-radius: 18px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       display: flex;
       align-items: center;
@@ -81,6 +85,7 @@
     .section {
       flex: 1;
       min-width: 600px;
+      
     }
 
     .sidebar {
@@ -90,7 +95,7 @@
     .section h2,
     .sidebar h2 {
       font-size: 1.5rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0px;
     }
 
     .books-grid {
@@ -176,10 +181,12 @@
 
       .sidebar {
         width: 100%;
+        margin-top: 0px;
       }
 
       .section {
         min-width: 100%;
+        margin-top: 0px;
       }
 
     .welcome-message {
@@ -199,12 +206,15 @@
 <header>
   <div class="logo">
     <img src="/assets/img_icon/granbylogo.png" alt="Library Logo">
-    <strong>GCST Library</strong>
+    <strong>Library of Granby Colloges of Science & Technology</strong>
   </div>
   
   <nav class="nav-links">
     <a href="/pages/user/InUser_books.html">Books</a>
-    <a href="#">About</a>
+    <a href="/index1.html">About</a>
+      <a href="#" class="notification-icon" title="Notifications">
+    🔔
+  </a>
     <a href="#" class="menu-icon" id="menu-icon" title="Menu">&#9776;</a>
   </nav>
 </header>
@@ -213,11 +223,11 @@
   <!-- Floating Box for Menu -->
   <div class="floating-box" id="floating-box">
     <a href="#">Profile</a>
-    <a href="#">Favorites</a>
-    <a href="#">Non-Return Books</a>
-    <a href="#">Issued Books</a>
     <a href="#">Request</a>
-    <a href="/index1.html">About Us</a>
+    <a href="#">Favorites</a>
+    <a href="#">Non-Returned Books</a>
+    <a href="#">Issued Books</a>
+    <a href="#">Help</a>
     <a href="/pages/user/user_home.html">Log Out</a>
   </div>
 

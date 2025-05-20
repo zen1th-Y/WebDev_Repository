@@ -1,29 +1,271 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard - Admin</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book List</title>
   <link rel="stylesheet" href="/styles/admin_sidebar.css">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f2f5;
+      overflow: hidden; 
+    }
 
-  
+    .main-content {
+      margin-left: 220px; /* Sidebar width */
+      height: 100vh;
+      overflow-y: auto; /* Enable vertical scrolling */
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+
+    .book-container {
+      background: #ffffff;
+      width: 1100px;
+      max-width: 1100px;
+      padding: 20px;
+      margin: 10 auto;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      
+    }
+
+
+    .search-bar-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 25px;
+    }
+
+    .search-input {
+      flex: 1;
+      max-width: 500px;
+      padding: 10px 16px;
+      border: 1px solid #e1e8eb;
+      border-radius: 30px 0 0 30px;
+      outline: none;
+      font-size: 16px;
+    }
+
+    .search-button {
+      padding: 10px 24px;
+      background-color: #0077cc;
+      color: #e1e8eb;
+      border: none;
+      border-radius: 0 30px 30px 0;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .search-button:hover {
+      background-color: #005fa3;
+    }
+
+    .book-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 17px;
+    }
+
+    .book-card {
+      background-color: #e1e8eb;
+      border-radius: 11px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      height: 242px;
+    }
+
+    .book-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .book-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .book-title {
+      font-weight: bold;
+      font-size: 15px;
+      text-align: center;
+      margin-top: 10px;
+      padding: 0 8px;
+    }
+
+    .book-author {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 12px;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 768px) {
+      .main-content {
+        margin-left: 0;
+        padding: 15px;
+      }
+
+      .book-container {
+        padding: 10px;
+      }
+
+      .search-bar-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .search-input {
+        width: 100%;
+        border-radius: 30px;
+        margin-bottom: 10px;
+      }
+
+      .search-button {
+        border-radius: 30px;
+      }
+    }
+  </style>
 </head>
 <body>
-
-    <div class="sidebar">
-      <div class="admin-header">
+  <div class="sidebar">
+    <div class="admin-header">
       <img src="/assets/img_icon/granby_logo.png" alt="Logo" class="logo">
-         <h3> GCST Library
-         </h3>
-      </div>
-      <a href="/pages/admin/home.html"><img src="/assets/img_icon/home-color.png" class="icon"><strong>Home</strong> </a>
-      <a href="/pages/admin/admin_book.html"><img src="/assets/img_icon/book-colored.png" class="icon"> <strong>Books</strong></a>
-      <a href="/pages/admin/create.html"><img src="/assets/img_icon/create-color.png" class="icon"><strong>Create</strong></a>
-      <a href="/pages/admin/request.html"><img src="/assets/img_icon/request-color.png" class="icon"><strong>Requests</strong></a>
-      <a href="/pages/admin/profile.html"><img src="/assets/img_icon/students-color.png" class="icon"><strong>Profile</strong></a>
-      <a href="/pages/admin/report.html"><img src="/assets/img_icon/report-color.png" class="icon"><strong>Reports</strong></a>
-      <a href="/pages/user/user_home.html"><img src="/assets/img_icon/logout-color.png" class="icon"> <strong>Logout</strong></a>
+      <h3>GCST Library</h3>
     </div>
+    <a href="/pages/admin/home.html"><img src="/assets/img_icon/home-color.png" class="icon"><strong>Home</strong></a>
+    <a href="/pages/admin/admin_book.html"><img src="/assets/img_icon/book-colored.png" class="icon"><strong>Books</strong></a>
+    <a href="/pages/admin/create.html"><img src="/assets/img_icon/create-color.png" class="icon"><strong>Create</strong></a>
+    <a href="/pages/admin/request.html"><img src="/assets/img_icon/request-color.png" class="icon"><strong>Requests</strong></a>
+    <a href="/pages/admin/profile.html"><img src="/assets/img_icon/students-color.png" class="icon"><strong>Profile</strong></a>
+    <a href="/pages/admin/report.html"><img src="/assets/img_icon/report-color.png" class="icon"><strong>Reports</strong></a>
+    <a href="/pages/user/user_home.html"><img src="/assets/img_icon/logout-color.png" class="icon"><strong>Logout</strong></a>
+  </div>
 
-    </body>
+  <div class="main-content">
+    <div class="book-container">
+      <div class="search-bar-container">
+        <input type="text" class="search-input" placeholder="Enter Book Name...">
+        <button class="search-button">Search</button>
+      </div>
+
+      <div class="book-grid">
+        <div class="book-card">
+          <img src="/assets/img_bg/Granby.jpg" alt="Bear Bottom">
+          <div class="book-title">Bear Bottom</div>
+          <div class="book-author">Stuart Gibbs</div>
+        </div>
+
+        <div class="book-card">
+          <img src="/assets/book_covers/dune.jpg" alt="Dune">
+          <div class="book-title">Dune</div>
+          <div class="book-author">Frank Herbert</div>
+        </div>
+
+        <div class="book-card">
+          <img src="/assets/book_covers/room_of_ones_own.jpg" alt="A Room of One's Own">
+          <div class="book-title">A Room of One's Own</div>
+          <div class="book-author">Virginia Woolf</div>
+        </div>
+
+        <div class="book-card">
+          <img src="/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
+          <div class="book-title">Artificial Condition</div>
+          <div class="book-author">Martha Wells</div>
+        </div>
+                <div class="book-card">
+          <img src="/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
+          <div class="book-title">Artificial Condition</div>
+          <div class="book-author">Martha Wells</div>
+        </div>
+                <div class="book-card">
+          <img src="/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
+          <div class="book-title">Artificial Condition</div>
+          <div class="book-author">Martha Wells</div>
+        </div>
+                        <div class="book-card">
+          <img src="/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
+          <div class="book-title">Artificial Condition</div>
+          <div class="book-author">Martha Wells</div>
+        </div>
+                        <div class="book-card">
+          <img src="/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
+          <div class="book-title">Artificial Condition</div>
+          <div class="book-author">Martha Wells</div>
+        </div>                <div class="book-card">
+          <img src="/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
+          <div class="book-title">Artificial Condition</div>
+          <div class="book-author">Martha Wells</div>
+        </div>
+                        <div class="book-card">
+          <img src="/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
+          <div class="book-title">Artificial Condition</div>
+          <div class="book-author">Martha Wells</div>
+        </div>
+                        <div class="book-card">
+          <img src="/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
+          <div class="book-title">Artificial Condition</div>
+          <div class="book-author">Martha Wells</div>
+        </div>
+                                <div class="book-card">
+          <img src="/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
+          <div class="book-title">Artificial Condition</div>
+          <div class="book-author">Martha Wells</div>
+        </div>
+                                <div class="book-card">
+          <img src="/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
+          <div class="book-title">Artificial Condition</div>
+          <div class="book-author">Martha Wells</div>
+        </div>
+                                <div class="book-card">
+          <img src="/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
+          <div class="book-title">Artificial Condition</div>
+          <div class="book-author">Martha Wells</div>
+        </div>
+                                <div class="book-card">
+          <img src="/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
+          <div class="book-title">Artificial Condition</div>
+          <div class="book-author">Martha Wells</div>
+        </div>
+                                <div class="book-card">
+          <img src="/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
+          <div class="book-title">Artificial Condition</div>
+          <div class="book-author">Martha Wells</div>
+        </div>
+                                <div class="book-card">
+          <img src="/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
+          <div class="book-title">Artificial Condition</div>
+          <div class="book-author">Martha Wells</div>
+        </div>
+                                <div class="book-card">
+          <img src="/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
+          <div class="book-title">Artificial Condition</div>
+          <div class="book-author">Martha Wells</div>
+        </div>
+                                <div class="book-card">
+          <img src="/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
+          <div class="book-title">Artificial Condition</div>
+          <div class="book-author">Martha Wells</div>
+        </div>
+                                <div class="book-card">
+          <img src="/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
+          <div class="book-title">Artificial Condition</div>
+          <div class="book-author">Martha Wells</div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</body>
 </html>

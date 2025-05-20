@@ -2,7 +2,6 @@
     .main-content {
       flex: 1;
       padding: 50px;
-
       overflow-y: auto;
     }
 
@@ -11,6 +10,7 @@
       border-radius: 12px;
       padding: 30px;
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+      margin-left: 240px;
     }
 
     .dashboard-box h1 {

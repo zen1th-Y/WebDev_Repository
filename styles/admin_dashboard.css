@@ -1,7 +1,7 @@
 
     .main-content {
       flex: 1;
-      padding: 50px;
+      padding: 30px;
       overflow-y: auto;
     }
 
@@ -14,7 +14,7 @@
     }
 
     .dashboard-box h1 {
-      margin-bottom: 25px;
+      margin-bottom: 15px;
     }
 
     .cards {
@@ -71,6 +71,9 @@
     .red { color: #000000; }
     .cyan { color: #000000; }
     .yellow { color: #000000; }
+    .purple { color: #000000; }
+    .pink { color: #000000; }
+    .lime { color: #000000; }
 
     /* Quick Actions */
     .quick-actions {
@@ -110,6 +113,18 @@
       color: #040505;
     }
     .quick-actions .issued {
+      background-color: #e1e8eb;
+      color: #040505;
+    }
+    .quick-actions .account {
+      background-color: #e1e8eb;
+      color: #040505;
+    }
+    .quick-actions .maintenance {
+      background-color: #e1e8eb;
+      color: #040505;
+    }
+    .quick-actions .others {
       background-color: #e1e8eb;
       color: #040505;
     }

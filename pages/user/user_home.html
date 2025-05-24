@@ -4,6 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>GCST Library</title>
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -139,31 +144,41 @@
     }
 
     /* Floating Box Styles */
-    .floating-box {
-      display: none;
-      position: absolute;
-      top: 60px;
-      right: 20px;
-      background-color: #9e9e9e;
-      border: 1px solid #000000;
-      padding: 1rem;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      width: 200px;
-      border-radius: 8px;
-    }
+.floating-box {
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  background-color: #f0f4ff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+  width: 200px;
+  z-index: 1000;
+  display: none; /* initially hidden */
+  flex-direction: column;
+  animation: fadeIn 0.2s ease-in-out;
+}
 
-    .floating-box a {
-      display: block;
-      padding: 0.5rem;
-      text-decoration: none;
-      color: #ffffff;
+.floating-box a {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
 
-      margin-bottom: 0.5rem;
-    }
+.floating-box a:hover {
+  background-color: #dbeafe;
+}
 
-    .floating-box a:hover {
-      background-color: #5aaff5;
-    }
+.floating-box i {
+  margin-right: 10px;
+  width: 20px;
+  text-align: center;
+}
+
 
     .auth-links {
       display: flex;
@@ -210,13 +225,13 @@
 <body>
   <header>
     <div class="logo">
-      <img src="/assets/img_icon/granbylogo.png" alt="Library Logo">
-      <strong>GCST Library</strong>
+      <img src="http://localhost/WebDev_Repository/assets/img_icon/granbylogo.png" alt="Library Logo">
+      <strong>Library of Granby Colloges of Science & Technology</strong>
     </div>
     <div style="display: flex; align-items: center; gap: 1rem;">
       <div class="auth-links">
-        <a href="/pages/sign_up.html" class="signin">Sign in</a>
-        <a href="/pages/sign_up.html" class="signup">Sign up</a>
+        <a href="http://localhost/WebDev_Repository/pages/sign_up.html" class="signin">Sign in</a>
+        <a href="http://localhost/WebDev_Repository/pages/sign_up.html" class="signup">Sign up</a>
       </div>
 
       <nav class="nav-links">
@@ -225,11 +240,12 @@
     </div>
 </header>
 
-  <div class="floating-box" id="floating-box">
-    <a href="/pages/admin/home.html">Admin</a>
-    <a href="#">Categories</a>
-    <a href="/index1.html">About Us</a>
-  </div>
+<div class="floating-box" id="floating-box">
+  <a href="http://localhost/WebDev_Repository/pages/admin/home.html"><i class="fas fa-home"></i> Home</a>
+  <a href="#"><i class="fas fa-th-list"></i> Categories</a>
+  <a href="http://localhost/WebDev_Repository/index1.html"><i class="fas fa-info-circle"></i> About Us</a>
+</div>
+
 
   <section class="hero">
     <h1>Discover Your Next Book</h1>
@@ -264,20 +280,21 @@
     </aside>
   </main>
 
-  <script>
-    // JavaScript to toggle the floating box visibility
-    const menuIcon = document.getElementById('menu-icon');
-    const floatingBox = document.getElementById('floating-box');
+<script>
+  const floatingBox = document.getElementById('floating-box');
+  const trigger = document.getElementById('menu-icon'); // or your custom trigger element
 
-    menuIcon.addEventListener('click', () => {
-      // Toggle the display of the floating box
-      if (floatingBox.style.display === 'block') {
-        floatingBox.style.display = 'none';
-      } else {
-        floatingBox.style.display = 'block';
-      }
-    });
-  </script>
+  trigger.addEventListener('click', () => {
+    floatingBox.style.display = floatingBox.style.display === 'block' ? 'none' : 'block';
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!floatingBox.contains(e.target) && !trigger.contains(e.target)) {
+      floatingBox.style.display = 'none';
+    }
+  });
+</script>
+
   <script>
   window.addEventListener('DOMContentLoaded', () => {
   fetch('http://localhost/WebDev_Repository/utils/fetch.php')

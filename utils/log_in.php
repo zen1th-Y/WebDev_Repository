@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_name'] = $name; // ✅ Store full name in session
 
             // ✅ Redirect after setting session
-            header("Location: http://127.0.0.1:5500/pages/user/InUser_home.html");
+            header("Location: http://localhost/WebDev_Repository/pages/user/InUser_home.html");
             exit();
         } else {
             echo "❌ Incorrect password.";

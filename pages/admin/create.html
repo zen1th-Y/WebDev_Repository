@@ -4,34 +4,49 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Add Book - Admin</title>
-  <link rel="stylesheet" href="/styles/admin_sidebar.css" />
-  <link rel="stylesheet" href="/styles/admin_create.css" />
+  <link rel="stylesheet" href="http://localhost/WebDev_Repository/styles/admin_sidebar.css" />
+  <link rel="stylesheet" href="http://localhost/WebDev_Repository/styles/admin_create.css" />
 
 </head>
 <body>
 
-  <div class="sidebar">
-    <div class="admin-header">
-      <img src="/assets/img_icon/granby_logo.png" alt="Logo" class="logo">
-      <h3>GCST Library</h3>
+    <div class="sidebar">
+      <div class="admin-header">
+      <img src="http://localhost/WebDev_Repository/assets/img_icon/granby_logo.png" alt="Logo" class="logo">
+         <h3> GCST Library
+         </h3>
+      </div>
+      <a href="http://localhost/WebDev_Repository/pages/admin/home.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/home-color.png" class="icon"><strong>Home</strong> </a>
+      <a href="http://localhost/WebDev_Repository/pages/admin/admin_book.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/book-colored.png" class="icon"> <strong>Books</strong></a>
+       <div class="sidebar-divider"></div>
+      <a href="http://localhost/WebDev_Repository/pages/admin/create.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/create-color.png" class="icon"><strong>Create</strong></a>
+      <div class="sidebar-divider"></div>
+      <a href="http://localhost/WebDev_Repository/pages/admin/request.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/request-color.png" class="icon"><strong>Requests</strong></a>
+      <a href="http://localhost/WebDev_Repository/pages/admin/profile.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/students-color.png" class="icon"><strong>Profile</strong></a>
+      <a href="http://localhost/WebDev_Repository/pages/admin/report.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/report-color.png" class="icon"><strong>Reports</strong></a>
+      <a href="http://localhost/WebDev_Repository/pages/user/user_home.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/logout-color.png" class="icon"> <strong>Logout</strong></a>
     </div>
-    <a href="/pages/admin/home.html"><img src="/assets/img_icon/home-color.png" class="icon"><strong>Home</strong> </a>
-    <a href="/pages/admin/admin_book.html"><img src="/assets/img_icon/book-colored.png" class="icon"> <strong>Books</strong></a>
-    <a href="/pages/admin/create.html"><img src="/assets/img_icon/create-color.png" class="icon"><strong>Create</strong></a>
-    <a href="/pages/admin/request.html"><img src="/assets/img_icon/request-color.png" class="icon"><strong>Requests</strong></a>
-    <a href="/pages/admin/profile.html"><img src="/assets/img_icon/students-color.png" class="icon"><strong>Profile</strong></a>
-    <a href="/pages/admin/report.html"><img src="/assets/img_icon/report-color.png" class="icon"><strong>Reports</strong></a>
-    <a href="/pages/user/user_home.html"><img src="/assets/img_icon/logout-color.png" class="icon"> <strong>Logout</strong></a>
-  </div>
 
   <div class="main-content">
     <form action="http://localhost/WebDev_Repository/utils/book_data2.php" method="POST" enctype="multipart/form-data">
       <div class="form-container">
-  <div class="form-left">
-    <img id="previewImage" src="/assets/img_bg/book_details.png" alt="Book Image" />
-    <h2>Enter Book Details</h2>
-    <input type="text" name="book_name" placeholder="Enter Book Name" required />
-    <input type="text" name="book_category" placeholder="Enter Book Category" required />
+<div class="form-left">
+  <img id="previewImage" src="http://localhost/WebDev_Repository/assets/img_bg/book_details.png" alt="Book Image" />
+  <h2>Enter Book Details</h2>
+  <input type="text" name="book_name" placeholder="Enter Book Name" required />
+  
+<select name="book_category" class="book_category" required style="width:400px; height:45px; padding:9px; border-radius:6px; border:1px solid #ccc; font: size 12px;;">
+    <option value="" disabled selected>Select Book Category</option>
+    <option value="Fiction">Fiction</option>
+    <option value="Non-Fiction">Non-Fiction</option>
+    <option value="Science">Science</option>
+    <option value="Technology">Technology</option>
+    <option value="History">History</option>
+    <option value="Biography">Biography</option>
+    <option value="Children">Children</option>
+    <option value="Reference">Reference</option>
+    <!-- Add more categories as needed -->
+</select>
     <input type="text" name="book_author" placeholder="Enter Book Author" required />
     <input type="file" name="book_image" id="bookImageInput" accept="image/*" />
   </div>
@@ -45,7 +60,7 @@
   <script>
     const fileInput = document.getElementById('bookImageInput');
     const previewImage = document.getElementById('previewImage');
-    const defaultImage = '/assets/img_bg/book_details.png'; // Default image path
+    const defaultImage = 'http://localhost/WebDev_Repository/assets/img_bg/book_details.png'; // Default image path
 
     fileInput.addEventListener('change', function() {
       const file = this.files[0];

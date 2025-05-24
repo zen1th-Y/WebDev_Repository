@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - Admin</title>
-  <link rel="stylesheet" href="/styles/admin_sidebar.css">
-  <link rel="stylesheet" href="/styles/admin_dashboard.css">
+  <link rel="stylesheet" href="http://localhost/WebDev_Repository/styles/admin_sidebar.css">
+  <link rel="stylesheet" href="http://localhost/WebDev_Repository/styles/admin_dashboard.css">
 
 </head>
 
@@ -13,19 +13,19 @@
 
     <div class="sidebar">
       <div class="admin-header">
-      <img src="/assets/img_icon/granby_logo.png" alt="Logo" class="logo">
+      <img src="http://localhost/WebDev_Repository/assets/img_icon/granby_logo.png" alt="Logo" class="logo">
          <h3> GCST Library
          </h3>
       </div>
-      <a href="/pages/admin/home.html"><img src="/assets/img_icon/home-color.png" class="icon"><strong>Home</strong> </a>
-      <a href="/pages/admin/admin_book.html"><img src="/assets/img_icon/book-colored.png" class="icon"> <strong>Books</strong></a>
+      <a href="http://localhost/WebDev_Repository/pages/admin/home.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/home-color.png" class="icon"><strong>Home</strong> </a>
+      <a href="http://localhost/WebDev_Repository/pages/admin/admin_book.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/book-colored.png" class="icon"> <strong>Books</strong></a>
        <div class="sidebar-divider"></div>
-      <a href="/pages/admin/create.html"><img src="/assets/img_icon/create-color.png" class="icon"><strong>Create</strong></a>
+      <a href="http://localhost/WebDev_Repository/pages/admin/create.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/create-color.png" class="icon"><strong>Create</strong></a>
       <div class="sidebar-divider"></div>
-      <a href="/pages/admin/request.html"><img src="/assets/img_icon/request-color.png" class="icon"><strong>Requests</strong></a>
-      <a href="/pages/admin/profile.html"><img src="/assets/img_icon/students-color.png" class="icon"><strong>Profile</strong></a>
-      <a href="/pages/admin/report.html"><img src="/assets/img_icon/report-color.png" class="icon"><strong>Reports</strong></a>
-      <a href="/pages/user/user_home.html"><img src="/assets/img_icon/logout-color.png" class="icon"> <strong>Logout</strong></a>
+      <a href="http://localhost/WebDev_Repository/pages/admin/request.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/request-color.png" class="icon"><strong>Requests</strong></a>
+      <a href="http://localhost/WebDev_Repository/pages/admin/profile.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/students-color.png" class="icon"><strong>Profile</strong></a>
+      <a href="http://localhost/WebDev_Repository/pages/admin/report.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/report-color.png" class="icon"><strong>Reports</strong></a>
+      <a href="http://localhost/WebDev_Repository/pages/user/user_home.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/logout-color.png" class="icon"> <strong>Logout</strong></a>
     </div>
 
   <div class="main-content">
@@ -109,7 +109,9 @@
 
       <div class="quick-actions">
         <h3>More Actions:</h3>
-        <button class="add">➕ Add Category</button>
+          <a href="http://localhost/WebDev_Repository/pages/admin/add_category.html" class="add" style="display: inline-block; padding: 6px 6px; background-color: #ffffff; color: white; border-radius: 4px; text-decoration: none; font-family: sans-serif;">
+            <button class="add">➕ Add Category</button>
+          </a>  
         <button class="send">📩 Send Message</button>
         <button class="suspend">⛔ Suspend Account</button>
         <button class="account">👤 My Account</button>

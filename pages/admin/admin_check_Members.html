@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Admin Profiles</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      background: linear-gradient(135deg, #e0f0ff 0%, #ffffff 100%);
+      margin: 0;
+      padding: 50px 15px;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      color: #3a3a3a;
+    }
+
+    .container {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 12px 25px rgba(29, 102, 208, 0.15);
+      width: 95%;
+      max-width: 900px;
+      padding: 40px 50px;
+      transition: box-shadow 0.3s ease;
+    }
+    .container:hover {
+      box-shadow: 0 18px 30px rgba(29, 102, 208, 0.25);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 36px;
+      font-weight: 600;
+      margin-bottom: 30px;
+      color: #1d66d0;
+      letter-spacing: 1.2px;
+      text-shadow: 0 2px 4px rgba(29,102,208,0.25);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 12px;
+    }
+
+    thead tr {
+      background: linear-gradient(90deg, #1d66d0, #1e90ff);
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(29, 102, 208, 0.3);
+    }
+
+    thead th {
+      color: white;
+      font-weight: 600;
+      padding: 16px 20px;
+      text-align: left;
+      user-select: none;
+    }
+
+    tbody tr {
+      background: #f9fbfd;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      border-radius: 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    }
+
+    tbody tr:hover {
+      background-color: #e6f0ff;
+      box-shadow: 0 6px 15px rgba(29, 102, 208, 0.12);
+    }
+
+    td {
+      padding: 14px 18px;
+      vertical-align: middle;
+      position: relative; /* for toggle button positioning */
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px 46px 12px 16px; /* padding right for toggle space */
+      border: 1.8px solid transparent;
+      border-radius: 12px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.03);
+      color: #2c3e50;
+      background: #fff;
+      font-weight: 500;
+      box-sizing: border-box;
+    }
+
+    input[type="text"]::placeholder,
+    input[type="email"]::placeholder,
+    input[type="password"]::placeholder {
+      color: #a0a7b0;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      border-color: #1d66d0;
+      box-shadow: 0 0 8px #1d66d0aa;
+      outline: none;
+      background: #f0f7ff;
+    }
+
+    button.save-btn {
+      background: linear-gradient(90deg, #1d66d0, #1e90ff);
+      border: none;
+      color: white;
+      padding: 12px 28px;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 6px 12px #1d66d0aa;
+      transition: background 0.4s ease, transform 0.2s ease, box-shadow 0.4s ease;
+      user-select: none;
+    }
+
+    button.save-btn:hover {
+      background: linear-gradient(90deg, #0053b8, #007fff);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px #0053b8bb;
+    }
+
+    button.save-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 8px #1d66d0aa;
+    }
+
+    .message {
+      text-align: center;
+      color: #228b22;
+      margin-top: 20px;
+      font-weight: 600;
+      font-size: 16px;
+      user-select: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .message.show {
+      opacity: 1;
+    }
+
+    /* Password toggle button styling */
+    button.toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 14px;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 8px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.3s ease;
+      color: #1d66d0;
+      user-select: none;
+    }
+
+    button.toggle-password:hover,
+    button.toggle-password:focus {
+      background-color: #e6f0ff;
+      outline: none;
+    }
+
+    button.toggle-password svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" role="main" aria-label="ADMIN PROFILES">
+    <h1>Admin Profiles</h1>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Full Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Password</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="text" value="Ken Llanes" aria-label="Full Name Ken Llanes" /></td>
+          <td><input type="email" value="ken@gmail.com" aria-label="Email ken@gmail.com" /></td>
+          <td>
+            <input type="password" value="password1" aria-label="Password for Ken Llanes" />
+            <button class="toggle-password" aria-label="Show password">
+              <!-- Eye Open SVG -->
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 110-10 5 5 0 010 10z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </td>
+          <td><button class="save-btn" aria-label="Save profile Ken Llanes">Save</button></td>
+        </tr>
+        <tr>
+          <td><input type="text" value="Aaron Palaganas" aria-label="Full Name Aaron Palaganas" /></td>
+          <td><input type="email" value="Aaron@gmail.com" aria-label="Email Aaron@gmail.com" /></td>
+          <td>
+            <input type="password" value="password2" aria-label="Password for Aaron Palaganas" />
+            <button class="toggle-password" aria-label="Show password">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 110-10 5 5 0 010 10z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </td>
+          <td><button class="save-btn" aria-label="Save profile Aaron Palaganas">Save</button></td>
+        </tr>
+        <tr>
+          <td><input type="text" value="John Wayne" aria-label="Full Name John Wayne" /></td>
+          <td><input type="email" value="jwayne@gmail.com" aria-label="Email jwayne@gmail.com" /></td>
+          <td>
+            <input type="password" value="password2" aria-label="Password for John Wayne" />
+            <button class="toggle-password" aria-label="Show password">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 110-10 5 5 0 010 10z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </td>
+          <td><button class="save-btn" aria-label="Save profile John Wayne">Save</button></td>
+        </tr>
+        <tr>
+          <td><input type="text" value="Augustine de Guzman" aria-label="Full Name Augustine de Guzman" /></td>
+          <td><input type="email" value="teteng@gmail.com" aria-label="Email teteng@gmail.com" /></td>
+          <td>
+            <input type="password" value="password2" aria-label="Password for Augustine de Guzman" />
+            <button class="toggle-password" aria-label="Show password">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 110-10 5 5 0 010 10z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </td>
+          <td><button class="save-btn" aria-label="Save profile Augustine de Guzman">Save</button></td>
+        </tr>
+        <tr>
+          <td><input type="text" value="Aldrin Aprao" aria-label="Full Name Aldrin Aprao" /></td>
+          <td><input type="email" value="Aldrinn@gmail.com" aria-label="Email Aldrinn@gmail.com" /></td>
+          <td>
+            <input type="password" value="password3" aria-label="Password for Aldrin Aprao" />
+            <button class="toggle-password" aria-label="Show password">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 110-10 5 5 0 010 10z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </td>
+          <td><button class="save-btn" aria-label="Save profile Aldrin Aprao">Save</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="message" id="message" role="alert" aria-live="assertive">Profile saved (successfully)</div>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('.save-btn');
+    const message = document.getElementById('message');
+    const toggleButtons = document.querySelectorAll('.toggle-password');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        const row = button.closest('tr');
+        const fullName = row.querySelector('input[type="text"]').value;
+        const email = row.querySelector('input[type="email"]').value;
+        const password = row.querySelector('input[type="password"]').value;
+
+        // Log to console for demo
+        console.log('Saved:', { fullName, email, password });
+
+        // Show success message
+        message.classList.add('show');
+        setTimeout(() => {
+          message.classList.remove('show');
+        }, 2000);
+      });
+    });
+
+    toggleButtons.forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const passwordInput = toggle.previousElementSibling;
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          toggle.innerHTML = `
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M1.39 4.22L0 5.61l3.9 3.9A9.98 9.98 0 0 0 2 12c0 2 1.29 4 3 5.48l-1.8 1.8 1.41 1.41 2.12-2.12c.78.23 1.57.36 2.39.36 7 0 11-7 11-7a19.54 19.54 0 0 0-3.41-5.06l3.76-3.76-1.41-1.41-18 18zm8.1 9.08a3 3 0 0 1-4.24-4.24l1.43 1.43a1.5 1.5 0 0 0 2.12 2.12l.69.69zM12 5c-3.87 0-7 3-7 3a10.27 10.27 0 0 0 10 10 9.83 9.83 0 0 0 3-.5l1.63 1.63 1.42-1.42-14-14L7.7 4.55a9.14 9.14 0 0 1 4.3-1.27z"/>
+            </svg>
+          `;
+          toggle.setAttribute('aria-label', 'Hide password');
+        } else {
+          passwordInput.type = 'password';
+          toggle.innerHTML = `
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 110-10 5 5 0 010 10z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          `;
+          toggle.setAttribute('aria-label', 'Show password');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - Admin</title>
-  <link rel="stylesheet" href="/styles/admin_sidebar.css">
+  <link rel="stylesheet" href="http://localhost/WebDev_Repository/styles/admin_sidebar.css">
   <style>
       html, body {
       height: 100%;
@@ -64,23 +64,40 @@
     button:hover {
       background-color: #0056b3;
     }
+    /* Delete button */
+    .delete-btn {
+  background-color: #dc3545;
+  color: white;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: #a71d2a;
+}
+
   </style>
 </head>
 <body>
 
-  <div class="sidebar">
-    <div class="admin-header">
-      <img src="/assets/img_icon/granby_logo.png" alt="Logo" class="logo">
-      <h3>GCST Library</h3>
+    <div class="sidebar">
+      <div class="admin-header">
+      <img src="http://localhost/WebDev_Repository/assets/img_icon/granby_logo.png" alt="Logo" class="logo">
+         <h3> GCST Library
+         </h3>
+      </div>
+      <a href="http://localhost/WebDev_Repository/pages/admin/home.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/home-color.png" class="icon"><strong>Home</strong> </a>
+      <a href="http://localhost/WebDev_Repository/pages/admin/admin_book.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/book-colored.png" class="icon"> <strong>Books</strong></a>
+       <div class="sidebar-divider"></div>
+      <a href="http://localhost/WebDev_Repository/pages/admin/create.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/create-color.png" class="icon"><strong>Create</strong></a>
+      <div class="sidebar-divider"></div>
+      <a href="http://localhost/WebDev_Repository/pages/admin/request.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/request-color.png" class="icon"><strong>Requests</strong></a>
+      <a href="http://localhost/WebDev_Repository/pages/admin/profile.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/students-color.png" class="icon"><strong>Profile</strong></a>
+      <a href="http://localhost/WebDev_Repository/pages/admin/report.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/report-color.png" class="icon"><strong>Reports</strong></a>
+      <a href="http://localhost/WebDev_Repository/pages/user/user_home.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/logout-color.png" class="icon"> <strong>Logout</strong></a>
     </div>
-    <a href="/pages/admin/home.html"><img src="/assets/img_icon/home-color.png" class="icon"><strong>Home</strong></a>
-    <a href="/pages/admin/admin_book.html"><img src="/assets/img_icon/book-colored.png" class="icon"><strong>Books</strong></a>
-    <a href="/pages/admin/create.html"><img src="/assets/img_icon/create-color.png" class="icon"><strong>Create</strong></a>
-    <a href="/pages/admin/request.html"><img src="/assets/img_icon/request-color.png" class="icon"><strong>Requests</strong></a>
-    <a href="/pages/admin/profile.html"><img src="/assets/img_icon/students-color.png" class="icon"><strong>Profile</strong></a>
-    <a href="/pages/admin/report.html"><img src="/assets/img_icon/report-color.png" class="icon"><strong>Reports</strong></a>
-    <a href="/pages/user/user_home.html"><img src="/assets/img_icon/logout-color.png" class="icon"><strong>Logout</strong></a>
-  </div>
 
   <div class="main-content">
     <div class="content-box">
@@ -94,6 +111,7 @@
             <th>Borrow Duration</th>
             <th>Ready for Pickup</th>
             <th>Received</th>
+
           </tr>
         </thead>
         <tbody>
@@ -111,6 +129,7 @@
             </td>
             <td><button>Mark as Ready</button></td>
             <td><button>Mark as Received</button></td>
+            <td><button class="delete-btn">✖</button></td>
           </tr>
           <tr>
             <td>2021002</td>
@@ -126,6 +145,7 @@
             </td>
             <td><button>Mark as Ready</button></td>
             <td><button>Mark as Received</button></td>
+            <td><button class="delete-btn">✖</button></td>
           </tr>
                     <tr>
             <td>2021002</td>
@@ -141,6 +161,7 @@
             </td>
             <td><button>Mark as Ready</button></td>
             <td><button>Mark as Received</button></td>
+            <td><button class="delete-btn">✖</button></td>
           </tr>
                     <tr>
             <td>2021002</td>
@@ -156,6 +177,7 @@
             </td>
             <td><button>Mark as Ready</button></td>
             <td><button>Mark as Received</button></td>
+            <td><button class="delete-btn">✖</button></td>
           </tr>
                     <tr>
             <td>2021002</td>
@@ -171,6 +193,7 @@
             </td>
             <td><button>Mark as Ready</button></td>
             <td><button>Mark as Received</button></td>
+            <td><button class="delete-btn">✖</button></td>
           </tr>
                     <tr>
             <td>2021002</td>
@@ -186,6 +209,7 @@
             </td>
             <td><button>Mark as Ready</button></td>
             <td><button>Mark as Received</button></td>
+            <td><button class="delete-btn">✖</button></td>
           </tr>
                     <tr>
             <td>2021002</td>
@@ -201,6 +225,7 @@
             </td>
             <td><button>Mark as Ready</button></td>
             <td><button>Mark as Received</button></td>
+            <td><button class="delete-btn">✖</button></td>
           </tr>
                     <tr>
             <td>2021002</td>
@@ -216,6 +241,7 @@
             </td>
             <td><button>Mark as Ready</button></td>
             <td><button>Mark as Received</button></td>
+            <td><button class="delete-btn">✖</button></td>
           </tr>
                     <tr>
             <td>2021002</td>
@@ -231,6 +257,7 @@
             </td>
             <td><button>Mark as Ready</button></td>
             <td><button>Mark as Received</button></td>
+            <td><button class="delete-btn">✖</button></td>
           </tr>
                     <tr>
             <td>2021002</td>
@@ -246,6 +273,7 @@
             </td>
             <td><button>Mark as Ready</button></td>
             <td><button>Mark as Received</button></td>
+            <td><button class="delete-btn">✖</button></td>
           </tr>
                     <tr>
             <td>2021002</td>
@@ -261,6 +289,7 @@
             </td>
             <td><button>Mark as Ready</button></td>
             <td><button>Mark as Received</button></td>
+            <td><button class="delete-btn">✖</button></td>
           </tr>
                     <tr>
             <td>2021002</td>
@@ -276,126 +305,7 @@
             </td>
             <td><button>Mark as Ready</button></td>
             <td><button>Mark as Received</button></td>
-          </tr>
-                    <tr>
-            <td>2021002</td>
-            <td>Maria Santos</td>
-            <td>Modern Biology</td>
-            <td>
-              <input type="number" min="1" value="5">
-              <select>
-                <option>Days</option>
-                <option>Hours</option>
-                <option>Weeks</option>
-              </select>
-            </td>
-            <td><button>Mark as Ready</button></td>
-            <td><button>Mark as Received</button></td>
-          </tr>
-                    <tr>
-            <td>2021002</td>
-            <td>Maria Santos</td>
-            <td>Modern Biology</td>
-            <td>
-              <input type="number" min="1" value="5">
-              <select>
-                <option>Days</option>
-                <option>Hours</option>
-                <option>Weeks</option>
-              </select>
-            </td>
-            <td><button>Mark as Ready</button></td>
-            <td><button>Mark as Received</button></td>
-          </tr>
-                    <tr>
-            <td>2021002</td>
-            <td>Maria Santos</td>
-            <td>Modern Biology</td>
-            <td>
-              <input type="number" min="1" value="5">
-              <select>
-                <option>Days</option>
-                <option>Hours</option>
-                <option>Weeks</option>
-              </select>
-            </td>
-            <td><button>Mark as Ready</button></td>
-            <td><button>Mark as Received</button></td>
-          </tr>
-                    <tr>
-            <td>2021002</td>
-            <td>Maria Santos</td>
-            <td>Modern Biology</td>
-            <td>
-              <input type="number" min="1" value="5">
-              <select>
-                <option>Days</option>
-                <option>Hours</option>
-                <option>Weeks</option>
-              </select>
-            </td>
-            <td><button>Mark as Ready</button></td>
-            <td><button>Mark as Received</button></td>
-          </tr>
-                    <tr>
-            <td>2021002</td>
-            <td>Maria Santos</td>
-            <td>Modern Biology</td>
-            <td>
-              <input type="number" min="1" value="5">
-              <select>
-                <option>Days</option>
-                <option>Hours</option>
-                <option>Weeks</option>
-              </select>
-            </td>
-            <td><button>Mark as Ready</button></td>
-            <td><button>Mark as Received</button></td>
-          </tr>
-                    <tr>
-            <td>2021002</td>
-            <td>Maria Santos</td>
-            <td>Modern Biology</td>
-            <td>
-              <input type="number" min="1" value="5">
-              <select>
-                <option>Days</option>
-                <option>Hours</option>
-                <option>Weeks</option>
-              </select>
-            </td>
-            <td><button>Mark as Ready</button></td>
-            <td><button>Mark as Received</button></td>
-          </tr>
-                    <tr>
-            <td>2021002</td>
-            <td>Maria Santos</td>
-            <td>Modern Biology</td>
-            <td>
-              <input type="number" min="1" value="5">
-              <select>
-                <option>Days</option>
-                <option>Hours</option>
-                <option>Weeks</option>
-              </select>
-            </td>
-            <td><button>Mark as Ready</button></td>
-            <td><button>Mark as Received</button></td>
-          </tr>
-                    <tr>
-            <td>2021002</td>
-            <td>Maria Santos</td>
-            <td>Modern Biology</td>
-            <td>
-              <input type="number" min="1" value="5">
-              <select>
-                <option>Days</option>
-                <option>Hours</option>
-                <option>Weeks</option>
-              </select>
-            </td>
-            <td><button>Mark as Ready</button></td>
-            <td><button>Mark as Received</button></td>
+            <td><button class="delete-btn">✖</button></td>
           </tr>
 
 

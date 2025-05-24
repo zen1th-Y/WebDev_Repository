@@ -4,7 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>GCST Library</title>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+
   <style>
+    .menu-item i {
+  margin-right: 10px; /* space between icon and text */
+  width: 20px;         /* optional: aligns icons neatly */
+  text-align: center;  /* optional: centers icon in space */
+}
+
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
@@ -40,12 +51,17 @@
 
     .hero {
       background: linear-gradient(to right, #e0e7ff, #f0f4ff);
-      padding: 2rem 2rem;
+      padding: 17px;
       text-align: center;
       border-radius: 10px;
-      margin: 1rem;
+      margin: 50px;
+      height: 200px;
+      margin-bottom: 0px;
+      margin-top: 30px;
+      box-shadow: 0 8px 10px rgba(0,0,0,0.1);
     }
 
+    
     .hero h1 {
       font-size: 2rem;
       margin-bottom: 1.5rem;
@@ -56,7 +72,7 @@
       max-width: 600px;
       background: #fff;
       padding: 0.75rem 1rem;
-      border-radius: 8px;
+      border-radius: 18px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       display: flex;
       align-items: center;
@@ -81,6 +97,7 @@
     .section {
       flex: 1;
       min-width: 600px;
+      
     }
 
     .sidebar {
@@ -90,7 +107,7 @@
     .section h2,
     .sidebar h2 {
       font-size: 1.5rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0px;
     }
 
     .books-grid {
@@ -141,32 +158,49 @@
       font-size: 0.9rem;
     }
 
-    /* Floating Box Styles */
-    .floating-box {
-      display: none;
-      position: absolute;
-      top: 60px;
-      right: 20px;
-      background-color: #9e9e9e;
-      border: 1px solid #000000;
-      padding: 1rem;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      width: 200px;
-      border-radius: 8px;
-    }
+/* Dropdown Menu (Modern) */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 65px;
+  right: 20px;
+  background-color: #f0f4ff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+  width: 220px;
+  z-index: 999;
+  overflow: hidden;
+  animation: fadeIn 0.2s ease-in-out;
+}
 
-    .floating-box a {
-      display: block;
-      padding: 0.5rem;
-      text-decoration: none;
-      color: #ffffff;
+.menu-item {
+  all: unset;
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  width: 100%;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
 
-      margin-bottom: 0.5rem;
-    }
+.menu-item:hover {
+  background-color: #dbeafe;
+}
 
-    .floating-box a:hover {
-      background-color: #5aaff5;
-    }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 
     /* Media Queries */
     @media (max-width: 800px) {
@@ -176,40 +210,72 @@
 
       .sidebar {
         width: 100%;
+        margin-top: 0px;
       }
 
       .section {
         min-width: 100%;
+        margin-top: 0px;
       }
+
+    .welcome-message {
+      flex: 1;
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #333;
     }
+
+    }
+    
   </style>
 </head>
 <body>
   <!-- Inside the <header> -->
-  <header>
-    <div class="logo">
-      <img src="/assets/img_icon/granbylogo.png" alt="Library Logo">
-      <strong>GCST Library</strong>
-    </div>
-    <nav class="nav-links">
-      <a href="/pages/user/InUser_home.html">Home</a>
-      <a href="#">About</a>
-      <a href="#" class="menu-icon" id="menu-icon" title="Menu">
-        &#9776;
-      </a>
-    </nav>
-  </header>
-
-  <!-- Floating Box for Menu -->
-  <div class="floating-box" id="floating-box">
-    <a href="#">Profile</a>
-    <a href="#">Favorites</a>
-    <a href="#">Non-Return Books</a>
-    <a href="#">Issued Books</a>
-    <a href="#">Request</a>
-    <a href="/index1.html">About Us</a>
-    <a href="/pages/user/user_home.html">Log Out</a>
+<header>
+  <div class="logo">
+    <img src="http://localhost/WebDev_Repository/assets/img_icon/granbylogo.png" alt="Library Logo">
+    <strong>Library of Granby Colloges of Science & Technology</strong>
   </div>
+  
+  <nav class="nav-links">
+    <a href="http://localhost/WebDev_Repository/pages/user/InUser_Home.html">Home</a>
+    <a href="http://localhost/WebDev_Repository/index1.html">About</a>
+    <a href="#" class="notification-icon shake" title="Notifications">🔔</a>
+    <a href="#" class="menu-icon" id="menu-icon" title="Menu">&#9776;</a>
+  </nav>
+</header>
+
+
+<!-- Modern Dropdown Menu -->
+<div class="dropdown-menu" id="dropdown-menu">
+  <button class="menu-item">
+    <i class="fas fa-user"></i> Profile
+  </button>
+  <button class="menu-item">
+    <i class="fas fa-paper-plane"></i> Request
+  </button>
+  <button class="menu-item">
+    <i class="fas fa-star"></i> Favorites
+  </button>
+  <button class="menu-item">
+    <i class="fas fa-envelope"></i> Messages
+  </button>
+  <button class="menu-item">
+    <i class="fas fa-book-dead"></i> Non-Returned Books
+  </button>
+  <button class="menu-item">
+    <i class="fas fa-book"></i> Issued Books
+  </button>
+  <button class="menu-item">
+    <i class="fas fa-question-circle"></i> Help
+  </button>
+<a class="menu-item" href="http://localhost/WebDev_Repository/pages/user/user_home.html">
+  <i class="fas fa-sign-out-alt"></i> Log Out
+</a>
+</div>
+
+
 
   <section class="hero">
     <h1>Discover Your Next Book</h1>
@@ -244,20 +310,22 @@
     </aside>
   </main>
 
-  <script>
-    // JavaScript to toggle the floating box visibility
-    const menuIcon = document.getElementById('menu-icon');
-    const floatingBox = document.getElementById('floating-box');
+<script>
+  const menuIcon = document.getElementById('menu-icon');
+  const dropdownMenu = document.getElementById('dropdown-menu');
 
-    menuIcon.addEventListener('click', () => {
-      // Toggle the display of the floating box
-      if (floatingBox.style.display === 'block') {
-        floatingBox.style.display = 'none';
-      } else {
-        floatingBox.style.display = 'block';
-      }
-    });
-  </script>
+  menuIcon.addEventListener('click', () => {
+    dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+  });
+
+  // Optional: Hide dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!dropdownMenu.contains(e.target) && !menuIcon.contains(e.target)) {
+      dropdownMenu.style.display = 'none';
+    }
+  });
+</script>
+
   <script>
   window.addEventListener('DOMContentLoaded', () => {
   fetch('http://localhost/WebDev_Repository/utils/fetch.php')
@@ -294,6 +362,23 @@
 });
 
 </script>
+
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+    fetch('http://localhost/WebDev_Repository/utils/get_user.php')
+      .then(res => res.json())
+      .then(data => {
+        if (data.name) {
+          document.getElementById('welcome').innerText = "Welcome, " + data.name;
+        } else {
+          document.getElementById('welcome').innerText = "Welcome, Guest";
+        }
+      });
+
+});
+</script>
+
+
 
 </body>
 </html>

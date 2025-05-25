@@ -8,7 +8,7 @@ if (!$connection) {
     exit;
 }
 
-$sql = "SELECT book_name, book_author, book_image FROM books ORDER BY id DESC LIMIT 10";
+$sql = "SELECT book_name, book_author, book_image FROM books ORDER BY created_at DESC LIMIT 10";
 $result = mysqli_query($connection, $sql);
 
 $books = [];

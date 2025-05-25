@@ -71,43 +71,67 @@
       gap: 17px;
     }
 
-    .book-card {
+.book-card {
       background-color: #e1e8eb;
-      border-radius: 11px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      border-radius: 14px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.13);
       overflow: hidden;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.18s, box-shadow 0.18s;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       margin-right: 10px;
-      height: 242px;
+      padding: 1px;
+      position: relative;
     }
 
     .book-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transform: translateY(-7px) scale(1.03);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
     }
 
-    .book-card img {
+    .book-card .book-cover {
+      width: 186px;
+      height: 280px;
+      margin-top: 0px;
+      margin-bottom: 6px;
+      border-radius: 7px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      background: #e1e8eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .book-card .book-cover img {
       width: 100%;
-      height: 200px;
+      height: 100%;
       object-fit: cover;
+      display: block;
     }
 
     .book-title {
       font-weight: bold;
-      font-size: 15px;
+      font-size: 1.08rem;
       text-align: center;
       margin-top: 10px;
-      padding: 0 8px;
+      margin-bottom: 6px;
+      padding: 0 10px;
+      color: #222;
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .book-author {
-      font-size: 13px;
-      color: #666;
-      margin-bottom: 12px;
+      font-size: 0.97rem;
+      color: #4a6fa1;
+      margin-bottom: 8px;
+      text-align: center;
+      padding: 0 16px;
     }
 
     /* Responsive tweaks */
@@ -160,54 +184,47 @@
         <button class="search-button">Search</button>
       </div>
 
-      <div class="book-grid">
-        <div class="book-card">
-          <img src="http://localhost/WebDev_Repository/assets/img_bg/Granby.jpg" alt="Bear Bottom">
-          <div class="book-title">Bear Bottom</div>
-          <div class="book-author">Stuart Gibbs</div>
-        </div>
+  <div class="book-grid">
+  <!-- Book cards will be injected here by JavaScript -->
+</div>
 
-        <div class="book-card">
-          <img src="http://localhost/WebDev_Repository/assets/book_covers/dune.jpg" alt="Dune">
-          <div class="book-title">Dune</div>
-          <div class="book-author">Frank Herbert</div>
-        </div>
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  fetch('http://localhost/WebDev_Repository/utils/fetch.php')
+    .then(response => response.json())
+    .then(data => {
+      const container = document.querySelector('.book-grid');
+      container.innerHTML = ''; // Clear existing content
 
-        <div class="book-card">
-          <img src="http://localhost/WebDev_Repository/assets/book_covers/room_of_ones_own.jpg" alt="A Room of One's Own">
-          <div class="book-title">A Room of One's Own</div>
-          <div class="book-author">Virginia Woolf</div>
-        </div>
+      if (Array.isArray(data)) {
+        data.forEach(book => {
+          const card = document.createElement('div');
+          card.className = 'book-card';
 
-        <div class="book-card">
-          <img src="http://localhost/WebDev_Repository/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
-          <div class="book-title">Artificial Condition</div>
-          <div class="book-author">Martha Wells</div>
-        </div>
-                <div class="book-card">
-          <img src="http://localhost/WebDev_Repository/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
-          <div class="book-title">Artificial Condition</div>
-          <div class="book-author">Martha Wells</div>
-        </div>
-                <div class="book-card">
-          <img src="http://localhost/WebDev_Repository/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
-          <div class="book-title">Artificial Condition</div>
-          <div class="book-author">Martha Wells</div>
-        </div>
-                        <div class="book-card">
-          <img src="http://localhost/WebDev_Repository/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
-          <div class="book-title">Artificial Condition</div>
-          <div class="book-author">Martha Wells</div>
-        </div>
-                        <div class="book-card">
-          <img src="http://localhost/WebDev_Repository/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
-          <div class="book-title">Artificial Condition</div>
-          <div class="book-author">Martha Wells</div>
-        </div>                <div class="book-card">
-          <img src="http://localhost/WebDev_Repository/assets/book_covers/artificial_condition.jpg" alt="Artificial Condition">
-          <div class="book-title">Artificial Condition</div>
-          <div class="book-author">Martha Wells</div>
-        </div>
+          // Use book_image if exists, else fallback image
+          const imgSrc = book.book_image && book.book_image !== "" 
+            ? book.book_image 
+            : 'http://localhost/WebDev_Repository/assets/img_bg/book_details.png';
+
+          card.innerHTML = `
+            <div class="book-cover">
+              <img src="${imgSrc}" alt="Cover of ${book.book_name}" />
+            </div>
+            <div class="book-title">${book.book_name}</div>
+            <div class="book-author">${book.book_author}</div>
+          `;
+          container.appendChild(card);
+        });
+      } else {
+        container.innerHTML = '<p>Failed to load books.</p>';
+      }
+    })
+    .catch(error => {
+      console.error('Error loading books:', error);
+      document.querySelector('.book-grid').innerHTML = '<p>Error loading books.</p>';
+    });
+});
+</script>
       </div>
     </div>
   </div>

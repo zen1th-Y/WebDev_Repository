@@ -52,8 +52,9 @@
     </div>
 
     <button type="submit" class="btn">Register</button>
-</form>
+    <div id="register-message" class="message"></div>
 
+</form>
 
         </div>
 
@@ -72,6 +73,48 @@
         </div>
     </div>
 
-    <script src="http://localhost/WebDev_Repository/script/sign_up.js"></script>
+
+
+<script>
+    // Function to get URL parameter
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    // Show message based on "status"
+    const status = getQueryParam("status");
+    const messageDiv = document.getElementById("register-message");
+
+    if (status === "success") {
+        messageDiv.textContent = "Account created successfully.";
+        messageDiv.classList.add("success-msg");
+    } else if (status === "exists") {
+        messageDiv.textContent = "Account already exists.";
+        messageDiv.classList.add("error-msg");
+    }
+        // Fade out message after 4 seconds
+    if (status === "success" || status === "exists") {
+        setTimeout(() => {
+            messageDiv.classList.add("fade-out");
+            setTimeout(() => {
+                messageDiv.style.display = "none";
+            }, 1000); // Wait for fade-out animation to finish
+        }, 4000);
+    }
+
+
+    // Toggle form based on "show" parameter
+    window.addEventListener('DOMContentLoaded', () => {
+        const show = getQueryParam("show");
+        const container = document.querySelector('.container');
+        if (show === "register") {
+            container.classList.add('active');
+        }
+    });
+</script>
+
+<script src="http://localhost/WebDev_Repository/script/sign_up.js"></script>
+
 </body>
 </html>

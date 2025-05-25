@@ -16,6 +16,18 @@
   text-align: center;  /* optional: centers icon in space */
 }
 
+h3 {
+    display: block;
+    font-size: 1.17em;
+    margin-block-start: 10px;
+    margin-block-end: 10px;
+    margin-inline-start: 10px;
+    margin-inline-end: 10px;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
+}
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
@@ -90,14 +102,15 @@
       display: flex;
       justify-content: space-between;
       gap: 2rem;
-      padding: 1.5rem;
+      padding: 1px 2rem;
+      margin: 1px;
       flex-wrap: wrap;
     }
 
     .section {
       flex: 1;
       min-width: 600px;
-      
+      padding-top: 0px;
     }
 
     .sidebar {
@@ -112,7 +125,7 @@
 
     .books-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
       gap: 1rem;
     }
 
@@ -124,14 +137,17 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.08);
     }
 
-    .book-cover {
-      height: 150px;
-      width: 100%;
-      margin-bottom: 0.75rem;
-      border-radius: 6px;
-      overflow: hidden;
-      background: #ccc; /* fallback background */
-    }
+  .book-cover {
+    background: #ccc;
+    width: 120px;
+    height: 160px;
+    border-radius: 6px;
+    margin: 0 auto 0.75rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
 
 
     .book-title {
@@ -148,6 +164,7 @@
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
+      margin-top: 14px;
     }
 
     .category {
@@ -247,29 +264,22 @@
 </header>
 
 
-<!-- Modern Dropdown Menu -->
 <div class="dropdown-menu" id="dropdown-menu">
   <button class="menu-item">
     <i class="fas fa-user"></i> Profile
   </button>
-  <button class="menu-item">
+    <a class="menu-item" href="http://localhost/WebDev_Repository/pages/user/user_request.html">
     <i class="fas fa-paper-plane"></i> Request
-  </button>
-  <button class="menu-item">
+    </a>
+  <a class="menu-item" href="http://localhost/WebDev_Repository/pages/user/user_favorites.html">
     <i class="fas fa-star"></i> Favorites
-  </button>
-  <button class="menu-item">
-    <i class="fas fa-envelope"></i> Messages
-  </button>
-  <button class="menu-item">
+  </a>
+  <a class="menu-item" href="http://localhost/WebDev_Repository/pages/user/user_nrbooks.html">
     <i class="fas fa-book-dead"></i> Non-Returned Books
-  </button>
-  <button class="menu-item">
+  </a>
+  <a class="menu-item" href="http://localhost/WebDev_Repository/pages/user/user_issued_books.html">
     <i class="fas fa-book"></i> Issued Books
-  </button>
-  <button class="menu-item">
-    <i class="fas fa-question-circle"></i> Help
-  </button>
+  </a>
 <a class="menu-item" href="http://localhost/WebDev_Repository/pages/user/user_home.html">
   <i class="fas fa-sign-out-alt"></i> Log Out
 </a>
@@ -286,7 +296,7 @@
 
   <main>
     <div class="section">
-      <h2>Featured Books</h2>
+      <h3>Featured Books</h3>
       <div class="books-grid">
         <div class="book-card">
           <div class="book-cover"></div>
@@ -300,7 +310,7 @@
     </div>
 
     <aside class="sidebar">
-      <h2>Categories</h2>
+      <h3>Categories</h3>
       <div class="categories">
         <div class="category">Fiction</div>
         <div class="category">Science</div>

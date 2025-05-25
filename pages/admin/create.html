@@ -6,8 +6,134 @@
   <title>Add Book - Admin</title>
   <link rel="stylesheet" href="http://localhost/WebDev_Repository/styles/admin_sidebar.css" />
   <link rel="stylesheet" href="http://localhost/WebDev_Repository/styles/admin_create.css" />
-
 </head>
+<style>
+      .main-content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .form-container {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 1000px; /* wider for side-by-side */
+      max-width: 100;
+      text-align: center;
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      align-items: flex-start;
+      margin-left: 229px;
+    }
+
+    .form-left,
+    .form-right {
+      flex: 1;
+    }
+
+    .form-left {
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .form-container img {
+      width: 100px;
+      margin-bottom: 20px;
+      object-fit: contain;
+    }
+
+    .form-container h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .form-container input[type="text"],
+    .form-container input[type="file"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .form-container button {
+      width: 100%;
+      padding: 12px;
+      background-color: #3976e6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    .form-container button:hover {
+      background-color: #2896d6;
+    }
+
+.form-right textarea {
+  height: auto !important;
+  min-height: 340px;
+  width: 100%;
+  padding: 14px; 
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  resize: vertical;
+}
+  .form-right button {
+  margin-top: 15px;
+  width: 100%;
+  padding: 12px;
+  background-color: #3976e6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.form-right button:hover {
+  background-color: #2896d6;
+}
+
+/*  Messages and Alerts */
+
+.message, .fade-message {
+  font-size: 16px;
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+  padding: 10px 0;
+  border-radius: 6px;
+  background: #f5f5f5;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  opacity: 1;
+  transition: opacity 1s ease-out;
+}
+
+.success-msg {
+  color: #1a7f1a;
+  background: #e6ffe6;
+  border: 1px solid #b2e6b2;
+}
+
+.error-msg {
+  color: #b30000;
+  background: #ffeaea;
+  border: 1px solid #ffb3b3;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 1s ease-out;
+}
+</style>
 <body>
 
     <div class="sidebar">
@@ -54,7 +180,9 @@
   <div class="form-right">
     <textarea name="book_description" placeholder="About the Book (Detailed Description)"></textarea>
     <button type="submit">Add Book</button>
+     <div id="message" class="message"></div>
   </div>
+
 </div>
 
   <script>
@@ -75,6 +203,32 @@
       }
     });
   </script>
+
+  <!-- Notif if book successfully added -->
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const status = urlParams.get("status");
+  const messageDiv = document.getElementById("message");
+
+  if (status === "success") {
+    messageDiv.textContent = "✅ Book added successfully.";
+    messageDiv.classList.add("success-msg");
+  } else if (status === "error") {
+    messageDiv.textContent = "❌ Failed to add book. Please try again.";
+    messageDiv.classList.add("error-msg");
+  }
+
+  // Fade out after 4 seconds
+  if (status) {
+    setTimeout(() => {
+      messageDiv.classList.add("fade-out");
+      setTimeout(() => {
+        messageDiv.style.display = "none";
+      }, 1000); // Wait for fade-out transition
+    }, 4000);
+  }
+</script>
+
 
 </body>
 </html>

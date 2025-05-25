@@ -237,3 +237,26 @@ form{ width: 100%; }
 
     .toggle-panel h1{font-size: 30px; }
 }
+
+.message {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.success-msg {
+    color: green;
+}
+
+.error-msg {
+    color: red;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.fade-out {
+    animation: fadeOut 1s forwards;
+}

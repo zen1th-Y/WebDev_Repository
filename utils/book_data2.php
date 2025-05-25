@@ -70,10 +70,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sssss", $bookName, $bookCategory, $bookAuthor, $bookDescription, $imagePath);
 
     if ($stmt->execute()) {
-        echo "Book added successfully.";
+        header("Location: http://localhost/WebDev_Repository/pages/admin/create.html?status=success");
+        exit();
     } else {
-        echo "Error: " . $stmt->error;
+        header("Location: http://localhost/WebDev_Repository/pages/admin/create.html?status=error");
+        exit();
     }
+
 
     $stmt->close();
 }

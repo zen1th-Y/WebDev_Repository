@@ -9,6 +9,23 @@
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
 />
 
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  fetch('http://localhost/WebDev_Repository/utils/get_user.php')
+    .then(res => res.json())
+    .then(data => {
+      if (!data.student_id) {
+        // Not logged in, redirect to sign up/login page
+        window.location.href = "http://localhost/WebDev_Repository/pages/sign_up.html";
+      }
+    })
+    .catch(() => {
+      // In case of error, also redirect
+      window.location.href = "http://localhost/WebDev_Repository/pages/sign_up.html";
+    });
+});
+</script>
+
   <style>
     .menu-item i {
   margin-right: 10px; /* space between icon and text */
@@ -364,9 +381,9 @@ h3 {
 
 
 <div class="dropdown-menu" id="dropdown-menu">
-  <button class="menu-item">
+  <a class="menu-item" href="http://localhost/WebDev_Repository/pages/user/user_profile.html">
     <i class="fas fa-user"></i> Profile
-  </button>
+  </a>
     <a class="menu-item" href="http://localhost/WebDev_Repository/pages/user/user_request.html">
     <i class="fas fa-paper-plane"></i> Request
     </a>
@@ -395,96 +412,15 @@ h3 {
     <thead>
       <tr>
         <th>Book Name</th>
+        <th>Author</th>
         <th>Category</th>
-        <th>Status</th>
-        <th>Request (Time)</th>
-        <th>Request (Date)</th>
-        <th>Action</th>
+        <th>Recieved Date</th>
+        <th>Return Date</th>
+        <th>Days Left</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>Introduction to Psychology</td>
-        <td>Action</td>
-        <td>
-          <span class="status-badge status-pending">Pending</span>
-        </td>
-        <td>2:00</td>
-        <td>05/21/2025</td>
-        <td>
-          <button class="cancel-btn">Cancel</button>
-        </td>
-      </tr>
-            <tr>
-        <td>World Literature</td>
-        <td>Drama</td>
-        <td>
-          <span class="status-badge status-approved">Approved</span>
-        </td>
-        <td>3:15</td>
-        <td>05/22/2025</td>
-        <td style="color: #bdbdbd;">—</td>
-      </tr>
-      <tr>
-        <td>Modern Chemistry</td>
-        <td>Science</td>
-        <td>
-          <span class="status-badge status-rejected">Rejected</span>
-        </td>
-        <td>4:10</td>
-        <td>05/23/2025</td>
-        <td style="color: #bdbdbd;">—</td>
-      </tr>
-      <tr>
-        <td>Modern Chemistry</td>
-        <td>Science</td>
-        <td>
-          <span class="status-badge status-rejected">Rejected</span>
-        </td>
-        <td>4:10</td>
-        <td>05/23/2025</td>
-        <td style="color: #bdbdbd;">—</td>
-      </tr>
-      <tr>
-        <td>Modern Chemistry</td>
-        <td>Science</td>
-        <td>
-          <span class="status-badge status-rejected">Rejected</span>
-        </td>
-        <td>4:10</td>
-        <td>05/23/2025</td>
-        <td style="color: #bdbdbd;">—</td>
-      </tr>
-      <tr>
-        <td>Modern Chemistry</td>
-        <td>Science</td>
-        <td>
-          <span class="status-badge status-rejected">Rejected</span>
-        </td>
-        <td>4:10</td>
-        <td>05/23/2025</td>
-        <td style="color: #bdbdbd;">—</td>
-      </tr>
-      <tr>
-        <td>Modern Chemistry</td>
-        <td>Science</td>
-        <td>
-          <span class="status-badge status-rejected">Rejected</span>
-        </td>
-        <td>4:10</td>
-        <td>05/23/2025</td>
-        <td style="color: #bdbdbd;">—</td>
-      </tr>
-      <tr>
-        <td>World Literature</td>
-        <td>Drama</td>
-        <td>
-          <span class="status-badge status-approved">Approved</span>
-        </td>
-        <td>3:15</td>
-        <td>05/22/2025</td>
-        <td style="color: #bdbdbd;">—</td>
-      </tr>
+
     </tbody>
   </table>
 </div>
@@ -511,6 +447,44 @@ h3 {
       alert("Your request has been cancelled.");
     });
   });
+</script>
+
+<script>
+function daysLeft(returnDate) {
+  const today = new Date();
+  const ret = new Date(returnDate);
+  const diffTime = ret - today;
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays;
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  fetch('http://localhost/WebDev_Repository/utils/get_user_non_returned_books.php')
+    .then(res => res.json())
+    .then(data => {
+      const tbody = document.querySelector('.requests-table tbody');
+      tbody.innerHTML = '';
+      if (Array.isArray(data) && data.length > 0) {
+        data.forEach(row => {
+          const diffDays = daysLeft(row.return_date);
+          tbody.innerHTML += `
+            <tr>
+              <td>${row.book_name}</td>
+              <td>${row.book_author || ''}</td>
+              <td>${row.book_category}</td>
+              <td>${row.date_student_received_book}</td>
+              <td>${row.return_date}</td>
+              <td style="color:${diffDays < 0 ? 'red' : 'black'};">
+                ${diffDays >= 0 ? `${diffDays} day(s)` : `Overdue by ${Math.abs(diffDays)} day(s)`}
+              </td>
+            </tr>
+          `;
+        });
+      } else {
+        tbody.innerHTML = `<tr><td colspan="6">No non-returned books found.</td></tr>`;
+      }
+    });
+});
 </script>
 
 

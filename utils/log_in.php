@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (password_verify($password_input, $hashed_password)) {
             $_SESSION['user_name'] = $name; // ✅ Store full name in session
-
+            $_SESSION['student_id'] = $student_id;
             // ✅ Redirect after setting session
             header("Location: http://localhost/WebDev_Repository/pages/user/InUser_home.html");
             exit();

@@ -365,9 +365,9 @@ h3 {
 
 <!-- Modern Dropdown Menu -->
 <div class="dropdown-menu" id="dropdown-menu">
-  <button class="menu-item">
+  <a class="menu-item" href="http://localhost/WebDev_Repository/pages/user/user_profile.html">
     <i class="fas fa-user"></i> Profile
-  </button>
+  </a>
     <a class="menu-item" href="http://localhost/WebDev_Repository/pages/user/user_request.html">
     <i class="fas fa-paper-plane"></i> Request
     </a>
@@ -404,88 +404,7 @@ h3 {
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>Introduction to Psychology</td>
-        <td>Action</td>
-        <td>
-          <span class="status-badge status-pending">Pending</span>
-        </td>
-        <td>2:00</td>
-        <td>05/21/2025</td>
-        <td>
-          <button class="cancel-btn">Cancel</button>
-        </td>
-      </tr>
-            <tr>
-        <td>World Literature</td>
-        <td>Drama</td>
-        <td>
-          <span class="status-badge status-approved">Approved</span>
-        </td>
-        <td>3:15</td>
-        <td>05/22/2025</td>
-        <td style="color: #bdbdbd;">—</td>
-      </tr>
-      <tr>
-        <td>Modern Chemistry</td>
-        <td>Science</td>
-        <td>
-          <span class="status-badge status-rejected">Rejected</span>
-        </td>
-        <td>4:10</td>
-        <td>05/23/2025</td>
-        <td style="color: #bdbdbd;">—</td>
-      </tr>
-      <tr>
-        <td>Modern Chemistry</td>
-        <td>Science</td>
-        <td>
-          <span class="status-badge status-rejected">Rejected</span>
-        </td>
-        <td>4:10</td>
-        <td>05/23/2025</td>
-        <td style="color: #bdbdbd;">—</td>
-      </tr>
-      <tr>
-        <td>Modern Chemistry</td>
-        <td>Science</td>
-        <td>
-          <span class="status-badge status-rejected">Rejected</span>
-        </td>
-        <td>4:10</td>
-        <td>05/23/2025</td>
-        <td style="color: #bdbdbd;">—</td>
-      </tr>
-      <tr>
-        <td>Modern Chemistry</td>
-        <td>Science</td>
-        <td>
-          <span class="status-badge status-rejected">Rejected</span>
-        </td>
-        <td>4:10</td>
-        <td>05/23/2025</td>
-        <td style="color: #bdbdbd;">—</td>
-      </tr>
-      <tr>
-        <td>Modern Chemistry</td>
-        <td>Science</td>
-        <td>
-          <span class="status-badge status-rejected">Rejected</span>
-        </td>
-        <td>4:10</td>
-        <td>05/23/2025</td>
-        <td style="color: #bdbdbd;">—</td>
-      </tr>
-      <tr>
-        <td>World Literature</td>
-        <td>Drama</td>
-        <td>
-          <span class="status-badge status-approved">Approved</span>
-        </td>
-        <td>3:15</td>
-        <td>05/22/2025</td>
-        <td style="color: #bdbdbd;">—</td>
-      </tr>
+
     </tbody>
   </table>
 </div>
@@ -512,6 +431,47 @@ h3 {
       alert("Your request has been cancelled.");
     });
   });
+</script>
+
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  fetch('http://localhost/WebDev_Repository/utils/get_user_requests.php')
+    .then(res => res.json())
+    .then(data => {
+      const tbody = document.querySelector('.requests-table tbody');
+      tbody.innerHTML = '';
+      data.forEach(req => {
+        let statusClass = 'status-pending';
+        if (req.status === 'approved') statusClass = 'status-approved';
+        if (req.status === 'rejected') statusClass = 'status-rejected';
+        if (req.status === 'ready to pick up') statusClass = 'status-pending';
+
+        tbody.innerHTML += `
+          <tr>
+            <td>${req.book_name}</td>
+            <td>${req.book_category}</td>
+            <td><span class="status-badge ${statusClass}">${req.status.charAt(0).toUpperCase() + req.status.slice(1)}</span></td>
+            <td>${req.request_time}</td>
+            <td>${req.request_date}</td>
+            <td>
+              ${req.status === 'pending' ? `<button class="cancel-btn" data-id="${req.request_id}">Cancel</button>` : '<span style="color:#bdbdbd;">—</span>'}
+            </td>
+          </tr>
+        `;
+      });
+
+      // Cancel button logic
+      document.querySelectorAll('.cancel-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          fetch('http://localhost/WebDev_Repository/utils/cancel_request.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ request_id: btn.dataset.id })
+          }).then(() => window.location.reload());
+        });
+      });
+    });
+});
 </script>
 
 

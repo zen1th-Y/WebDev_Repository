@@ -107,109 +107,40 @@
             <th>Returned Date</th>
           </tr>
         </thead>
-        <tr>
-            <td>1001</td>
-            <td>Introduction to Psychology</td>
-            <td>Psychology</td>
-            <td>Juan Dela Cruz</td>
-            <td>2025-04-01</td>
-            <td>2025-04-10</td>
-          </tr>
-          <tr>
-            <td>1001</td>
-            <td>Introduction to Psychology</td>
-            <td>Psychology</td>
-            <td>Juan Dela Cruz</td>
-            <td>2025-04-01</td>
-            <td>2025-04-10</td>
-          </tr>
-          <tr>
-            <td>1001</td>
-            <td>Introduction to Psychology</td>
-            <td>Psychology</td>
-            <td>Juan Dela Cruz</td>
-            <td>2025-04-01</td>
-            <td>2025-04-10</td>
-          </tr>
-          <tr>
-            <td>1001</td>
-            <td>Introduction to Psychology</td>
-            <td>Psychology</td>
-            <td>Juan Dela Cruz</td>
-            <td>2025-04-01</td>
-            <td>2025-04-10</td>
-          </tr>
-          <tr>
-            <td>1001</td>
-            <td>Introduction to Psychology</td>
-            <td>Psychology</td>
-            <td>Juan Dela Cruz</td>
-            <td>2025-04-01</td>
-            <td>2025-04-10</td>
-          </tr>
-          <tr>
-            <td>1001</td>
-            <td>Introduction to Psychology</td>
-            <td>Psychology</td>
-            <td>Juan Dela Cruz</td>
-            <td>2025-04-01</td>
-            <td>2025-04-10</td>
-          </tr>
-          <tr>
-            <td>1001</td>
-            <td>Introduction to Psychology</td>
-            <td>Psychology</td>
-            <td>Juan Dela Cruz</td>
-            <td>2025-04-01</td>
-            <td>2025-04-10</td>
-          </tr>
-          <tr>
-            <td>1001</td>
-            <td>Introduction to Psychology</td>
-            <td>Psychology</td>
-            <td>Juan Dela Cruz</td>
-            <td>2025-04-01</td>
-            <td>2025-04-10</td>
-          </tr>
-          <tr>
-            <td>1001</td>
-            <td>Introduction to Psychology</td>
-            <td>Psychology</td>
-            <td>Juan Dela Cruz</td>
-            <td>2025-04-01</td>
-            <td>2025-04-10</td>
-          </tr>
-          <tr>
-            <td>1001</td>
-            <td>Introduction to Psychology</td>
-            <td>Psychology</td>
-            <td>Juan Dela Cruz</td>
-            <td>2025-04-01</td>
-            <td>2025-04-10</td>
-          </tr>
-
-        <tbody>
-          <tr>
-            <td>1001</td>
-            <td>Introduction to Psychology</td>
-            <td>Psychology</td>
-            <td>Juan Dela Cruz</td>
-            <td>2025-04-01</td>
-            <td>2025-04-10</td>
-          </tr>
-          <tr>
-            <td>1002</td>
-            <td>Basic Programming in C++</td>
-            <td>Computer Science</td>
-            <td>Maria Santos</td>
-            <td>2025-03-15</td>
-            <td>2025-03-25</td>
-          </tr>
-          <!-- Add more rows as needed -->
-        </tbody>
+      <tbody id="issued-tbody">
+        <!-- Data will be loaded here -->
+      </tbody>
       </table>
-    </div>
-  </div>
+      </div>
+      </div>
+
+<script>
+function loadIssuedBooks() {
+  fetch('http://localhost/WebDev_Repository/utils/issued_books.php')
+    .then(res => res.json())
+    .then(data => {
+      const tbody = document.getElementById('issued-tbody');
+      tbody.innerHTML = '';
+      if (Array.isArray(data) && data.length > 0) {
+        data.forEach(row => {
+          tbody.innerHTML += `
+            <tr>
+              <td>${row.issued_id}</td>
+              <td>${row.book_name}</td>
+              <td>${row.book_category}</td>
+              <td>${row.student_name}</td>
+              <td>${row.date_student_received_book}</td>
+              <td>${row.book_returned_date}</td>
+            </tr>
+          `;
+        });
+      } else {
+        tbody.innerHTML = `<tr><td colspan="6">No issued books found.</td></tr>`;
+      }
+    });
+}
+window.addEventListener('DOMContentLoaded', loadIssuedBooks);
+</script>
 
 </body>
 </html>

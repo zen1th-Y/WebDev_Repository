@@ -404,17 +404,17 @@ h3 {
 
 
   <section class="hero">
-    <h1>Issued Books</h1>
+    <h1>My Profile Information</h1>
   </section>
 
 <div class="requests-table-container">
   <table class="requests-table">
     <thead>
       <tr>
-        <th>Book Name</th>
-        <th>Category</th>
-        <th>Date Recieved</th>
-        <th>Date Returned</th>
+        <th>Student ID</th>
+        <th>Student Name</th>
+        <th>Email</th>
+        <th>Password</th>
       </tr>
     </thead>
     <tbody>
@@ -422,44 +422,6 @@ h3 {
     </tbody>
   </table>
 </div>
-
-<script>
-window.addEventListener('DOMContentLoaded', function() {
-  // Existing login check...
-  fetch('http://localhost/WebDev_Repository/utils/get_user.php')
-    .then(res => res.json())
-    .then(user => {
-      if (!user.student_id) {
-        window.location.href = "http://localhost/WebDev_Repository/pages/sign_up.html";
-        return;
-      }
-      // Fetch issued books for this user
-      fetch('http://localhost/WebDev_Repository/utils/get_user_issued_books.php')
-        .then(res => res.json())
-        .then(data => {
-          const tbody = document.querySelector('.requests-table tbody');
-          tbody.innerHTML = '';
-          if (Array.isArray(data) && data.length > 0) {
-            data.forEach(row => {
-              tbody.innerHTML += `
-                <tr>
-                  <td>${row.book_name}</td>
-                  <td>${row.book_category}</td>
-                  <td>${row.date_student_received_book || ''}</td>
-                  <td>${row.book_returned_date || ''}</td>
-                </tr>
-              `;
-            });
-          } else {
-            tbody.innerHTML = `<tr><td colspan="4">No issued books found.</td></tr>`;
-          }
-        });
-    })
-    .catch(() => {
-      window.location.href = "http://localhost/WebDev_Repository/pages/sign_up.html";
-    });
-});
-</script>
 
 <script>
   const menuIcon = document.getElementById('menu-icon');

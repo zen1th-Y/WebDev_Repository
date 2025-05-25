@@ -3,11 +3,54 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  
   <title>GCST Library</title>
 <link
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
 />
+
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  fetch('http://localhost/WebDev_Repository/utils/get_user.php')
+    .then(res => res.json())
+    .then(data => {
+      if (!data.student_id) {
+        // Not logged in, redirect to sign up/login page
+        window.location.href = "http://localhost/WebDev_Repository/pages/sign_up.html";
+      }
+    })
+    .catch(() => {
+      // In case of error, also redirect
+      window.location.href = "http://localhost/WebDev_Repository/pages/sign_up.html";
+    });
+});
+</script>
+
+
+
+<script>
+  window.addEventListener('DOMContentLoaded', function() {
+  fetch('http://localhost/WebDev_Repository/utils/get_user.php')
+    .then(res => res.json())
+    .then(data => {
+      const welcome = document.getElementById('welcome-message');
+      if (data.name) {
+        // Greet the user by name
+        const hour = new Date().getHours();
+        let greet = "Hello";
+        if (hour < 12) greet = "Good morning";
+        else if (hour < 18) greet = "Good afternoon";
+        else greet = "Good evening";
+        welcome.textContent = `${greet}, ${data.name}!`;
+      } else {
+        welcome.textContent = "Welcome, Guest!";
+      }
+    });
+});
+</script>
+
+
 
   <style>
     .menu-item i {
@@ -207,6 +250,119 @@ h3 {
   background-color: #dbeafe;
 }
 
+
+
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 500px;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.modal-body {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  overflow: hidden;
+}
+
+.modal-body img {
+  width: 150px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.book-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.book-info h3 {
+  margin: 0 0 10px;
+  font-size: 1.3rem;
+}
+
+.book-info .category {
+  background: #e0e7ff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.book-info .description {
+  margin: 15px 0;
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.5;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.modal-buttons button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-favorite {
+  background-color: #facc15;
+  color: #333;
+}
+
+.btn-favorite:hover {
+  background-color: #eab308;
+}
+
+.btn-request {
+  background-color: #60a5fa;
+  color: white;
+}
+
+.btn-request:hover {
+  background-color: #3b82f6;
+}
+
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -244,6 +400,11 @@ h3 {
     }
 
     }
+
+    
+
+
+
     
   </style>
 </head>
@@ -255,19 +416,19 @@ h3 {
     <strong>Library of Granby Colloges of Science & Technology</strong>
   </div>
   
-  <nav class="nav-links">
-    <a href="http://localhost/WebDev_Repository/pages/user/InUser_books.html">Books</a>
-    <a href="http://localhost/WebDev_Repository/index1.html">About</a>
-    <a href="#" class="notification-icon shake" title="Notifications">🔔</a>
-    <a href="#" class="menu-icon" id="menu-icon" title="Menu">&#9776;</a>
-  </nav>
+<nav class="nav-links">
+  <span id="welcome-message" style="margin-right: 1.5rem; font-weight: 600;"></span>
+  <a href="http://localhost/WebDev_Repository/index1.html">About</a>
+  <a href="#" class="notification-icon shake" title="Notifications">🔔</a>
+  <a href="#" class="menu-icon" id="menu-icon" title="Menu">&#9776;</a>
+</nav>
 </header>
 
 
 <div class="dropdown-menu" id="dropdown-menu">
-  <button class="menu-item">
+    <a class="menu-item" href="http://localhost/WebDev_Repository/pages/user/user_profile.html">
     <i class="fas fa-user"></i> Profile
-  </button>
+    </a>
     <a class="menu-item" href="http://localhost/WebDev_Repository/pages/user/user_request.html">
     <i class="fas fa-paper-plane"></i> Request
     </a>
@@ -280,7 +441,7 @@ h3 {
   <a class="menu-item" href="http://localhost/WebDev_Repository/pages/user/user_issued_books.html">
     <i class="fas fa-book"></i> Issued Books
   </a>
-<a class="menu-item" href="http://localhost/WebDev_Repository/pages/user/user_home.html">
+<a class="menu-item" href="http://localhost/WebDev_Repository/utils/log_out.php">
   <i class="fas fa-sign-out-alt"></i> Log Out
 </a>
 </div>
@@ -302,6 +463,13 @@ h3 {
           <div class="book-cover"></div>
           <div class="book-title">Book 1</div>
           <div class="book-author">Author 1</div>
+  </div>
+</div>
+
+<div id="bookModal" class="modal">
+  <div class="modal-content">
+    <span class="close-button">&times;</span>
+    <div id="modal-body" class="modal-body"></div>
   </div>
 </div>
 
@@ -387,6 +555,157 @@ window.addEventListener('DOMContentLoaded', () => {
 
 });
 </script>
+<script>  
+let currentStudentId = null;
+
+window.addEventListener('DOMContentLoaded', () => {
+  fetch('http://localhost/WebDev_Repository/utils/get_user.php')
+    .then(res => res.json())
+    .then(data => {
+      if (data.student_id) {
+        currentStudentId = data.student_id;
+      }
+    });
+});
+</script>
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById("bookModal");
+  const modalBody = document.getElementById("modal-body");
+  const closeBtn = document.querySelector(".close-button");
+
+  fetch('http://localhost/WebDev_Repository/utils/fetch.php')
+    .then(response => response.json())
+    .then(data => {
+      const container = document.querySelector('.books-grid');
+      container.innerHTML = '';
+
+      if (Array.isArray(data)) {
+        data.forEach(book => {
+          const card = document.createElement('div');
+          card.className = 'book-card';
+
+          const imgSrc = book.book_image ? book.book_image : '/assets/img_bg/book_details.png';
+
+          card.innerHTML = `
+            <div class="book-cover">
+              <img src="${imgSrc}" alt="Cover of ${book.book_name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 6px;" />
+            </div>
+            <div class="book-title">${book.book_name}</div>
+            <div class="book-author">${book.book_author}</div>
+          `;
+
+          // Attach click event to open modal with book info
+          card.addEventListener('click', () => {
+            modalBody.innerHTML = `
+              <img src="${imgSrc}" alt="Cover of ${book.book_name}" />
+              <div class="book-info">
+                <h3>${book.book_name}</h3>
+                <div class="book-author"><strong>Author:</strong> ${book.book_author}</div>
+                <div class="category">${book.book_category || 'Unknown Category'}</div>
+                
+                <p class="description">${book.book_description || 'No description available.'}</p>
+                <div class="modal-buttons">
+                  <button class="btn-favorite">Add to Favorite</button>
+                  <button class="btn-request">Request this Book</button>
+                </div>
+              </div>
+            `;
+
+            // Add event listeners for modal buttons
+            modalBody.querySelector('.btn-favorite').addEventListener('click', () => {
+  if (!currentStudentId) {
+    alert('You must be logged in to add favorites.');
+    return;
+  }
+  const btn = modalBody.querySelector('.btn-favorite');
+  btn.disabled = true;
+  btn.textContent = 'Adding...';
+
+  fetch('http://localhost/WebDev_Repository/utils/add_favorite.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      book_id: book.book_id,
+      student_id: currentStudentId
+    })
+  })
+  .then(res => res.json())
+  .then(res => {
+    btn.disabled = false;
+    btn.textContent = 'Add to Favorite';
+    if (res.success) {
+      alert('Book added to favorites!');
+    } else {
+      alert('Failed: ' + (res.message || 'Unknown error.'));
+    }
+  })
+  .catch(() => {
+    btn.disabled = false;
+    btn.textContent = 'Add to Favorite';
+    alert('Failed to add favorite: Network error.');
+  });
+});
+modalBody.querySelector('.btn-request').addEventListener('click', () => {
+  if (!currentStudentId) {
+    alert('You must be logged in to request a book.');
+    return;
+  }
+  const btn = modalBody.querySelector('.btn-request');
+  btn.disabled = true;
+  btn.textContent = 'Requesting...';
+
+  fetch('http://localhost/WebDev_Repository/utils/request_book.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      book_id: book.book_id,
+      student_id: currentStudentId
+    })
+  })
+  .then(res => res.json())
+  .then(res => {
+    btn.disabled = false;
+    btn.textContent = 'Request this Book';
+    if (res.success) {
+      alert('Book request sent!');
+      modal.style.display = "none";
+      setTimeout(() => {
+        window.location.href = "http://localhost/WebDev_Repository/pages/user/user_request.html";
+      }, 300);
+    } else {
+      alert('Failed to send request: ' + (res.message || 'Unknown error.'));
+    }
+  })
+  .catch(() => {
+    btn.disabled = false;
+    btn.textContent = 'Request this Book';
+    alert('Failed to send request: Network error.');
+  });
+});
+
+            modal.style.display = "flex";
+          });
+
+          container.appendChild(card);
+        });
+      } else {
+        container.innerHTML = '<p>Failed to load books.</p>';
+      }
+    })
+    .catch(error => {
+      console.error('Error loading books:', error);
+      document.querySelector('.books-grid').innerHTML = '<p>Error loading books.</p>';
+    });
+
+  // Close the modal
+  closeBtn.onclick = () => modal.style.display = "none";
+  window.onclick = (event) => {
+    if (event.target == modal) modal.style.display = "none";
+  };
+});
+</script>
+
 
 
 

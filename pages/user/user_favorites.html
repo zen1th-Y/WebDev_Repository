@@ -9,6 +9,23 @@
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
 />
 
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  fetch('http://localhost/WebDev_Repository/utils/get_user.php')
+    .then(res => res.json())
+    .then(data => {
+      if (!data.student_id) {
+        // Not logged in, redirect to sign up/login page
+        window.location.href = "http://localhost/WebDev_Repository/pages/sign_up.html";
+      }
+    })
+    .catch(() => {
+      // In case of error, also redirect
+      window.location.href = "http://localhost/WebDev_Repository/pages/sign_up.html";
+    });
+});
+</script>
+
   <style>
     .menu-item i {
   margin-right: 10px; /* space between icon and text */
@@ -365,9 +382,9 @@ h3 {
 
 <!-- Modern Dropdown Menu -->
 <div class="dropdown-menu" id="dropdown-menu">
-  <button class="menu-item">
+  <a class="menu-item" href="http://localhost/WebDev_Repository/pages/user/user_profile.html">
     <i class="fas fa-user"></i> Profile
-  </button>
+  </a>
     <a class="menu-item" href="http://localhost/WebDev_Repository/pages/user/user_request.html">
     <i class="fas fa-paper-plane"></i> Request
     </a>
@@ -396,96 +413,14 @@ h3 {
     <thead>
       <tr>
         <th>Book Name</th>
+        <th>Author</th>
         <th>Category</th>
-        <th>Status</th>
-        <th>Request (Time)</th>
-        <th>Request (Date)</th>
-        <th>Action</th>
+        <th>Request Book</th>
+        <th>Remove as Favorite</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>Introduction to Psychology</td>
-        <td>Action</td>
-        <td>
-          <span class="status-badge status-pending">Pending</span>
-        </td>
-        <td>2:00</td>
-        <td>05/21/2025</td>
-        <td>
-          <button class="cancel-btn">Cancel</button>
-        </td>
-      </tr>
-            <tr>
-        <td>World Literature</td>
-        <td>Drama</td>
-        <td>
-          <span class="status-badge status-approved">Approved</span>
-        </td>
-        <td>3:15</td>
-        <td>05/22/2025</td>
-        <td style="color: #bdbdbd;">—</td>
-      </tr>
-      <tr>
-        <td>Modern Chemistry</td>
-        <td>Science</td>
-        <td>
-          <span class="status-badge status-rejected">Rejected</span>
-        </td>
-        <td>4:10</td>
-        <td>05/23/2025</td>
-        <td style="color: #bdbdbd;">—</td>
-      </tr>
-      <tr>
-        <td>Modern Chemistry</td>
-        <td>Science</td>
-        <td>
-          <span class="status-badge status-rejected">Rejected</span>
-        </td>
-        <td>4:10</td>
-        <td>05/23/2025</td>
-        <td style="color: #bdbdbd;">—</td>
-      </tr>
-      <tr>
-        <td>Modern Chemistry</td>
-        <td>Science</td>
-        <td>
-          <span class="status-badge status-rejected">Rejected</span>
-        </td>
-        <td>4:10</td>
-        <td>05/23/2025</td>
-        <td style="color: #bdbdbd;">—</td>
-      </tr>
-      <tr>
-        <td>Modern Chemistry</td>
-        <td>Science</td>
-        <td>
-          <span class="status-badge status-rejected">Rejected</span>
-        </td>
-        <td>4:10</td>
-        <td>05/23/2025</td>
-        <td style="color: #bdbdbd;">—</td>
-      </tr>
-      <tr>
-        <td>Modern Chemistry</td>
-        <td>Science</td>
-        <td>
-          <span class="status-badge status-rejected">Rejected</span>
-        </td>
-        <td>4:10</td>
-        <td>05/23/2025</td>
-        <td style="color: #bdbdbd;">—</td>
-      </tr>
-      <tr>
-        <td>World Literature</td>
-        <td>Drama</td>
-        <td>
-          <span class="status-badge status-approved">Approved</span>
-        </td>
-        <td>3:15</td>
-        <td>05/22/2025</td>
-        <td style="color: #bdbdbd;">—</td>
-      </tr>
+
     </tbody>
   </table>
 </div>
@@ -506,12 +441,97 @@ h3 {
   });
 </script>
 
+<!-- ...existing code... -->
 <script>
-  document.querySelectorAll('button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      alert("Your request has been cancelled.");
+// Fetch and display user's favorite books
+window.addEventListener('DOMContentLoaded', function() {
+  let currentStudentId = null;
+
+  // Get current user info
+  fetch('http://localhost/WebDev_Repository/utils/get_user.php')
+    .then(res => res.json())
+    .then(user => {
+      if (!user.student_id) {
+        window.location.href = "http://localhost/WebDev_Repository/pages/sign_up.html";
+        return;
+      }
+      currentStudentId = user.student_id;
+
+      // Fetch favorites for this user
+      fetch('http://localhost/WebDev_Repository/utils/get_favorites.php?student_id=' + encodeURIComponent(currentStudentId))
+        .then(res => res.json())
+        .then(favorites => {
+          const tbody = document.querySelector('.requests-table tbody');
+          tbody.innerHTML = '';
+          if (Array.isArray(favorites) && favorites.length > 0) {
+            favorites.forEach(fav => {
+              const tr = document.createElement('tr');
+              tr.innerHTML = `
+                <td>${fav.book_name}</td>
+                <td>${fav.book_author}</td>
+                <td>${fav.book_category}</td>
+                <td>
+                  <button class="request-btn" data-bookid="${fav.book_id}">Request Book</button>
+                </td>
+                <td>
+                  <button class="remove-btn" data-favid="${fav.favorite_id}">Remove</button>
+                </td>
+              `;
+              tbody.appendChild(tr);
+            });
+
+            // Add event listeners for request and remove buttons
+            document.querySelectorAll('.request-btn').forEach(btn => {
+              btn.addEventListener('click', function() {
+                const bookId = this.getAttribute('data-bookid');
+                fetch('http://localhost/WebDev_Repository/utils/request_book.php', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    student_id: currentStudentId,
+                    book_id: bookId
+                  })
+                })
+                .then(res => res.json())
+                .then(res => {
+                  if (res.success) {
+                    alert('Book request sent!');
+                  } else {
+                    alert('Failed to request: ' + (res.message || 'Unknown error.'));
+                  }
+                })
+                .catch(() => alert('Network error.'));
+              });
+            });
+
+            document.querySelectorAll('.remove-btn').forEach(btn => {
+              btn.addEventListener('click', function() {
+                const favId = this.getAttribute('data-favid');
+                fetch('http://localhost/WebDev_Repository/utils/remove_favorite.php', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ favorite_id: favId })
+                })
+                .then(res => res.json())
+                .then(res => {
+                  if (res.success) {
+                    this.closest('tr').remove();
+                  } else {
+                    alert('Failed to remove favorite.');
+                  }
+                })
+                .catch(() => alert('Network error.'));
+              });
+            });
+
+          } else {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No favorite books found.</td></tr>';
+          }
+        });
     });
-  });
+});
+</script>
+<!-- ...existing code... -->
 </script>
 
 

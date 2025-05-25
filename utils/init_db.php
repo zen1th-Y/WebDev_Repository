@@ -45,10 +45,41 @@ CREATE TABLE IF NOT EXISTS request (
     student_id VARCHAR(50),
     book_id INT,
     request_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
+    status ENUM('pending', 'ready to pick up', 'approved', 'rejected') DEFAULT 'pending',
     FOREIGN KEY (student_id) REFERENCES users(student_id),
     FOREIGN KEY (book_id) REFERENCES books(book_id)
 )");
+
+$conn->query("
+CREATE OR REPLACE VIEW admin_manage_user_request AS
+SELECT 
+    r.student_id,
+    u.name AS student_name,
+    b.book_name AS book_requested
+FROM 
+    request r
+JOIN 
+    users u ON r.student_id = u.student_id
+JOIN 
+    books b ON r.book_id = b.book_id
+");
+
+$conn->query("
+CREATE OR REPLACE VIEW user_manage_own_requests AS
+SELECT 
+    r.request_id,
+    r.student_id,
+    b.book_id,
+    b.book_name,
+    b.book_category,
+    r.status,
+    r.request_date
+FROM 
+    request r
+JOIN 
+    books b ON r.book_id = b.book_id
+");
+
 
 // Create favorites table
 $conn->query("

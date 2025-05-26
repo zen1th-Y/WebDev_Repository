@@ -9,7 +9,7 @@ if (!$connection) {
 }
 
 // Fetch all relevant fields, including book_id
-$sql = "SELECT book_id, book_name, book_author, book_category, book_description, book_image FROM books ORDER BY created_at DESC LIMIT 10";
+$sql = "SELECT book_id, book_name, book_author, book_category, book_description, book_image FROM books ORDER BY created_at DESC";
 $result = mysqli_query($connection, $sql);
 
 $books = [];

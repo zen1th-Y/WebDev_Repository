@@ -10,6 +10,19 @@
 />
 
   <style>
+h3 {
+    display: block;
+    font-size: 1.37em;
+    margin-block-start: 10px;
+    margin-block-end: 10px;
+    margin-inline-start: 10px;
+    margin-inline-end: 10px;
+    margin-top: 12px;
+    margin-bottom: 6px;
+    margin-left: 20px;
+    font-weight: bold;
+    unicode-bidi: isolate;
+}
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
@@ -56,24 +69,36 @@
       margin-bottom: 1.5rem;
     }
 
-    .search-box {
-      margin-inline: auto;
-      max-width: 600px;
-      background: #fff;
-      padding: 0.75rem 1rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      display: flex;
-      align-items: center;
-    }
+.search-box {
+  margin-inline: auto;
+  max-width: 600px;
+  background: #fff;
+  padding: 0.75rem 1rem;
+  border-radius: 18px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+}
 
-    .search-box input {
-      flex: 1;
-      padding: 0.75rem;
-      font-size: 1rem;
-      border: none;
-      outline: none;
-    }
+.search-box input {
+  flex: 1;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+}
+
+.search-icon {
+  color: #5e94d3;
+  opacity: 0.5;
+  margin-left: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.search-icon:hover {
+  opacity: 0.9;
+}
 
     main {
       display: flex;
@@ -91,7 +116,7 @@
     }
 
     .sidebar {
-      width: 200px;
+      width: 170px;
     }
 
     .section h2,
@@ -136,21 +161,34 @@
       color: #666;
     }
 
-    .categories {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-top: 14px;
-    }
+.categories {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-top: 14px;
+}
 
-    .category {
-      padding: 0.5rem 1rem;
-      background: #f8f8f8;
-      border-radius: 8px;
-      font-weight: 500;
-      font-size: 0.9rem;
-    }
-
+.category {
+  padding: 0.5rem 1rem;
+  background: #f8f8f8;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  border: 1px solid #e0e7ff;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  margin-bottom: 4px;
+  outline: none;
+  box-shadow: 0 1px 2px rgba(94,148,211,0.04);
+  display: inline-block;
+}
+.category.active,
+.category:hover {
+  background: linear-gradient(to right, #a8bae5,#d2d9ec);
+  color: #fff;
+  border-color: linear-gradient(to right,  #4e5d83,#d5dcf1);
+  box-shadow: 0 2px 8px rgba(94,148,211,0.10);
+}
     /* Floating Box Styles */
 .floating-box {
   position: absolute;
@@ -249,41 +287,29 @@
 </header>
 
 <div class="floating-box" id="floating-box">
-  <a href="http://localhost/WebDev_Repository/pages/admin/home.html"><i class="fas fa-home"></i> Home</a>
-  <a href="#"><i class="fas fa-th-list"></i> Categories</a>
   <a href="http://localhost/WebDev_Repository/index1.html"><i class="fas fa-info-circle"></i> About Us</a>
 </div>
 
 
-  <section class="hero">
-    <h1>Discover Your Next Book</h1>
-    <div class="search-box">
-      <input type="text" placeholder="Search for books, authors, or genres...">
-    </div>
-  </section>
-
-  <main>
-    <div class="section">
-      <h3>Featured Books</h3>
-      <div class="books-grid">
-        <div class="book-card">
-          <div class="book-cover"></div>
-          <div class="book-title">Book 1</div>
-          <div class="book-author">Author 1</div>
+<section class="hero">
+  <h1>Discover Your Next Book</h1>
+  <div class="search-box">
+    <input type="text" id="search-input" placeholder="Search for books, authors, or genres...">
+    <i class="fas fa-search search-icon"></i>
   </div>
-</div>
+</section>
 
-
-      </div>
+<main>
+  <div class="section">
+    <h3 id="books-title">All Books</h3>
+    <div class="books-grid">
+      <!-- Books will be injected here -->
     </div>
-
-    <aside class="sidebar">
-      <h3>Categories</h3>
-      <div class="categories">
-        <div class="category">Fiction</div>
-        <div class="category">Science</div>
-        <div class="category">History</div>
-        <div class="category">Technology</div>
+  </div>
+  <aside class="sidebar">
+    <h3>Categories</h3>
+      <div class="categories" id="categories-list">
+        <!-- Categories will be injected here by JS -->
       </div>
     </aside>
   </main>
@@ -338,6 +364,127 @@
     });
 });
 
+</script>
+
+<script>
+let allBooks = [];
+let selectedCategory = null;
+let searchTerm = "";
+let lastSearchText = "";
+
+// Fetch all books and render categories/books
+window.addEventListener('DOMContentLoaded', () => {
+  fetch('http://localhost/WebDev_Repository/utils/fetch.php')
+    .then(response => response.json())
+    .then(data => {
+      if (!Array.isArray(data)) {
+        document.querySelector('.books-grid').innerHTML = '<p>Failed to load books.</p>';
+        return;
+      }
+      allBooks = data;
+      renderCategories();
+      renderBooks();
+    })
+    .catch(error => {
+      console.error('Error loading books:', error);
+      document.querySelector('.books-grid').innerHTML = '<p>Error loading books.</p>';
+    });
+
+  // Search logic
+  const searchInput = document.getElementById('search-input');
+  const searchIcon = document.querySelector('.search-icon');
+
+  function doSearch() {
+    searchTerm = searchInput.value.trim();
+    lastSearchText = searchTerm;
+    renderBooks();
+    updateBooksTitle();
+    searchInput.value = "";
+  }
+
+  searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      doSearch();
+    }
+  });
+
+  searchIcon.addEventListener('click', () => {
+    doSearch();
+    searchInput.focus();
+  });
+});
+
+// Render categories dynamically
+function renderCategories() {
+  const categoriesDiv = document.getElementById('categories-list');
+  categoriesDiv.innerHTML = '';
+  const categories = Array.from(new Set(allBooks.map(book => book.book_category).filter(Boolean)));
+  // Add "All" option
+  categoriesDiv.innerHTML += `<div class="category${selectedCategory ? '' : ' active'}" data-category="">All</div>`;
+  categories.forEach(cat => {
+    categoriesDiv.innerHTML += `<div class="category${selectedCategory === cat ? ' active' : ''}" data-category="${cat}">${cat}</div>`;
+  });
+
+  // Add click listeners
+  categoriesDiv.querySelectorAll('.category').forEach(el => {
+    el.addEventListener('click', () => {
+      selectedCategory = el.dataset.category || null;
+      renderCategories();
+      renderBooks();
+    });
+  });
+}
+
+// Update the books title based on search
+function updateBooksTitle() {
+  const title = document.getElementById('books-title');
+  if (lastSearchText.length > 0) {
+    title.textContent = 'Search Results: ' + lastSearchText;
+  } else {
+    title.textContent = 'All Books';
+  }
+}
+
+// Render books based on selected category and search term
+function renderBooks() {
+  const container = document.querySelector('.books-grid');
+  container.innerHTML = '';
+  let filtered = allBooks;
+
+  // Filter by category if selected
+  if (selectedCategory) {
+    filtered = filtered.filter(book => book.book_category === selectedCategory);
+  }
+
+  // Filter by search term
+  if (searchTerm && searchTerm.length > 0) {
+    const term = searchTerm.toLowerCase();
+    filtered = filtered.filter(book =>
+      (book.book_name && book.book_name.toLowerCase().includes(term)) ||
+      (book.book_author && book.book_author.toLowerCase().includes(term)) ||
+      (book.book_category && book.book_category.toLowerCase().includes(term))
+    );
+  }
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<p>No books found.</p>';
+    return;
+  }
+  filtered.forEach(book => {
+    const card = document.createElement('div');
+    card.className = 'book-card';
+    const imgSrc = book.book_image ? book.book_image : '/assets/img_bg/book_details.png';
+    card.innerHTML = `
+      <div class="book-cover">
+        <img src="${imgSrc}" alt="Cover of ${book.book_name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 6px;" />
+      </div>
+      <div class="book-title">${book.book_name}</div>
+      <div class="book-author">${book.book_author}</div>
+    `;
+    container.appendChild(card);
+  });
+  updateBooksTitle();
+}
 </script>
 </body>
 </html>

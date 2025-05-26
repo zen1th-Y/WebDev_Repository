@@ -70,6 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sssss", $bookName, $bookCategory, $bookAuthor, $bookDescription, $imagePath);
 
     if ($stmt->execute()) {
+        updateBookCount($conn);
         header("Location: http://localhost/WebDev_Repository/pages/admin/create.html?status=success");
         exit();
     } else {
@@ -79,6 +80,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     $stmt->close();
+}
+function updateBookCount($conn) {
+    $result = $conn->query("SELECT COUNT(*) AS cnt FROM books");
+    $row = $result->fetch_assoc();
+    $total = (int)$row['cnt'];
+    // If count_items table is empty, insert a row
+    $conn->query("INSERT INTO count_items (total_books) SELECT $total WHERE NOT EXISTS (SELECT 1 FROM count_items)");
+    // Otherwise, update the row
+    $conn->query("UPDATE count_items SET total_books = $total");
 }
 
 $conn->close();

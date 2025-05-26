@@ -5,109 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Add Book - Admin</title>
   <link rel="stylesheet" href="http://localhost/WebDev_Repository/styles/admin_sidebar.css" />
-  <link rel="stylesheet" href="http://localhost/WebDev_Repository/styles/admin_create.css" />
  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
-<body>
-
-  <div class="sidebar">
-    <div class="admin-header">
-      <img src="http://localhost/WebDev_Repository/assets/img_icon/granby_logo.png" alt="Logo" class="logo">
-      <h3>GCST Library</h3>
-    </div>
-    <a href="http://localhost/WebDev_Repository/pages/admin/home.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/home-color.png" class="icon"><strong>Home</strong></a>
-    <a href="http://localhost/WebDev_Repository/pages/admin/admin_book.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/book-colored.png" class="icon"><strong>Books</strong></a>
-    <a href="http://localhost/WebDev_Repository/pages/admin/create.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/create-color.png" class="icon"><strong>Create</strong></a>
-    <a href="http://localhost/WebDev_Repository/pages/admin/request.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/request-color.png" class="icon"><strong>Requests</strong></a>
-    <a href="http://localhost/WebDev_Repository/pages/admin/profile.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/students-color.png" class="icon"><strong>Profile</strong></a>
-    <a href="http://localhost/WebDev_Repository/pages/admin/report.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/report-color.png" class="icon"><strong>Reports</strong></a>
-    <a href="http://localhost/WebDev_Repository/pages/user/user_home.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/logout-color.png" class="icon"><strong>Logout</strong></a>
-  </div>
-  
-<div class="main-content">
-    <div class="form-container">
-
-        <div class="form-center">
-            <div class="form-section">
-                <div class="image-preview">
-                    <img id="previewImage" src="http://localhost/WebDev_Repository/assets/img_bg/book_details.png" alt="Book Image" />
-                </div>
-                <h2>Add Book Category</h2>
-                <form action="http://localhost/WebDev_Repository/utils/book_data2.php" method="POST" enctype="multipart/form-data" id="addCategoryForm">
-                    <div class="input-group">
-                        <input type="text" id="bookCategory" name="book_category" placeholder="Enter Book Category" required />
-                    </div>
-                    <button type="submit" class="submit-btn">Add Category</button>
-                </form>
-                <div id="addedMessage" style="display:none; text-align:center; color:green; margin-top:10px;">Category added!</div>
-                <button id="deleteSelectedBtn" class="submit-btn" style="margin-top:12px;background:#e74c3c;">Delete Selected</button>
-            </div>
-        </div>
-        <div class="category-list-area">
-            <h2>Existing Categories</h2>
-            <div class="category-list-scroll">
-                <ul id="categoryList">
-                    <!-- Categories will be loaded here -->
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-<script>
-    // Load categories from localStorage on page load
-    function loadCategories() {
-            const ul = document.getElementById('categoryList');
-            ul.innerHTML = '';
-            const categories = JSON.parse(localStorage.getItem('categories') || '["Fiction","Non-Fiction","Science","History"]');
-            categories.forEach((cat, idx) => {
-                const li = document.createElement('li');
-                li.style.display = 'flex';
-                li.style.alignItems = 'center';
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.value = cat;
-                checkbox.style.marginRight = '10px';
-                li.appendChild(checkbox);
-                const span = document.createElement('span');
-                span.textContent = cat;
-                li.appendChild(span);
-                ul.appendChild(li);
-            });
-        }
-
-    // Add category and save to localStorage
-    document.getElementById('addCategoryForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const input = document.getElementById('bookCategory');
-        const value = input.value.trim();
-        if (value) {
-            let categories = JSON.parse(localStorage.getItem('categories') || '["Fiction","Non-Fiction","Science","History"]');
-            if (!categories.includes(value)) {
-                categories.push(value);
-                localStorage.setItem('categories', JSON.stringify(categories));
-                loadCategories();
-                // Show centered "added" message
-                const msg = document.getElementById('addedMessage');
-                msg.style.display = 'block';
-                setTimeout(() => { msg.style.display = 'none'; }, 1500);
-            }
-            input.value = '';
-        }
-    });
-
-    // Delete selected categories
-    document.getElementById('deleteSelectedBtn').addEventListener('click', function() {
-        let categories = JSON.parse(localStorage.getItem('categories') || '["Fiction","Non-Fiction","Science","History"]');
-        const checkboxes = document.querySelectorAll('#categoryList input[type="checkbox"]:checked');
-        const toDelete = Array.from(checkboxes).map(cb => cb.value);
-        categories = categories.filter(cat => !toDelete.includes(cat));
-        localStorage.setItem('categories', JSON.stringify(categories));
-        loadCategories();
-    });
-
-    // Initial load
-    loadCategories();
-</script>
 
   <style>
     body {
@@ -116,27 +15,32 @@
       margin: 0;
     }
 
-    .main-content {
-      margin-left: 20px;
-      padding: 40px 20px;
-    }
+.form-container {
+  display: flex;
+  flex-wrap: nowrap; /* Prevent items from stacking */
+  gap: 32px;
+  justify-content: flex-start; /* Align items to the left */
+  align-items: flex-start; /* Align items to the top */
+  padding-left: 40px; /* Left margin for spacing from sidebar */
+  margin-top: 40px; /* Optional: spacing from top */
+  margin-left: 360px;
+}
 
-    .form-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 32px;
-      justify-content: center;
-      align-items: flex-start;
-    }
+.form-section {
+  background: #ffffff;
+  padding: 28px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  width: 400px;
+  min-width: 480px; /* Ensures a minimum width */
+  max-width: 700px;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 400px;
+}
 
-    .form-section {
-      background: #ffffff;
-      padding: 28px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-      width: 100%;
-      max-width: 400px;
-    }
 
     .form-section h2 {
       font-size: 1.25rem;
@@ -205,14 +109,19 @@
       object-fit: contain;
     }
 
-    .category-list-area {
-      background: #ffffff;
-      padding: 24px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-      width: 100%;
-      max-width: 340px;
-    }
+.category-list-area {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  width: 100%;
+  max-width: 340px;
+  min-width: 240px; /* Optional: ensures a minimum width */
+  display: flex;
+  flex-direction: column;
+  justify-content: top;
+  height: 399px;
+}
 
     .category-list-area h2 {
       font-size: 1.2rem;
@@ -271,6 +180,106 @@
       background-color: #f1f1f1;
     }
   </style>
+<body>
+  
+  <div class="sidebar">
+    <div class="admin-header">
+      <img src="http://localhost/WebDev_Repository/assets/img_icon/granby_logo.png" alt="Logo" class="logo">
+      <h3>GCST Library</h3>
+    </div>
+    <a href="http://localhost/WebDev_Repository/pages/admin/home.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/home-color.png" class="icon"><strong>Home</strong></a>
+    <a href="http://localhost/WebDev_Repository/pages/admin/admin_book.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/book-colored.png" class="icon"><strong>Books</strong></a>
+    <a href="http://localhost/WebDev_Repository/pages/admin/create.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/create-color.png" class="icon"><strong>Create</strong></a>
+    <a href="http://localhost/WebDev_Repository/pages/admin/request.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/request-color.png" class="icon"><strong>Requests</strong></a>
+    <a href="http://localhost/WebDev_Repository/pages/admin/profile.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/students-color.png" class="icon"><strong>Profile</strong></a>
+    <a href="http://localhost/WebDev_Repository/pages/admin/report.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/report-color.png" class="icon"><strong>Reports</strong></a>
+    <a href="http://localhost/WebDev_Repository/pages/user/user_home.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/logout-color.png" class="icon"><strong>Logout</strong></a>
+  </div>
+  
+<div class="main-content">
+    <div class="form-container">
+        <div class="form-section">
+            <div class="image-preview">
+                <img id="previewImage" src="http://localhost/WebDev_Repository/assets/img_bg/book_details.png" alt="Book Image" />
+            </div>
+            <h2>Add Book Category</h2>
+            <form action="http://localhost/WebDev_Repository/utils/book_data2.php" method="POST" enctype="multipart/form-data" id="addCategoryForm">
+                <div class="input-group">
+                    <input type="text" id="bookCategory" name="book_category" placeholder="Enter Book Category" required />
+                </div>
+                <button type="submit" class="submit-btn">Add Category</button>
+            </form>
+            <div id="addedMessage" style="display:none; text-align:center; color:green; margin-top:10px;">Category added!</div>
+            <button id="deleteSelectedBtn" class="submit-btn" style="margin-top:12px;background:#e74c3c;">Delete Selected</button>
+        </div>
+        <div class="category-list-area">
+            <h2>Existing Categories</h2>
+            <div class="category-list-scroll">
+                <ul id="categoryList">
+                    <!-- Categories will be loaded here -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+async function loadCategories() {
+    const ul = document.getElementById('categoryList');
+    ul.innerHTML = '';
+    const res = await fetch('/WebDev_Repository/utils/categories_api.php');
+    const categories = await res.json();
+    categories.forEach(cat => {
+        const li = document.createElement('li');
+        li.style.display = 'flex';
+        li.style.alignItems = 'center';
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = cat.category_id;
+        checkbox.style.marginRight = '10px';
+        li.appendChild(checkbox);
+        const span = document.createElement('span');
+        span.textContent = cat.name;
+        li.appendChild(span);
+        ul.appendChild(li);
+    });
+}
+
+document.getElementById('addCategoryForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const input = document.getElementById('bookCategory');
+    const value = input.value.trim();
+    if (value) {
+        const res = await fetch('/WebDev_Repository/utils/categories_api.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({name: value})
+        });
+        if (res.ok) {
+            loadCategories();
+            const msg = document.getElementById('addedMessage');
+            msg.style.display = 'block';
+            setTimeout(() => { msg.style.display = 'none'; }, 1500);
+        }
+        input.value = '';
+    }
+});
+
+// Delete selected categories
+document.getElementById('deleteSelectedBtn').addEventListener('click', async function() {
+    const checkboxes = document.querySelectorAll('#categoryList input[type="checkbox"]:checked');
+    for (const cb of checkboxes) {
+        await fetch('/WebDev_Repository/utils/delete_category.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({category_id: cb.value})
+        });
+    }
+    loadCategories();
+});
+
+loadCategories();
+</script>
+
 
   <script>
     const fileInput = document.getElementById('bookImageInput');

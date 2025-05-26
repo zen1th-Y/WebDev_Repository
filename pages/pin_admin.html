@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter PIN</title>
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+            text-decoration: none;
+            list-style: none;
+        }
+
+        body {
+            display: block;
+            min-height: 100vh;
+            background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
+            overflow: auto;
+        }
+
+        .admin-text {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            color: #0d7912;
+            font-size: 1.3rem;
+            background: transparent;
+            z-index: 100;
+        }
+
+        .container {
+            position: relative;
+            width: 850px;
+            height: 550px;
+            background: #fff;
+            margin: 40px auto 60px auto;
+            border-radius: 30px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, .2);
+            overflow: hidden;
+        }
+
+        .container h1 {
+            font-size: 36px;
+            margin: -10px 0;
+        }
+
+        .container p {
+            font-size: 14.5px;
+            margin: 15px 0;
+        }
+
+        .pin-input {
+            width: 50px;
+            height: 60px;
+            text-align: center;
+            font-size: 24px;
+            border: 2px solid #c9d6ff;
+            border-radius: 12px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .pin-input:focus {
+            border-color: #0d7912;
+            box-shadow: 0 0 5px rgba(13, 121, 18, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="form-box login">
+        <h1 style="text-align:center; margin-top: 60px;">Enter PIN</h1>
+        <p style="text-align:center;">Enter your 4-digit PIN to continue</p>
+            <div class="pin-input-container" style="display: flex; justify-content: center; gap: 15px; margin-top: 40px;">
+                <input type="password" maxlength="1" class="pin-input" inputmode="numeric" pattern="\d*" autocomplete="off" />
+                <input type="password" maxlength="1" class="pin-input" inputmode="numeric" pattern="\d*" autocomplete="off" />
+                <input type="password" maxlength="1" class="pin-input" inputmode="numeric" pattern="\d*" autocomplete="off" />
+                <input type="password" maxlength="1" class="pin-input" inputmode="numeric" pattern="\d*" autocomplete="off" />
+            </div>
+        <div style="text-align: center; margin-top: 30px;">
+            <button id="submit-pin" style="padding: 10px 30px; background-color: #0d7912; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">Submit</button>
+        </div>
+    </div>
+</div>
+
+<a class="admin-text" href="http://localhost/WebDev_Repository/pages/sign_up.html">User</a>
+
+<script>
+    const inputs = document.querySelectorAll('.pin-input');
+
+    inputs.forEach((input, index) => {
+        input.addEventListener('input', () => {
+            if (input.value.length === 1 && index < inputs.length - 1) {
+                inputs[index + 1].focus();
+            }
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === "Backspace" && !input.value && index > 0) {
+                inputs[index - 1].focus();
+            }
+        });
+    });
+
+    document.getElementById('submit-pin').addEventListener('click', () => {
+        const pin = Array.from(inputs).map(i => i.value).join('');
+        if (pin.length === 4) {
+            if (pin === "2580") {
+                window.location.href = "http://localhost/WebDev_Repository/pages/admin/home.html";
+            } else {
+                alert("Incorrect PIN. Try again.");
+                inputs.forEach(input => input.value = "");
+                inputs[0].focus();
+            }
+        } else {
+            alert("Please enter all 4 digits.");
+        }
+    });
+
+    // Auto-focus on first input when page loads
+    window.addEventListener('DOMContentLoaded', () => {
+        inputs[0].focus();
+    });
+</script>
+
+
+</body>
+</html>

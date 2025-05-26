@@ -58,9 +58,21 @@ $stmt = $conn->prepare("INSERT INTO non_returned_books (book_id, student_id, dat
 $stmt->bind_param("isssi", $book_id, $student_id, $date_received, $return_date, $days_left);
 $success = $stmt->execute();
 
+if ($success) {
+    updateNonReturnedBooksCount($conn); // <-- Add this line
+}
+
 // 4. Update request status to 'approved'
 $conn->query("UPDATE request SET status='approved' WHERE request_id=$request_id");
 
 echo json_encode(['success' => $success]);
 $conn->close();
+
+function updateNonReturnedBooksCount($conn) {
+    $result = $conn->query("SELECT COUNT(*) AS cnt FROM non_returned_books");
+    $row = $result->fetch_assoc();
+    $total = (int)$row['cnt'];
+    $conn->query("INSERT INTO count_items (total_non_returned_books) SELECT $total WHERE NOT EXISTS (SELECT 1 FROM count_items)");
+    $conn->query("UPDATE count_items SET total_non_returned_books = $total");
+}
 ?>

@@ -32,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("ssss", $student_id, $name, $email, $password);
 
         if ($stmt->execute()) {
+            updateMemberCount($conn); 
             // Redirect with success
             header("Location: http://localhost/WebDev_Repository/pages/sign_up.html?status=success&show=register");
             exit();
@@ -42,6 +43,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $check_stmt->close();
+}
+
+function updateMemberCount($conn) {
+    $result = $conn->query("SELECT COUNT(*) AS cnt FROM users");
+    $row = $result->fetch_assoc();
+    $total = (int)$row['cnt'];
+    // If count_items table is empty, insert a row
+    $conn->query("INSERT INTO count_items (total_members) SELECT $total WHERE NOT EXISTS (SELECT 1 FROM count_items)");
+    // Otherwise, update the row
+    $conn->query("UPDATE count_items SET total_members = $total");
 }
 
 $conn->close();

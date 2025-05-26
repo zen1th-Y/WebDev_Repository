@@ -21,7 +21,7 @@ $conn->query("
 CREATE TABLE IF NOT EXISTS books (
     book_id INT AUTO_INCREMENT PRIMARY KEY,
     book_name VARCHAR(255),
-    book_category VARCHAR(255) UNIQUE,
+    book_category VARCHAR(255),
     book_author VARCHAR(255),
     book_description TEXT,
     book_image VARCHAR(255),
@@ -140,6 +140,13 @@ CREATE TABLE IF NOT EXISTS count_items (
     total_reports INT DEFAULT 0,
     total_non_returned_books INT DEFAULT 0,
     total_issued_books INT DEFAULT 0
+    
+)");
+
+$conn->query("
+CREATE TABLE IF NOT EXISTS categories (
+    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) UNIQUE NOT NULL
 )");
 
 echo "Database and tables created successfully.";

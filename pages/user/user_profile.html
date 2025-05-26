@@ -224,141 +224,72 @@ h3 {
   background-color: #dbeafe;
 }
 
-    /* --- Requests Table Modern Design --- */
+    /* --- Profile --- */
 
-.status-rejected {
-  background-color: #fee2e2;
-  color: #b91c1c;
-}
-
-.requests-table-container {
-  margin: 20px auto;
-  width: 92%;
-  background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  overflow-x: auto; /* Add this for horizontal scroll on small screens */
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  max-width: 1200px;
+  height: 290px;
+  margin: 30px auto;
+  background: #f9fafb;
   border: 1px solid #dbeafe;
+  border-radius: 16px;
+  padding: 0.8rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
+.avatar-section {
+  flex-shrink: 30;
+}
 
-.requests-table {
-  width: 100%;
-  max-width: 100%;
-  border-collapse: collapse;
+.avatar-section img {
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #cbd5e1;
+  margin-left: 10px;
+}
+
+.info-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.info-left,
+.info-right {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.info-left p,
+.info-right p {
   font-size: 1rem;
-  table-layout: fixed; /* <-- Add this line */
-  word-wrap: break-word; /* Optional: helps handle long text */
-}
-
-
-.requests-table thead {
+  margin: 0;
+  color: #374151;
   background: linear-gradient(to right, #e0e7ff, #dde0eb);
-}
-
-.requests-table th,
-.requests-table td {
-  padding: 14px;
-  text-align: left;
-    
-}
-
-.requests-table th {
-  color: #000000;
-  font-weight: 600;
-  letter-spacing: 0.4px;
-  
-  
-}
-
-.requests-table tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
-
-}
-
-.requests-table tbody tr:hover {
-  background-color: #eff6ff;
-  transition: background 0.2s ease;
-}
-
-.status-badge {
-  padding: 0.35em 0.9em;
-  font-size: 0.85em;
-  font-weight: 600;
-  border-radius: 999px;
-  display: inline-block;
-}
-
-.status-pending {
-  background-color: #f7efb7;
-  color: #92400e;
-}
-
-.status-approved {
-  background-color: #bbf7d0;
-  color: #3da061;
-}
-
-.cancel-btn {
-  background-color: #dd5959;
-  color: white;
-  border: none;
-  padding: 0.45em 1.1em;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-.cancel-btn:hover {
-  background-color: #b91c1c;
+  padding: 15px;
+  border-radius: 10px;
+  width: 390px;
 }
 
 @media (max-width: 700px) {
-  .requests-table-container {
-    max-width: 100%;
-    margin: 1rem;
+  .profile-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .info-section {
+    align-items: center;
   }
 }
 
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10%);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-
-    /* Media Queries */
-    @media (max-width: 800px) {
-      main {
-        flex-direction: column;
-      }
-
-      .sidebar {
-        width: 100%;
-        margin-top: 0px;
-      }
-
-      .section {
-        min-width: 100%;
-        margin-top: 0px;
-      }
-
-    .welcome-message {
-      flex: 1;
-      text-align: center;
-      font-size: 1.1rem;
-      font-weight: 500;
-      color: #333;
-    }
-
-    }
     
   </style>
 </head>
@@ -407,20 +338,25 @@ h3 {
     <h1>My Profile Information</h1>
   </section>
 
-<div class="requests-table-container">
-  <table class="requests-table">
-    <thead>
-      <tr>
-        <th>Student ID</th>
-        <th>Student Name</th>
-        <th>Email</th>
-        <th>Password</th>
-      </tr>
-    </thead>
-    <tbody>
+<div class="profile-card">
+  <div class="avatar-section">
+    <img src="http://localhost/WebDev_Repository/assets/img_icon/student_male.jpg" alt="Student Avatar" />
+  </div>
+<div class="info-section">
+  <div class="info-left">
+    <p><strong>Student ID:</strong> <span id="student-id"></span></p>
+    <p><strong>Student Name:</strong> <span id="student-name"></span></p>
+    <p><strong>Email:</strong> <span id="student-email"></span></p>
+    <p><strong>Sex:</strong></p>
 
-    </tbody>
-  </table>
+  </div>
+  <div class="info-right">
+    <p><strong>Course:</strong> </p>
+    <p><strong>Year & Section:</strong> </p>
+    <p><strong>Mobile Number:</strong> </p>
+    <p><strong>Address:</strong></p>
+  </div>
+</div>
 </div>
 
 <script>
@@ -445,6 +381,25 @@ h3 {
       alert("Your request has been cancelled.");
     });
   });
+</script>
+
+<script>
+// Fetch and display user info in profile
+window.addEventListener('DOMContentLoaded', function() {
+  fetch('http://localhost/WebDev_Repository/utils/get_user.php')
+    .then(res => res.json())
+    .then(user => {
+      if (!user.student_id) return;
+      // Fetch full user info from database
+      fetch('http://localhost/WebDev_Repository/utils/get_user_full.php')
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('student-id').textContent = data.student_id || '';
+          document.getElementById('student-name').textContent = data.name || '';
+          document.getElementById('student-email').textContent = data.email || '';
+        });
+    });
+});
 </script>
 
 

@@ -161,17 +161,8 @@
   <h2>Enter Book Details</h2>
   <input type="text" name="book_name" placeholder="Enter Book Name" required />
   
-<select name="book_category" class="book_category" required style="width:400px; height:45px; padding:9px; border-radius:6px; border:1px solid #ccc; font: size 12px;;">
+<select name="book_category" class="book_category" required style="width:400px; height:45px; padding:9px; border-radius:6px; border:1px solid #ccc; font: size 12px;;" id="categorySelect">
     <option value="" disabled selected>Select Book Category</option>
-    <option value="Fiction">Fiction</option>
-    <option value="Non-Fiction">Non-Fiction</option>
-    <option value="Science">Science</option>
-    <option value="Technology">Technology</option>
-    <option value="History">History</option>
-    <option value="Biography">Biography</option>
-    <option value="Children">Children</option>
-    <option value="Reference">Reference</option>
-    <!-- Add more categories as needed -->
 </select>
     <input type="text" name="book_author" placeholder="Enter Book Author" required />
     <input type="file" name="book_image" id="bookImageInput" accept="image/*" />
@@ -184,6 +175,22 @@
   </div>
 
 </div>
+
+<script>
+async function populateCategories() {
+    const res = await fetch('/WebDev_Repository/utils/categories_api.php');
+    const categories = await res.json();
+    const select = document.getElementById('categorySelect');
+    select.innerHTML = '<option value="" disabled selected>Select Book Category</option>';
+    categories.forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat.name;
+        opt.textContent = cat.name;
+        select.appendChild(opt);
+    });
+}
+populateCategories();
+</script>
 
   <script>
     const fileInput = document.getElementById('bookImageInput');

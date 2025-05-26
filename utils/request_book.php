@@ -44,9 +44,20 @@ $stmt->close();
 $stmt = $conn->prepare("INSERT INTO request (student_id, book_id, status) VALUES (?, ?, 'pending')");
 $stmt->bind_param("si", $student_id, $book_id);
 if ($stmt->execute()) {
+    updatePendingRequestsCount($conn);
     echo json_encode(['success' => true]);
 } else {
     echo json_encode(['success' => false, 'message' => $conn->error]);
+}
+
+function updatePendingRequestsCount($conn) {
+    $result = $conn->query("SELECT COUNT(*) AS cnt FROM request WHERE status = 'pending'");
+    $row = $result->fetch_assoc();
+    $total = (int)$row['cnt'];
+    // If count_items table is empty, insert a row
+    $conn->query("INSERT INTO count_items (pending_requests) SELECT $total WHERE NOT EXISTS (SELECT 1 FROM count_items)");
+    // Otherwise, update the row
+    $conn->query("UPDATE count_items SET pending_requests = $total");
 }
 $stmt->close();
 $conn->close();

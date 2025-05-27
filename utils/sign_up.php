@@ -16,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT); 
+    $status = 'Active'; // <-- Add this line
 
     // Check if student_id or email already exists
     $check_stmt = $conn->prepare("SELECT * FROM users WHERE student_id = ? OR email = ?");
@@ -28,8 +29,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: http://localhost/WebDev_Repository/pages/sign_up.html?status=exists&show=register");
         exit();
     } else {
-        $stmt = $conn->prepare("INSERT INTO users (student_id, name, email, password) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $student_id, $name, $email, $password);
+        // Add status to the insert statement
+        $stmt = $conn->prepare("INSERT INTO users (student_id, name, email, password, status) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $student_id, $name, $email, $password, $status);
 
         if ($stmt->execute()) {
             updateMemberCount($conn); 
@@ -41,7 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         $stmt->close();
     }
-
     $check_stmt->close();
 }
 

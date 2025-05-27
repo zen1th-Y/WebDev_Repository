@@ -59,10 +59,10 @@
 
   <div class="card red">
     <div class="card-content">
-      <div class="icon">😣</div>
+      <div class="icon">🔒</div>
       <div class="text"><h2>Suspended Accounts</h2></div>
     </div>
-    <p>0</p>
+    <p id="totalSuspended">0</p>
   </div>
 
 <div class="card cyan">
@@ -112,7 +112,12 @@
           <a href="http://localhost/WebDev_Repository/pages/admin/add_category.html" class="add" style="display: inline-block; padding: 6px 6px; background-color: #ffffff; color: white; border-radius: 4px; text-decoration: none; font-family: sans-serif;">
             <button class="add">📝 Manage Category</button>
           </a>  
+          <a href="http://localhost/WebDev_Repository/pages/admin/admin_manage_members.html" class="add" style="display: inline-block; padding: 6px 6px; background-color: #ffffff; color: white; border-radius: 4px; text-decoration: none; font-family: sans-serif;">
         <button class="suspend">⛔ Suspend Account</button>
+        </a>
+                  <a href="http://localhost/WebDev_Repository/pages/admin/admin_activate_account.html" class="add" style="display: inline-block; padding: 6px 6px; background-color: #ffffff; color: white; border-radius: 4px; text-decoration: none; font-family: sans-serif;">
+        <button class="suspend">🔓 Activate Account</button>
+        </a>
       </div>
     </div>
   </div>
@@ -136,6 +141,7 @@ fetch('/WebDev_Repository/utils/get_counts.php')
     document.getElementById('pendingRequests').textContent = data.pending_requests ?? 0;
     document.getElementById('totalNonReturnedBooks').textContent = data.total_non_returned_books ?? 0;
     document.getElementById('totalIssuedBooks').textContent = data.total_issued_books ?? 0;
+    document.getElementById('totalSuspended').textContent = data.total_suspended ?? 0;
   });
 </script>
 

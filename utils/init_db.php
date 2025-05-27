@@ -35,7 +35,13 @@ CREATE TABLE IF NOT EXISTS users (
     student_id VARCHAR(50) UNIQUE,
     name VARCHAR(255),
     email VARCHAR(255),
-    password VARCHAR(255)
+    password VARCHAR(255),
+    sex ENUM('Male', 'Female'),
+    course VARCHAR(100),
+    year_section VARCHAR(100),
+    contact_number VARCHAR(20),
+    address TEXT,
+    status ENUM('Active', 'Suspended') DEFAULT 'Active'
 )");
 
 // Create request table
@@ -134,6 +140,7 @@ CREATE TABLE IF NOT EXISTS count_items (
     total_books INT DEFAULT 0,
     total_categories INT DEFAULT 0,
     total_members INT DEFAULT 0,
+    total_suspended INT DEFAULT 0,
     total_messages INT DEFAULT 0,
     pending_requests INT DEFAULT 0,
     overdue_books INT DEFAULT 0,

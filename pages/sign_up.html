@@ -300,6 +300,7 @@ form{ width: 100%; }
                     <a href="#">Forgot Password?</a>
                 </div>
                 <button type="submit" class="btn">Login</button>
+                <div id="login-message" class="message"></div>
             </form>
         </div>
 
@@ -359,27 +360,42 @@ form{ width: 100%; }
         return urlParams.get(param);
     }
 
-    // Show message based on "status"
     const status = getQueryParam("status");
-    const messageDiv = document.getElementById("register-message");
+    const registerMessageDiv = document.getElementById("register-message");
+    const loginMessageDiv = document.getElementById("login-message");
 
     if (status === "success") {
-        messageDiv.textContent = "Account created successfully.";
-        messageDiv.classList.add("success-msg");
+        registerMessageDiv.textContent = "Account created successfully.";
+        registerMessageDiv.classList.add("success-msg");
     } else if (status === "exists") {
-        messageDiv.textContent = "Account already exists.";
-        messageDiv.classList.add("error-msg");
+        registerMessageDiv.textContent = "Account already exists.";
+        registerMessageDiv.classList.add("error-msg");
+    } else if (status === "invalid") {
+        loginMessageDiv.textContent = "Invalid Student ID or Password.";
+        loginMessageDiv.classList.add("error-msg");
+    } else if (status === "suspended") {
+        loginMessageDiv.textContent = "Your account is suspended. Kindly reach out to the librarian for assistance.";
+        loginMessageDiv.classList.add("error-msg");
     }
-        // Fade out message after 4 seconds
-    if (status === "success" || status === "exists") {
+
+    // Fade out messages after 4 seconds
+    if (["success", "exists"].includes(status)) {
         setTimeout(() => {
-            messageDiv.classList.add("fade-out");
+            registerMessageDiv.classList.add("fade-out");
             setTimeout(() => {
-                messageDiv.style.display = "none";
-            }, 1000); // Wait for fade-out animation to finish
+                registerMessageDiv.style.display = "none";
+            }, 1000);
         }, 4000);
     }
 
+    if (["invalid", "suspended"].includes(status)) {
+        setTimeout(() => {
+            loginMessageDiv.classList.add("fade-out");
+            setTimeout(() => {
+                loginMessageDiv.style.display = "none";
+            }, 1000);
+        }, 4000);
+    }
 
     // Toggle form based on "show" parameter
     window.addEventListener('DOMContentLoaded', () => {

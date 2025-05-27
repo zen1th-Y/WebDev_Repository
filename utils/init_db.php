@@ -25,8 +25,9 @@ CREATE TABLE IF NOT EXISTS books (
     book_author VARCHAR(255),
     book_description TEXT,
     book_image VARCHAR(255),
+    book_status ENUM('available', 'unavailable') DEFAULT 'available',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)");
+);
 
 // Create users table
 $conn->query("

@@ -188,41 +188,179 @@
   <!-- Book cards will be injected here by JavaScript -->
 </div>
 
+<div id="adminBookModal" class="modal" style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,0.4);justify-content:center;align-items:center;">
+  <div class="modal-content" style="background:#fff;padding:20px;border-radius:12px;width:400px;max-width:90%;position:relative;box-shadow:0 8px 16px rgba(0,0,0,0.2);">
+    <span class="close-button" style="position:absolute;top:10px;right:15px;margin-left: 30px;font-size:24px;font-weight:bold;cursor:pointer;">&times;</span>
+    <div id="admin-modal-body" class="modal-body" style="display:flex;gap:20px;align-items:flex-start;">
+      <!-- Modal content will be injected by JS -->
+    </div>
+  </div>
+</div>
+
+<script>
+  let booksData = [];
+
+// Add modal logic for admin
+function showAdminBookModal(book, imgSrc) {
+  const modal = document.getElementById("adminBookModal");
+  const modalBody = document.getElementById("admin-modal-body");
+  modalBody.innerHTML = `
+    <img src="${imgSrc}" alt="Cover of ${book.book_name}" style="width:120px;height:160px;object-fit:cover;border-radius:8px;">
+    <div class="book-info" style="flex:1;">
+      <h3 style="margin:0 0 10px;font-size:1.2rem;">${book.book_name}</h3>
+      <div class="book-author"><strong>Author:</strong> ${book.book_author}</div>
+      <div class="category" style="background:#e0e7ff;padding:6px 12px;border-radius:6px;font-size:0.9rem;font-weight:500;display:inline-block;margin-top:5px;">
+        ${book.book_category || 'Unknown Category'}
+      </div>
+      <p class="description" style="margin:15px 0;font-size:0.95rem;color:#444;line-height:1.5;">
+        ${book.book_description || 'No description available.'}
+      </p>
+      <div class="modal-buttons" style="display:flex;gap:10px;margin-top:10px;">
+        <button class="btn-edit" style="padding:8px 14px;border:none;border-radius:6px;font-weight:600;cursor:pointer;background:#60a5fa;color:#fff;">Edit Book</button>
+        <button class="btn-remove" style="padding:8px 14px;border:none;border-radius:6px;font-weight:600;cursor:pointer;background:#ef4444;color:#fff;">Remove Book</button>
+      </div>
+    </div>
+  `;
+
+  // Edit button logic
+  modalBody.querySelector('.btn-edit').addEventListener('click', () => {
+    window.location.href = `edit_book.html?book_id=${encodeURIComponent(book.book_id)}`;
+  });
+
+  // Remove button logic
+  modalBody.querySelector('.btn-remove').addEventListener('click', () => {
+    if (confirm('Are you sure you want to remove this book?')) {
+      fetch('http://localhost/WebDev_Repository/utils/remove_book.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ book_id: book.book_id })
+      })
+      .then(res => res.json())
+      .then(res => {
+        if (res.success) {
+          alert('Book removed successfully!');
+          modal.style.display = "none";
+          // Remove the book from the UI
+          booksData = booksData.filter(b => b.book_id !== book.book_id);
+          renderBooks(booksData);
+        } else {
+          alert('Failed to remove book: ' + (res.message || 'Unknown error.'));
+        }
+      })
+      .catch(() => {
+        alert('Failed to remove book: Network error.');
+      });
+    }
+  });
+
+  modal.style.display = "flex";
+}
+
+// Modal close logic
+window.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById("adminBookModal");
+  const closeBtn = modal.querySelector(".close-button");
+  closeBtn.onclick = () => modal.style.display = "none";
+  window.onclick = (event) => {
+    if (event.target == modal) modal.style.display = "none";
+  };
+});
+
+// Update renderBooks to open modal on click
+function renderBooks(books) {
+  const container = document.querySelector('.book-grid');
+  container.innerHTML = '';
+  if (books.length === 0) {
+    container.innerHTML = '<p>No books found.</p>';
+    return;
+  }
+  books.forEach(book => {
+    const card = document.createElement('div');
+    card.className = 'book-card';
+    const imgSrc = book.book_image && book.book_image !== "" 
+      ? book.book_image 
+      : 'http://localhost/WebDev_Repository/assets/img_bg/book_details.png';
+    card.innerHTML = `
+      <div class="book-cover">
+        <img src="${imgSrc}" alt="Cover of ${book.book_name}" />
+      </div>
+      <div class="book-title">${book.book_name}</div>
+      <div class="book-author">${book.book_author}</div>
+    `;
+    // Open modal on click
+    card.addEventListener('click', () => showAdminBookModal(book, imgSrc));
+    container.appendChild(card);
+  });
+}
+
+</script>
+
 <script>
 window.addEventListener('DOMContentLoaded', () => {
+
+  // Fetch books once and store them
   fetch('http://localhost/WebDev_Repository/utils/fetch.php')
     .then(response => response.json())
     .then(data => {
-      const container = document.querySelector('.book-grid');
-      container.innerHTML = ''; // Clear existing content
-
-      if (Array.isArray(data)) {
-        data.forEach(book => {
-          const card = document.createElement('div');
-          card.className = 'book-card';
-
-          // Use book_image if exists, else fallback image
-          const imgSrc = book.book_image && book.book_image !== "" 
-            ? book.book_image 
-            : 'http://localhost/WebDev_Repository/assets/img_bg/book_details.png';
-
-          card.innerHTML = `
-            <div class="book-cover">
-              <img src="${imgSrc}" alt="Cover of ${book.book_name}" />
-            </div>
-            <div class="book-title">${book.book_name}</div>
-            <div class="book-author">${book.book_author}</div>
-          `;
-          container.appendChild(card);
-        });
-      } else {
-        container.innerHTML = '<p>Failed to load books.</p>';
-      }
+      booksData = Array.isArray(data) ? data : [];
+      renderBooks(booksData);
     })
     .catch(error => {
       console.error('Error loading books:', error);
       document.querySelector('.book-grid').innerHTML = '<p>Error loading books.</p>';
     });
+
+  // Render books to the grid
+function renderBooks(books) {
+  const container = document.querySelector('.book-grid');
+  container.innerHTML = '';
+  if (books.length === 0) {
+    container.innerHTML = '<p>No books found.</p>';
+    return;
+  }
+  books.forEach(book => {
+    const card = document.createElement('div');
+    card.className = 'book-card';
+    const imgSrc = book.book_image && book.book_image !== "" 
+      ? book.book_image 
+      : 'http://localhost/WebDev_Repository/assets/img_bg/book_details.png';
+    card.innerHTML = `
+      <div class="book-cover">
+        <img src="${imgSrc}" alt="Cover of ${book.book_name}" />
+      </div>
+      <div class="book-title">${book.book_name}</div>
+      <div class="book-author">${book.book_author}</div>
+    `;
+    // Open modal on click
+    card.addEventListener('click', () => showAdminBookModal(book, imgSrc));
+    container.appendChild(card);
+  });
+}
+
+  // Search functionality
+  const searchInput = document.querySelector('.search-input');
+  const searchButton = document.querySelector('.search-button');
+
+  function handleSearch() {
+    const query = searchInput.value.trim().toLowerCase();
+    if (!query) {
+      renderBooks(booksData);
+      return;
+    }
+    const filtered = booksData.filter(book => {
+      return (
+        (book.book_name && book.book_name.toLowerCase().includes(query)) ||
+        (book.book_author && book.book_author.toLowerCase().includes(query)) ||
+        (book.book_category && book.book_category.toLowerCase().includes(query))
+      );
+    });
+    renderBooks(filtered);
+  }
+
+  searchButton.addEventListener('click', handleSearch);
+  searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') handleSearch();
+  });
 });
 </script>
       </div>

@@ -167,15 +167,17 @@
     <div class="admin-header">
       <img src="http://localhost/WebDev_Repository/assets/img_icon/granby_logo.png" alt="Logo" class="logo">
       <h3>GCST Library</h3>
+      </div>
+      <a href="http://localhost/WebDev_Repository/pages/admin/home.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/home-color.png" class="icon"><strong>Home</strong> </a>
+      <a href="http://localhost/WebDev_Repository/pages/admin/admin_book.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/book-colored.png" class="icon"> <strong>Books</strong></a>
+       <div class="sidebar-divider"></div>
+      <a href="http://localhost/WebDev_Repository/pages/admin/create.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/create-color.png" class="icon"><strong>Create</strong></a>
+      <div class="sidebar-divider"></div>
+      <a href="http://localhost/WebDev_Repository/pages/admin/request.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/request-color.png" class="icon"><strong>Requests</strong></a>
+      <a href="http://localhost/WebDev_Repository/pages/admin/profile.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/students-color.png" class="icon"><strong>Profile</strong></a>
+      <a href="http://localhost/WebDev_Repository/pages/user/user_home.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/logout-color.png" class="icon"> <strong>Logout</strong></a>
     </div>
-    <a href="http://localhost/WebDev_Repository/pages/admin/home.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/home-color.png" class="icon"><strong>Home</strong></a>
-    <a href="http://localhost/WebDev_Repository/pages/admin/admin_book.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/book-colored.png" class="icon"><strong>Books</strong></a>
-    <a href="http://localhost/WebDev_Repository/pages/admin/create.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/create-color.png" class="icon"><strong>Create</strong></a>
-    <a href="http://localhost/WebDev_Repository/pages/admin/request.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/request-color.png" class="icon"><strong>Requests</strong></a>
-    <a href="http://localhost/WebDev_Repository/pages/admin/profile.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/students-color.png" class="icon"><strong>Profile</strong></a>
-    <a href="http://localhost/WebDev_Repository/pages/admin/report.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/report-color.png" class="icon"><strong>Reports</strong></a>
-    <a href="http://localhost/WebDev_Repository/pages/user/user_home.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/logout-color.png" class="icon"><strong>Logout</strong></a>
-  </div>
+
 
   <div class="main-content">
     <div class="book-container">
@@ -229,29 +231,27 @@ function showAdminBookModal(book, imgSrc) {
 
   // Remove button logic
   modalBody.querySelector('.btn-remove').addEventListener('click', () => {
-    if (confirm('Are you sure you want to remove this book?')) {
-      fetch('http://localhost/WebDev_Repository/utils/remove_book.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ book_id: book.book_id })
-      })
-      .then(res => res.json())
-      .then(res => {
-        if (res.success) {
-          alert('Book removed successfully!');
-          modal.style.display = "none";
-          // Remove the book from the UI
-          booksData = booksData.filter(b => b.book_id !== book.book_id);
-          renderBooks(booksData);
-        } else {
-          alert('Failed to remove book: ' + (res.message || 'Unknown error.'));
-        }
-      })
-      .catch(() => {
-        alert('Failed to remove book: Network error.');
-      });
+  if (confirm('Are you sure you want to remove this book?')) {
+    fetch('http://localhost/WebDev_Repository/utils/set_book_unavailable.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ book_id: book.book_id })
+    })
+    .then(res => res.json())
+    .then(res => {
+    if (res.success) {
+        alert('Book set to unavailable!');
+        modal.style.display = "none";
+        // Do NOT update booksData or re-render the grid
+    } else {
+        alert('Failed to update book: ' + (res.message || 'Unknown error.'));
     }
-  });
+})
+    .catch(() => {
+      alert('Failed to update book: Network error.');
+    });
+  }
+});
 
   modal.style.display = "flex";
 }
@@ -270,11 +270,13 @@ window.addEventListener('DOMContentLoaded', () => {
 function renderBooks(books) {
   const container = document.querySelector('.book-grid');
   container.innerHTML = '';
-  if (books.length === 0) {
+  // Only show available books
+  const availableBooks = books.filter(book => book.book_status === 'available');
+  if (availableBooks.length === 0) {
     container.innerHTML = '<p>No books found.</p>';
     return;
   }
-  books.forEach(book => {
+  availableBooks.forEach(book => {
     const card = document.createElement('div');
     card.className = 'book-card';
     const imgSrc = book.book_image && book.book_image !== "" 

@@ -27,11 +27,10 @@ CREATE TABLE IF NOT EXISTS books (
     book_image VARCHAR(255),
     book_status ENUM('available', 'unavailable') DEFAULT 'available',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+)");
 
 // Create users table
-$conn->query("
-CREATE TABLE IF NOT EXISTS users (
+$conn->query("CREATE TABLE IF NOT EXISTS users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     student_id VARCHAR(50) UNIQUE,
     name VARCHAR(255),
@@ -86,7 +85,6 @@ FROM
 JOIN 
     books b ON r.book_id = b.book_id
 ");
-
 
 // Create favorites table
 $conn->query("
@@ -148,7 +146,6 @@ CREATE TABLE IF NOT EXISTS count_items (
     total_reports INT DEFAULT 0,
     total_non_returned_books INT DEFAULT 0,
     total_issued_books INT DEFAULT 0
-    
 )");
 
 $conn->query("

@@ -149,6 +149,18 @@ CREATE TABLE IF NOT EXISTS categories (
     name VARCHAR(100) UNIQUE NOT NULL
 )");
 
+$conn->query("
+CREATE TABLE IF NOT EXISTS student_notification (
+    notification_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id VARCHAR(50),
+    book_id INT,
+    status ENUM('ready to pick up', 'received') NOT NULL,
+    notified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_read TINYINT(1) DEFAULT 0,
+    FOREIGN KEY (student_id) REFERENCES users(student_id),
+    FOREIGN KEY (book_id) REFERENCES books(book_id)
+)");
+
 echo "Database and tables created successfully.";
 $conn->close();
 ?>

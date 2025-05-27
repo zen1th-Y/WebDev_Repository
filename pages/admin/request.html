@@ -124,14 +124,15 @@
 
 <script>
 window.addEventListener('DOMContentLoaded', () => {
+  function loadRequests() {
   fetch('http://localhost/WebDev_Repository/utils/get_all_requests.php')
     .then(res => res.json())
-.then(data => {
-  const tbody = document.querySelector('table tbody');
-  tbody.innerHTML = '';
-  // Show only pending and ready to pick up requests for admin action
-  data.filter(req => req.status === 'pending' || req.status === 'ready to pick up').forEach(req => {
-    tbody.innerHTML += `
+    .then(data => {
+       const tbody = document.querySelector('table tbody');
+       tbody.innerHTML = '';
+       // Show only pending and ready to pick up requests for admin action
+       data.filter(req => req.status === 'pending' || req.status === 'ready to pick up').forEach(req => {
+       tbody.innerHTML += `
       <tr>
         <td>${req.student_id}</td>
         <td>${req.name}</td>
@@ -171,6 +172,7 @@ document.querySelectorAll('.ready-btn').forEach(btn => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ request_id: btn.dataset.id, status: 'ready to pick up' })
     }).then(() => {
+      loadRequests(); // <--- refresh table after marking as ready
       btn.disabled = true;
       btn.textContent = 'Marked as Ready';
     });
@@ -198,6 +200,7 @@ document.querySelectorAll('.approve-btn').forEach(btn => {
     .then(res => res.json())
     .then(res => {
       if (res.success) {
+        loadRequests(); // <--- refresh table after marking as received
         btn.disabled = true;
         btn.textContent = 'Received';
       } else {
@@ -215,6 +218,7 @@ document.querySelectorAll('.delete-btn').forEach(btn => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ request_id: btn.dataset.id, status: 'rejected' })
     }).then(() => {
+      loadRequests(); // <--- refresh table after rejecting
       btn.disabled = true;
       btn.textContent = 'Rejected';
     });
@@ -222,6 +226,9 @@ document.querySelectorAll('.delete-btn').forEach(btn => {
 });
 
 });
+}
+
+  loadRequests(); // Initial load of requests
 })
 </script>
 

@@ -59,7 +59,12 @@ $stmt->bind_param("isssi", $book_id, $student_id, $date_received, $return_date, 
 $success = $stmt->execute();
 
 if ($success) {
-    updateNonReturnedBooksCount($conn); // <-- Add this line
+    updateNonReturnedBooksCount($conn);
+
+    // Insert notification for "received"
+    $notif = $conn->prepare("INSERT INTO student_notification (student_id, book_id, status) VALUES (?, ?, 'received')");
+    $notif->bind_param("si", $student_id, $book_id);
+    $notif->execute();
 }
 
 // 4. Update request status to 'approved'

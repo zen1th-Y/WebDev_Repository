@@ -53,6 +53,87 @@ window.addEventListener('DOMContentLoaded', function() {
 
 
   <style>
+.notification-dropdown {
+  display: none;
+  position: absolute;
+  top: 65px;
+  right: 60px;
+  width: 340px;
+  max-height: 380px;
+  background: #f8fafc;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.13);
+  border: 1px solid #e5e7eb;
+  z-index: 1001;
+  overflow: hidden;
+  flex-direction: column;
+  animation: fadeIn 0.2s;
+}
+
+.dropdown-header {
+  font-weight: bold;
+  padding: 14px 18px;
+  background: #e0e7ff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.notifications-list {
+  max-height: 260px;
+  overflow-y: auto;
+  padding: 0;
+  margin: 0;
+}
+
+.notification-item {
+  display: flex;
+  flex-direction: row; /* <-- Now image is on the left, text on the right */
+  align-items: center;
+  padding: 14px 18px;
+  border-bottom: 1px solid #f1f5f9;
+  background: #fff;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-item:hover {
+  background: #f1f5f9;
+}
+
+.notification-message {
+  font-size: 0.90rem;
+  color: #333;
+}
+
+.notification-time {
+  font-size: 0.82rem;
+  color: #888;
+  margin-top: 4px;
+  align-self: flex-end;
+}
+
+.dropdown-footer {
+  text-align: center;
+  padding: 10px 0;
+  background: #f3f4f6;
+  font-size: 0.95rem;
+  color: #5e94d3;
+  border-top: 1px solid #e5e7eb;
+  transition: background 0.2s;
+}
+
+.dropdown-footer:hover {
+  background: #e0e7ff;
+  color: #333;
+}
+
+
+
+
+
     .menu-item i {
   margin-right: 10px; /* space between icon and text */
   width: 20px;         /* optional: aligns icons neatly */
@@ -439,7 +520,31 @@ h3 {
 <nav class="nav-links">
   <span id="welcome-message" style="margin-right: 1.5rem; font-weight: 600;"></span>
   <a href="http://localhost/WebDev_Repository/index1.html">About</a>
-  <a href="#" class="notification-icon shake" title="Notifications">🔔</a>
+<a href="#" class="notification-icon" id="notification-bell" title="Notifications" style="position:relative;">
+  🔔
+  <span id="notif-badge" style="
+    display:none;
+    position:absolute;
+    top:1px;
+    right:-8px;
+    background:#ef4444;
+    color:#fff;
+    font-size:0.5rem;
+    font-weight:bold;
+    border-radius:50%;
+    padding:2px 7px;
+    min-width:5px;
+    height:11px;
+    text-align:center;
+    z-index:2;
+    pointer-events:none;
+  "></span>
+</a>
+<div class="notification-dropdown" id="notification-dropdown">
+  <div class="dropdown-header">Notifications</div>
+  <div class="notifications-list" id="notifications-list"></div>
+  <div class="dropdown-footer" id="clear-notifications" style="cursor:pointer;">Clear All</div>
+</div>
   <a href="#" class="menu-icon" id="menu-icon" title="Menu">&#9776;</a>
 </nav>
 </header>
@@ -986,6 +1091,171 @@ function renderBooks() {
   });
   updateBooksTitle();
 }
+</script>
+
+
+<script>
+
+const bell = document.getElementById('notification-bell');
+const dropdown = document.getElementById('notification-dropdown');
+const notificationsList = document.getElementById('notifications-list');
+const clearBtn = document.getElementById('clear-notifications');
+const notifBadge = document.getElementById('notif-badge'); // Add this line
+
+let dropdownOpen = false;
+let notifInterval = null;
+
+// Start polling for notifications every 5 seconds
+function startNotifPolling() {
+  if (notifInterval) clearInterval(notifInterval);
+  notifInterval = setInterval(loadNotifications, 1000); 
+}
+
+// Stop polling
+function stopNotifPolling() {
+  if (notifInterval) clearInterval(notifInterval);
+  notifInterval = null;
+}
+
+// Toggle dropdown
+bell.addEventListener('click', (e) => {
+  e.preventDefault();
+  dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+  dropdownOpen = dropdown.style.display === 'block';
+  if (dropdownOpen) {
+    // Mark all as read, then load notifications and start polling
+    markAllNotificationsRead(() => {
+      loadNotifications();
+      startNotifPolling();
+    });
+  } else {
+    stopNotifPolling();
+  }
+});
+
+// Hide dropdown when clicking outside
+document.addEventListener('click', (e) => {
+  if (!dropdown.contains(e.target) && !bell.contains(e.target)) {
+    if (dropdown.style.display === 'block') {
+      dropdown.style.display = 'none';
+      dropdownOpen = false;
+      stopNotifPolling();
+    }
+  }
+});
+
+
+// Mark all as read
+function markAllNotificationsRead(callback) {
+  if (!currentStudentId) {
+    if (typeof callback === 'function') callback();
+    return;
+  }
+  fetch('http://localhost/WebDev_Repository/utils/mark_notifications_read.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ student_id: currentStudentId })
+  }).then(() => {
+    if (typeof callback === 'function') callback();
+  });
+}
+
+// Clear all notifications filepath: [InUser_home.html](http://_vscodecontentref_/0)
+clearBtn.addEventListener('click', () => {
+  if (!currentStudentId) return;
+  fetch('http://localhost/WebDev_Repository/utils/clear_notifications.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ student_id: currentStudentId })
+  })
+  .then(res => res.json())
+  .then(res => {
+    if (res.success) {
+      notificationsList.innerHTML = '<div class="notification-item">No notifications yet.</div>';
+      notifBadge.style.display = 'none';
+    } else {
+      alert('Failed to clear notifications.');
+    }
+  })
+  .catch(() => alert('Failed to clear notifications (network error).'));
+});
+
+// Get current user ID and load notifications
+window.addEventListener('DOMContentLoaded', () => {
+  fetch('http://localhost/WebDev_Repository/utils/get_user.php')
+    .then(res => res.json())
+    .then(user => {
+      if (user.student_id) {
+        currentStudentId = user.student_id;
+        loadNotifications();
+        startNotifPolling();
+      }
+    });
+});
+
+
+
+function loadNotifications() {
+  if (!currentStudentId) return;
+  fetch('http://localhost/WebDev_Repository/utils/get_notifications.php?student_id=' + encodeURIComponent(currentStudentId))
+    .then(res => res.json())
+    .then(notifs => {
+      notificationsList.innerHTML = '';
+      if (notifs.length === 0) {
+        notificationsList.innerHTML = '<div class="notification-item">No notifications yet.</div>';
+        notifBadge.style.display = 'none'; // Hide badge if no notifications
+        return;
+      }
+      // Count unread notifications
+      const unreadCount = notifs.filter(n => n.is_read == 0).length;
+      if (unreadCount > 0) {
+        notifBadge.textContent = unreadCount;
+        notifBadge.style.display = 'inline-block';
+      } else {
+        notifBadge.style.display = 'none';
+      }
+
+notifs.forEach((n, idx) => {
+  let message = '';
+  if (n.status === 'ready to pick up') {
+    message = `The book <i>${n.book_name}</i> is ready for pick up.`;
+  } else if (n.status === 'received') {
+    message = `You have successfully received <i>${n.book_name}</i>.`;
+  } else {
+    message = `Notification for <i>${n.book_name}</i>.`;
+  }
+  // Use book_image if exists, else fallback image
+  const imgSrc = n.book_image ? n.book_image : '/assets/img_bg/book_details.png';
+  const item = document.createElement('div');
+  item.className = 'notification-item';
+  item.style.background = n.is_read == 0 ? '#e0e7ff' : '#fff'; // Blue for unread, white for read
+  item.style.display = 'flex';
+  item.style.alignItems = 'center';
+  item.innerHTML = `
+    <img src="${imgSrc}" alt="Book cover" style="width:38px;height:54px;object-fit:cover;border-radius:6px;margin-right:12px;flex-shrink:0;box-shadow:0 1px 4px #ccc;">
+    <div style="flex:1;">
+      <div class="notification-message">${message}</div>
+      <div class="notification-time">${new Date(n.notified_at).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}</div>
+    </div>
+  `;
+  notificationsList.appendChild(item);
+
+  // Add separator except after the last notification
+  if (idx < notifs.length - 1) {
+    const separator = document.createElement('hr');
+    separator.style.margin = '0';
+    separator.style.border = '0';
+    separator.style.borderTop = '1px solid #e5e7eb';
+    notificationsList.appendChild(separator);
+  }
+});
+    });
+}
+
+// Clear all notifications (UI only)
+clearBtn.addEventListener('click', () => {
+  notificationsList.innerHTML = '';
+});
 </script>
 
 </body>

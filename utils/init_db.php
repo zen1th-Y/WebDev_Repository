@@ -27,6 +27,8 @@ CREATE TABLE IF NOT EXISTS books (
     book_image VARCHAR(255),
     book_status ENUM('available', 'unavailable') DEFAULT 'available',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    quantity INT DEFAULT 1,
+    fine_value DECIMAL(10,2) DEFAULT 0.00,
 )");
 
 // Create users table

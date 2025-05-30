@@ -37,37 +37,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bookCategory = $conn->real_escape_string($_POST['book_category']);
     $bookAuthor = $conn->real_escape_string($_POST['book_author']);
     $bookDescription = $conn->real_escape_string($_POST['book_description']);
+    $quantity = (int)$_POST['quantity']; // Ensure quantity is an integer
+    $fineValue = (float)$_POST['fine_value']; // Ensure fine value is a float
 
     $imagePath = "";
 
     // Handle file upload
     if (isset($_FILES["book_image"]) && $_FILES["book_image"]["error"] === UPLOAD_ERR_OK) {
-        // This should be the URL path relative to your web server root
         $uploadDir = "/WebDev_Repository/uploads/";
         $targetDir = $_SERVER['DOCUMENT_ROOT'] . $uploadDir;
 
-        // Ensure directory exists
         if (!is_dir($targetDir)) {
             mkdir($targetDir, 0777, true);
         }
 
-        // Generate unique filename
         $fileTmpPath = $_FILES["book_image"]["tmp_name"];
         $fileName = basename($_FILES["book_image"]["name"]);
         $uniqueName = uniqid() . "_" . $fileName;
         $targetPath = $targetDir . $uniqueName;
 
-        // Final image path (used by frontend)
         $imagePath = $uploadDir . $uniqueName;
 
         if (!move_uploaded_file($fileTmpPath, $targetPath)) {
-            $imagePath = ""; // fallback if move fails
+            $imagePath = "";
         }
     }
 
     // Insert into DB
-    $stmt = $conn->prepare("INSERT INTO books (book_name, book_category, book_author, book_description, book_image) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $bookName, $bookCategory, $bookAuthor, $bookDescription, $imagePath);
+    $stmt = $conn->prepare("INSERT INTO books (book_name, book_category, book_author, book_description, book_image, quantity, fine_value) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssid", $bookName, $bookCategory, $bookAuthor, $bookDescription, $imagePath, $quantity, $fineValue);
 
     if ($stmt->execute()) {
         updateBookCount($conn);
@@ -77,7 +75,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: http://localhost/WebDev_Repository/pages/admin/create.html?status=error");
         exit();
     }
-
 
     $stmt->close();
 }

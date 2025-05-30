@@ -52,7 +52,8 @@
     }
 
     .form-container input[type="text"],
-    .form-container input[type="file"] {
+    .form-container input[type="file"],
+    .form-container input[type="number"]{
       width: 100%;
       padding: 12px;
       margin: 10px 0;
@@ -165,12 +166,17 @@
 </select>
     <input type="text" name="book_author" placeholder="Enter Book Author" required />
     <input type="file" name="book_image" id="bookImageInput" accept="image/*" />
+    <input type="number" name="quantity" placeholder="Enter Quantity" min="1" required />
+    
+
   </div>
 
   <div class="form-right">
     <textarea name="book_description" placeholder="About the Book (Detailed Description)"></textarea>
+    <input type="number" name="fine_value" placeholder="Enter Fine Value (₱)" step="0.01" min="0" required />
     <button type="submit">Add Book</button>
      <div id="message" class="message"></div>
+
   </div>
 
 </div>

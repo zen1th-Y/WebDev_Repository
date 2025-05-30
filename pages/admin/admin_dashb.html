@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="http://localhost/WebDev_Repository/styles/admin_css/admin_navbar.css" />
+<link rel="stylesheet" href="http://localhost/WebDev_Repository/styles/admin_dashboard.css">
+</head>
+<style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(to bottom, #334155, #0f172a);
+      background-attachment: fixed;
+      font-family: 'Poppins', sans-serif;
+    }
+  
+  .main-content {
+      flex: 1;
+      padding: 30px;
+      overflow-y: hidden;
+      color: #000000;
+      font-family: 'Poppins', sans-serif;
+  }
+
+    .dashboard-box {
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+      margin-left: 40px;
+      width: 1100px;  
+      
+    }
+
+    .dashboard-box, h1 {
+      
+      margin-bottom: 65px;
+      margin-top: 0px;
+
+    }
+    
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;   
+      background-color: #e1e8eb;
+      border-radius: 10px;
+      padding: 20px;
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+      height: 58px;
+
+    }
+
+    .card-content {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+  .card .icon {
+    font-size: 24px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+    .card .text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card h2 {
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .card p {
+      font-size: 22px;
+      font-weight: bold;
+      text-align: right;
+    }
+
+    /* Card Colors */
+    .blue { color: #000000; }
+    .orange { color: #000000; }
+    .green { color: #000000; }
+    .red { color: #000000; }
+    .cyan { color: #000000; }
+    .yellow { color: #000000; }
+    .purple { color: #000000; }
+    .pink { color: #000000; }
+    .lime { color: #000000; }
+
+    /* Quick Actions */
+    .quick-actions {
+      margin-top: 10px;
+    }
+
+    .quick-actions h3 {
+      margin-bottom: 10px;
+      color: #000000;
+    }
+
+    .quick-actions button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+      margin-right: 10px;
+    }
+
+    .quick-actions .add {
+      background-color: #e1e8eb;
+      color: #040505;
+    }
+
+    .quick-actions .send {
+      background-color: #e1e8eb;
+      color: #040505;
+    }
+
+    .quick-actions .suspend {
+      background-color: #e1e8eb;
+      color: #040505;
+    }
+    .quick-actions .non-returned {
+      background-color: #e1e8eb;
+      color: #040505;
+    }
+    .quick-actions .issued {
+      background-color: #e1e8eb;
+      color: #040505;
+    }
+    .quick-actions .account {
+      background-color: #e1e8eb;
+      color: #040505;
+    }
+    .quick-actions .maintenance {
+      background-color: #e1e8eb;
+      color: #040505;
+    }
+    .quick-actions .others {
+      background-color: #e1e8eb;
+      color: #040505;
+    }
+  </style>
+
+<body>
+
+<aside class="sidebar">
+    <div>
+      <div class="logo-container">
+        <img src="http://localhost/WebDev_Repository/assets/img_icon/granby_logo.png" alt="Logo" class="logo-img">
+        <h3 class="logo-title">GCST Library</h3>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="#" class="nav-link active">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/dashbc.png" alt="Dashboard Icon" class="icon">
+          Dashboard
+        </a>
+        <a href="#" class="nav-link">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/addgrey.png" alt="Dashboard Icon" class="icon">
+          Create
+        </a>
+        <a href="http://localhost/WebDev_Repository/pages/admin/admin_book2.html" class="nav-link">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/bookpen.png" alt="Dashboard Icon" class="icon">
+          Books
+        </a>
+        <a href="#" class="nav-link logout">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/outv.png" alt="Dashboard Icon" class="icon">
+          Logout
+        </a>
+      </nav>
+    </div>
+
+    <div class="role-switch-container">
+      <h2 class="role-label">Role:</h2>
+      <label class="switch-label" id="switchLabel">
+        <input type="checkbox" id="roleSwitch" class="hidden" />
+        <span class="switch-bg"></span>
+        <span id="sliderIcon" class="slider-icon">😻</span>
+        <span id="roleText" class="role-text">Admin</span>
+
+        <div class="pin-container hidden left" id="pinContainerLeft">
+          <input type="password" maxlength="1" class="pin-input" />
+          <input type="password" maxlength="1" class="pin-input" />
+          <input type="password" maxlength="1" class="pin-input" />
+          <input type="password" maxlength="1" class="pin-input" />
+        </div>
+      </label>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <div class="dashboard-box">
+      <h1>Dashboard Overview</h1>
+
+<div class="cards">
+<div class="card blue">
+  <div class="card-content">
+    <div class="icon">📚</div>
+    <div class="text"><h2>Available Books</h2></div>
+  </div>
+  <p id="totalBooks">0</p>
+</div>
+
+  <div class="card orange">
+    <div class="card-content">
+      <div class="icon">📂</div>
+      <div class="text"><h2>Categories</h2></div>
+    </div>
+    <p id="totalCategories">0</p>
+  </div>
+
+  <div class="card green">
+    <div class="card-content">
+      <div class="icon">👥</div>
+      <div class="text"><h2>Members</h2></div>
+    </div>
+    <p id="totalMembers">0</p>
+  </div>
+
+  <div class="card red">
+    <div class="card-content">
+      <div class="icon">🔒</div>
+      <div class="text"><h2>Suspended Accounts</h2></div>
+    </div>
+    <p id="totalSuspended">0</p>
+  </div>
+
+<div class="card cyan">
+  <div class="card-content">
+    <div class="icon">📥</div>
+    <div class="text"><h2>Pending Requests</h2></div>
+  </div>
+  <p id="pendingRequests">0</p>
+</div>
+
+  <div class="card yellow">
+    <div class="card-content">
+      <div class="icon">🎯</div>
+      <div class="text"><h2>Overdue book</h2></div>
+    </div>
+    <p id="totalOverdueBooks">0</p>
+  </div>
+
+  <div class="card purple">
+    <div class="card-content">
+      <div class="icon">🛠️</div>
+      <div class="text"><h2>Unavailable Books</h2></div>
+    </div>
+    <p id="totalUnavailableBooks">0</p>
+  </div>
+
+  <div class="card pink">
+    <div class="card-content">
+      <div class="icon">⌛</div>
+      <div class="text"><h2>Non-return Books</h2></div>
+    </div>
+    <p id="totalNonReturnedBooks">0</p>
+  </div>
+
+  <div class="card lime">
+    <div class="card-content">
+      <div class="icon">🥰</div>
+      <div class="text"><h2>Issued Books</h2></div>
+    </div>
+    <p id="totalIssuedBooks">0</p>
+  </div>
+</div>
+
+
+      <div class="quick-actions">
+        <h3>More Actions:</h3>
+          <a href="http://localhost/WebDev_Repository/pages/admin/add_category.html" class="add" style="display: inline-block; padding: 6px 6px; background-color: #ffffff; color: white; border-radius: 4px; text-decoration: none; font-family: sans-serif;">
+            <button class="add">📝 Manage Category</button>
+          </a>  
+          <a href="http://localhost/WebDev_Repository/pages/admin/admin_manage_members.html" class="add" style="display: inline-block; padding: 6px 6px; background-color: #ffffff; color: white; border-radius: 4px; text-decoration: none; font-family: sans-serif;">
+        <button class="suspend">⛔ Suspend Account</button>
+        </a>
+        <a href="http://localhost/WebDev_Repository/pages/admin/admin_activate_account.html" class="add" style="display: inline-block; padding: 6px 6px; background-color: #ffffff; color: white; border-radius: 4px; text-decoration: none; font-family: sans-serif;">
+        <button class="suspend">🔓 Activate Account</button>
+        </a>
+        <a href="#" class="add" style="display: inline-block; padding: 6px 6px; background-color: #ffffff; color: white; border-radius: 4px; text-decoration: none; font-family: sans-serif;">
+        <button class="suspend">🪄 Re-activate Books</button>
+        </a>
+      </div>
+    </div>
+  </div>
+
+<script>
+fetch('/WebDev_Repository/utils/get_counts.php')
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById('totalCategories').textContent = data.total_categories ?? 0;
+  });
+</script>
+
+<!-- count -->
+<script>
+fetch('/WebDev_Repository/utils/get_counts.php')
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById('totalBooks').textContent = data.total_books ?? 0;
+    document.getElementById('totalCategories').textContent = data.total_categories ?? 0;
+    document.getElementById('totalMembers').textContent = data.total_members ?? 0;
+    document.getElementById('pendingRequests').textContent = data.pending_requests ?? 0;
+    document.getElementById('totalNonReturnedBooks').textContent = data.total_non_returned_books ?? 0;
+    document.getElementById('totalIssuedBooks').textContent = data.total_issued_books ?? 0;
+    document.getElementById('totalSuspended').textContent = data.total_suspended ?? 0;
+    document.getElementById('totalOverdueBooks').textContent = data.overdue_books ?? 0;
+  });
+</script>
+
+
+<script>
+  // This script handles the PIN input for the librarian role switch
+document.addEventListener('DOMContentLoaded', () => {
+  const pinContainerLeft = document.getElementById('pinContainerLeft');
+  const pinInputsLeft = pinContainerLeft.querySelectorAll('.pin-input');
+  const roleText = document.getElementById('roleText');
+
+function checkPin(container, inputs, correctPin) {
+  const enteredPin = Array.from(inputs).map(input => input.value).join('');
+  if (enteredPin.length === 4) {
+    if (enteredPin === correctPin) {
+      window.location.href = 'http://localhost/WebDev_Repository/pages/admin/librarian_request.html';
+    } else {
+      roleText.textContent = 'Invalid PIN';
+      roleText.style.display = '';
+      roleText.classList.add('error');
+
+      // After 3 seconds, reset text to "Librarian"
+      setTimeout(() => {
+        roleText.textContent = 'Librarian';
+        roleText.classList.remove('error');
+      }, 1500);
+    }
+
+    inputs.forEach(input => input.value = '');
+    container.classList.add('hidden');
+  }
+}
+
+  pinInputsLeft.forEach((input, index) => {
+    input.addEventListener('input', () => {
+      input.value = input.value.replace(/\D/, '');
+      if (input.value.length === 1 && index < pinInputsLeft.length - 1) {
+        pinInputsLeft[index + 1].focus();
+      }
+      checkPin(pinContainerLeft, pinInputsLeft, '1111'); // Correct PIN for librarian
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && input.value === '' && index > 0) {
+        pinInputsLeft[index - 1].focus();
+      }
+    });
+  });
+
+document.getElementById('switchLabel').addEventListener('click', (e) => {
+  e.preventDefault();
+  if (!pinContainerLeft.classList.contains('hidden')) {
+    pinContainerLeft.classList.add('hidden');
+    roleText.style.display = '';
+    roleText.textContent = 'Librarian';
+    roleText.classList.remove('error');
+  } else {
+    pinContainerLeft.classList.remove('hidden');
+    pinInputsLeft[0].focus();
+    roleText.style.display = 'none';
+  }
+});
+});
+</script>
+
+    </body>
+</html>

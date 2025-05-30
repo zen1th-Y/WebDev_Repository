@@ -52,7 +52,8 @@
     }
 
     .form-container input[type="text"],
-    .form-container input[type="file"] {
+    .form-container input[type="file"],
+    .form-container input[type="number"]{
       width: 100%;
       padding: 12px;
       margin: 10px 0;
@@ -166,32 +167,19 @@
 </select>
     <input type="text" name="book_author" placeholder="Enter Book Author" required />
     <input type="file" name="book_image" id="bookImageInput" accept="image/*" />
+    <input type="number" name="quantity" placeholder="Enter Quantity" min="1" required />
+        
+
   </div>
 
   <div class="form-right">
     <textarea name="book_description" placeholder="About the Book (Detailed Description)"></textarea>
+    <input type="number" name="fine_value" placeholder="Enter Fine Value (₱)" step="0.01" min="0" required />
     <button type="submit">Edit Book</button>
      <div id="message" class="message"></div>
   </div>
 
 </div>
-
-<script>
-async function populateCategories() {
-    const res = await fetch('/WebDev_Repository/utils/categories_api.php');
-    const categories = await res.json();
-    const select = document.getElementById('categorySelect');
-    select.innerHTML = '<option value="" disabled selected>Select Book Category</option>';
-    categories.forEach(cat => {
-        const opt = document.createElement('option');
-        opt.value = cat.name;
-        opt.textContent = cat.name;
-        select.appendChild(opt);
-    });
-}
-populateCategories();
-
-</script>
 
   <script>
     const fileInput = document.getElementById('bookImageInput');
@@ -214,46 +202,62 @@ populateCategories();
 
 
 <script>
-document.addEventListener('DOMContentLoaded', async () => {
-  // 1. Kunin ang book_id mula sa URL
-  const params = new URLSearchParams(window.location.search);
-  const bookId = params.get('book_id');
-  if (!bookId) return; // Kung walang book_id, huwag gawin ang fetch
-
-  // 2. Hintayin munang mapuno ang categories bago mag-set ng value
-  await new Promise(resolve => setTimeout(resolve, 400)); // wait 400ms para sure loaded na ang categories
-
-  // 3. I-fetch ang book data mula sa backend
-  try {
-    const res = await fetch(`/WebDev_Repository/utils/get_book.php?book_id=${encodeURIComponent(bookId)}`);
-    if (!res.ok) throw new Error('Failed to fetch book data');
-    const book = await res.json();
-
-    // 4. Ipopulate ang form fields
-    document.querySelector('input[name="book_name"]').value = book.book_name || '';
-    document.querySelector('input[name="book_author"]').value = book.book_author || '';
-    document.querySelector('textarea[name="book_description"]').value = book.book_description || '';
-    document.getElementById('previewImage').src = book.book_image && book.book_image !== ''
-      ? book.book_image
-      : 'http://localhost/WebDev_Repository/assets/img_bg/book_details.png';
-
-    // 5. I-set ang category (siguraduhing loaded na ang options)
+async function populateCategories(selectedCategory = null) {
+    const res = await fetch('/WebDev_Repository/utils/categories_api.php');
+    const categories = await res.json();
     const select = document.getElementById('categorySelect');
-    if (book.book_category) select.value = book.book_category;
+    select.innerHTML = '<option value="" disabled selected>Select Book Category</option>';
+    categories.forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat.name;
+        opt.textContent = cat.name;
+        select.appendChild(opt);
+    });
 
-    // 6. Maglagay ng hidden input para sa book_id
-    let hidden = document.querySelector('input[name="book_id"]');
-    if (!hidden) {
-      hidden = document.createElement('input');
-      hidden.type = 'hidden';
-      hidden.name = 'book_id';
-      document.querySelector('form').appendChild(hidden);
+    // Set the selected category after populating the options
+    if (selectedCategory) {
+        select.value = selectedCategory;
     }
-    hidden.value = bookId;
-  } catch (err) {
-    document.getElementById('message').textContent = "❌ Failed to load book data.";
-    document.getElementById('message').classList.add("error-msg");
-  }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const params = new URLSearchParams(window.location.search);
+    const bookId = params.get('book_id');
+
+    if (!bookId) return;
+
+    // Fetch book data for all fields
+    try {
+        const res = await fetch(`/WebDev_Repository/utils/get_book.php?book_id=${encodeURIComponent(bookId)}`);
+        if (!res.ok) throw new Error('Failed to fetch book data');
+        const book = await res.json();
+
+        // Autofill form fields with fetched data
+        document.querySelector('input[name="book_name"]').value = book.book_name || '';
+        document.querySelector('input[name="book_author"]').value = book.book_author || '';
+        document.querySelector('textarea[name="book_description"]').value = book.book_description || '';
+        document.querySelector('input[name="quantity"]').value = book.quantity || '';
+        document.querySelector('input[name="fine_value"]').value = book.fine_value || '';
+        document.getElementById('previewImage').src = book.book_image && book.book_image !== ''
+            ? book.book_image
+            : 'http://localhost/WebDev_Repository/assets/img_bg/book_details.png';
+
+        // Populate categories and set the selected category
+        await populateCategories(book.book_category);
+
+        // Add hidden input for book_id if not already present
+        let hidden = document.querySelector('input[name="book_id"]');
+        if (!hidden) {
+            hidden = document.createElement('input');
+            hidden.type = 'hidden';
+            hidden.name = 'book_id';
+            document.querySelector('form').appendChild(hidden);
+        }
+        hidden.value = bookId;
+    } catch (err) {
+        document.getElementById('message').textContent = "❌ Failed to load book data.";
+        document.getElementById('message').classList.add("error-msg");
+    }
 });
 </script>
 

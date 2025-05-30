@@ -168,6 +168,19 @@ CREATE TABLE IF NOT EXISTS student_notification (
     FOREIGN KEY (book_id) REFERENCES books(book_id)
 )");
 
+/* $conn->query("
+CREATE TABLE IF NOT EXISTS lost_books (
+    lost_id INT AUTO_INCREMENT PRIMARY KEY,
+    book_id INT,
+    student_id VARCHAR(50),
+    report_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fine_amount DECIMAL(10,2) DEFAULT 0.00,
+    status ENUM('pending fine', 'fined', 'paid') DEFAULT 'pending fine',
+    paid_at TIMESTAMP NULL DEFAULT NULL,
+    FOREIGN KEY (book_id) REFERENCES books(book_id),
+    FOREIGN KEY (student_id) REFERENCES users(student_id)
+)"); */
+
 echo "Database and tables created successfully.";
 $conn->close();
 ?>

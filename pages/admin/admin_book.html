@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Book List</title>
   <link rel="stylesheet" href="http://localhost/WebDev_Repository/styles/admin_sidebar.css">
-  <style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+ <style>
     html, body {
       height: 100%;
       margin: 0;
@@ -38,7 +40,7 @@
     .search-bar-container {
       display: flex;
       justify-content: center;
-      margin-bottom: 25px;
+      border-radius: 20px;
     }
 
     .search-input {
@@ -134,6 +136,85 @@
       padding: 0 16px;
     }
 
+   .search-radio-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px; /* Adjust spacing between elements */
+    margin-bottom: 25px;
+    padding: 10px; /* Add padding for better alignment */
+  }
+
+  .radio-inputs {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px; /* Adjust spacing between radio buttons */
+    border-radius: 0.5rem;
+    background-color: #c1d8e6;
+    box-sizing: border-box;
+    box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
+    padding: 0.25rem;
+    width: auto; /* Adjust width to fit content */
+    font-size: 14px;
+  }
+
+  .radio-inputs .radio {
+    flex: 1;
+    text-align: center;
+  }
+
+  .radio-inputs .radio input {
+    display: none;
+  }
+
+  .radio-inputs .radio .name {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    border: none;
+    padding: .5rem 1rem; /* Adjust padding for better alignment */
+    color: #555;
+    transition: all .15s ease-in-out;
+  }
+
+  .radio-inputs .radio input:checked + .name {
+    background-color: #f4f4f4;
+    font-weight: 600;
+  }
+
+.search-bar-container {
+  display: flex;
+  flex: 1;
+  max-width: 500px;
+}
+
+.search-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 40px 10px 16px; /* may space sa kanan para sa icon */
+  border: 1px solid #e1e8eb;
+  border-radius: 8px; /* same sa .radio-inputs */
+  outline: none;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.search-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #777;
+  font-size: 16px;
+  pointer-events: none; /* para hindi clickable */
+}
+
     /* Responsive tweaks */
     @media (max-width: 768px) {
       .main-content {
@@ -180,11 +261,28 @@
 
 
   <div class="main-content">
-    <div class="book-container">
-      <div class="search-bar-container">
-        <input type="text" class="search-input" placeholder="Enter Book Name...">
-        <button class="search-button">Search</button>
-      </div>
+<div class="book-container">
+<div class="search-radio-container">
+  <!-- Left: Radio Inputs -->
+  <div class="radio-inputs">
+    <label class="radio">
+      <input type="radio" name="status-filter" value="available" checked>
+      <span class="name">Available</span>
+    </label>
+    <label class="radio">
+      <input type="radio" name="status-filter" value="unavailable">
+      <span class="name">Unavailable</span>
+    </label>
+  </div>
+
+  <!-- Right: Search Bar -->
+  <div class="search-bar-container">
+    <div class="search-input-wrapper">
+      <input type="text" class="search-input" placeholder="Search for books, authors, or genres...">
+      <i class="fas fa-search search-icon"></i>
+    </div>
+  </div>
+</div>
 
   <div class="book-grid">
   <!-- Book cards will be injected here by JavaScript -->
@@ -206,32 +304,47 @@
 function showAdminBookModal(book, imgSrc) {
   const modal = document.getElementById("adminBookModal");
   const modalBody = document.getElementById("admin-modal-body");
-  modalBody.innerHTML = `
-    <img src="${imgSrc}" alt="Cover of ${book.book_name}" style="width:120px;height:160px;object-fit:cover;border-radius:8px;">
-    <div class="book-info" style="flex:1;">
-      <h3 style="margin:0 0 10px;font-size:1.2rem;">${book.book_name}</h3>
-      <div class="book-author"><strong>Author:</strong> ${book.book_author}</div>
-      <div class="category" style="background:#e0e7ff;padding:6px 12px;border-radius:6px;font-size:0.9rem;font-weight:500;display:inline-block;margin-top:5px;">
+modalBody.innerHTML = `
+  <img src="${imgSrc}" alt="Cover of ${book.book_name}" style="width:120px;height:190px;object-fit:cover;border-radius:8px;">
+  <div class="book-info" style="flex:1;">
+    <h3 style="margin:0 0 10px;font-size:1.2rem;">${book.book_name}</h3>
+    <div class="book-author"><strong>Author:</strong> ${book.book_author}</div>
+    
+    <!-- CATEGORY + QUANTITY GROUP -->
+    <div style="display: flex; gap: 10px; align-items: center; margin-top: 5px; margin-bottom: 10px;">
+      <div class="category" style="background:#e0e7ff;padding:6px 12px;border-radius:6px;font-size:0.9rem;font-weight:500;">
         ${book.book_category || 'Unknown Category'}
       </div>
-      <p class="description" style="margin:15px 0;font-size:0.95rem;color:#444;line-height:1.5;">
-        ${book.book_description || 'No description available.'}
-      </p>
-      <div class="modal-buttons" style="display:flex;gap:10px;margin-top:10px;">
-        <button class="btn-edit" style="padding:8px 14px;border:none;border-radius:6px;font-weight:600;cursor:pointer;background:#60a5fa;color:#fff;">Edit Book</button>
-        <button class="btn-remove" style="padding:8px 14px;border:none;border-radius:6px;font-weight:600;cursor:pointer;background:#ef4444;color:#fff;">Remove Book</button>
+      <div class="quantity" style="background:#fef3c7;padding:6px 12px;border-radius:6px;font-size:0.9rem;font-weight:500;color:#92400e;">
+        Qty: ${book.quantity ?? 'N/A'}
       </div>
     </div>
-  `;
+
+    <!-- DESCRIPTION -->
+    <p class="description" style="margin:15px 0;font-size:0.95rem;color:#444;line-height:1.5;">
+      ${book.book_description || 'No description available.'}
+    </p>
+
+    <!-- BUTTONS -->
+    <div class="modal-buttons" style="display:flex;gap:10px;margin-top:10px;">
+      <button class="btn-edit" style="padding:8px 14px;border:none;border-radius:6px;font-weight:600;cursor:pointer;background:#60a5fa;color:#fff;">Edit Book</button>
+      <button class="btn-unavailable" style="padding:8px 14px;border:none;border-radius:6px;font-weight:600;cursor:pointer;background:#ef4444;color:#fff;">Set Unavailable</button>
+    </div>
+  </div>
+`;
 
   // Edit button logic
-  modalBody.querySelector('.btn-edit').addEventListener('click', () => {
-    window.location.href = `edit_book.html?book_id=${encodeURIComponent(book.book_id)}`;
-  });
+    modalBody.querySelector('.btn-edit').addEventListener('click', () => {
+      if (book.quantity && book.fine_value) {
+        window.location.href = `edit_book.html?book_id=${encodeURIComponent(book.book_id)}&quantity=${encodeURIComponent(book.quantity)}&fine_value=${encodeURIComponent(book.fine_value)}`;
+      } else {
+        alert('Missing quantity or fine value for this book.');
+      }
+    });
 
-  // Remove button logic
-  modalBody.querySelector('.btn-remove').addEventListener('click', () => {
-  if (confirm('Are you sure you want to remove this book?')) {
+// Update modal logic for unavailable button
+modalBody.querySelector('.btn-unavailable').addEventListener('click', () => {
+  if (confirm('Are you sure you want to set this book as unavailable?')) {
     fetch('http://localhost/WebDev_Repository/utils/set_book_unavailable.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -239,14 +352,15 @@ function showAdminBookModal(book, imgSrc) {
     })
     .then(res => res.json())
     .then(res => {
-    if (res.success) {
+      if (res.success) {
         alert('Book set to unavailable!');
         modal.style.display = "none";
-        // Do NOT update booksData or re-render the grid
-    } else {
+        // Re-render books with unavailable status
+        renderBooks(booksData, 'unavailable');
+      } else {
         alert('Failed to update book: ' + (res.message || 'Unknown error.'));
-    }
-})
+      }
+    })
     .catch(() => {
       alert('Failed to update book: Network error.');
     });
@@ -266,17 +380,19 @@ window.addEventListener('DOMContentLoaded', () => {
   };
 });
 
-// Update renderBooks to open modal on click
-function renderBooks(books) {
+// Update renderBooks to handle both available and unavailable books
+function renderBooks(books, filterStatus = 'available') {
   const container = document.querySelector('.book-grid');
   container.innerHTML = '';
-  // Only show available books
-  const availableBooks = books.filter(book => book.book_status === 'available');
-  if (availableBooks.length === 0) {
-    container.innerHTML = '<p>No books found.</p>';
+  
+  // Filter books based on the status
+  const filteredBooks = books.filter(book => book.book_status === filterStatus);
+  if (filteredBooks.length === 0) {
+    container.innerHTML = `<p>No ${filterStatus} books found.</p>`;
     return;
   }
-  availableBooks.forEach(book => {
+
+  filteredBooks.forEach(book => {
     const card = document.createElement('div');
     card.className = 'book-card';
     const imgSrc = book.book_image && book.book_image !== "" 
@@ -299,70 +415,51 @@ function renderBooks(books) {
 
 <script>
 window.addEventListener('DOMContentLoaded', () => {
-
-  // Fetch books once and store them
   fetch('http://localhost/WebDev_Repository/utils/fetch.php')
     .then(response => response.json())
     .then(data => {
       booksData = Array.isArray(data) ? data : [];
-      renderBooks(booksData);
+      renderBooks(booksData); // Default to available books
     })
     .catch(error => {
       console.error('Error loading books:', error);
       document.querySelector('.book-grid').innerHTML = '<p>Error loading books.</p>';
     });
 
-  // Render books to the grid
-function renderBooks(books) {
-  const container = document.querySelector('.book-grid');
-  container.innerHTML = '';
-  if (books.length === 0) {
-    container.innerHTML = '<p>No books found.</p>';
+
+// Search functionality
+const searchInput = document.querySelector('.search-input');
+function handleSearch() {
+  const query = searchInput.value.trim().toLowerCase();
+  const filterStatus = document.querySelector('input[name="status-filter"]:checked').value;
+
+  if (!query) {
+    renderBooks(booksData, filterStatus);
     return;
   }
-  books.forEach(book => {
-    const card = document.createElement('div');
-    card.className = 'book-card';
-    const imgSrc = book.book_image && book.book_image !== "" 
-      ? book.book_image 
-      : 'http://localhost/WebDev_Repository/assets/img_bg/book_details.png';
-    card.innerHTML = `
-      <div class="book-cover">
-        <img src="${imgSrc}" alt="Cover of ${book.book_name}" />
-      </div>
-      <div class="book-title">${book.book_name}</div>
-      <div class="book-author">${book.book_author}</div>
-    `;
-    // Open modal on click
-    card.addEventListener('click', () => showAdminBookModal(book, imgSrc));
-    container.appendChild(card);
-  });
-}
 
-  // Search functionality
-  const searchInput = document.querySelector('.search-input');
-  const searchButton = document.querySelector('.search-button');
-
-  function handleSearch() {
-    const query = searchInput.value.trim().toLowerCase();
-    if (!query) {
-      renderBooks(booksData);
-      return;
-    }
-    const filtered = booksData.filter(book => {
-      return (
+  const filtered = booksData.filter(book => {
+    return (
+      (book.book_status === filterStatus) &&
+      (
         (book.book_name && book.book_name.toLowerCase().includes(query)) ||
         (book.book_author && book.book_author.toLowerCase().includes(query)) ||
         (book.book_category && book.book_category.toLowerCase().includes(query))
-      );
-    });
-    renderBooks(filtered);
-  }
-
-  searchButton.addEventListener('click', handleSearch);
-  searchInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') handleSearch();
+      )
+    );
   });
+  renderBooks(filtered, filterStatus);
+}
+
+// Real-time search habang nagta-type
+searchInput.addEventListener('input', handleSearch);
+
+// Filter books by status when radio buttons change
+document.querySelectorAll('input[name="status-filter"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    handleSearch(); // Para updated agad kahit may filter
+  });
+});
 });
 </script>
       </div>

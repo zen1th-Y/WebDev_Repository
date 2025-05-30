@@ -79,19 +79,17 @@
     <div class="form-box login">
         <h1 style="text-align:center; margin-top: 60px;">Enter PIN</h1>
         <p style="text-align:center;">Enter your 4-digit PIN to continue</p>
-            <div class="pin-input-container" style="display: flex; justify-content: center; gap: 15px; margin-top: 40px;">
-                <input type="password" maxlength="1" class="pin-input" inputmode="numeric" pattern="\d*" autocomplete="off" />
-                <input type="password" maxlength="1" class="pin-input" inputmode="numeric" pattern="\d*" autocomplete="off" />
-                <input type="password" maxlength="1" class="pin-input" inputmode="numeric" pattern="\d*" autocomplete="off" />
-                <input type="password" maxlength="1" class="pin-input" inputmode="numeric" pattern="\d*" autocomplete="off" />
-            </div>
+        <div class="pin-input-container" style="display: flex; justify-content: center; gap: 15px; margin-top: 40px;">
+            <input type="password" maxlength="1" class="pin-input" inputmode="numeric" pattern="\d*" autocomplete="off" />
+            <input type="password" maxlength="1" class="pin-input" inputmode="numeric" pattern="\d*" autocomplete="off" />
+            <input type="password" maxlength="1" class="pin-input" inputmode="numeric" pattern="\d*" autocomplete="off" />
+            <input type="password" maxlength="1" class="pin-input" inputmode="numeric" pattern="\d*" autocomplete="off" />
+        </div>
         <div style="text-align: center; margin-top: 30px;">
             <button id="submit-pin" style="padding: 10px 30px; background-color: #0d7912; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">Submit</button>
         </div>
     </div>
 </div>
-
-<a class="admin-text" href="http://localhost/WebDev_Repository/pages/sign_up.html">User</a>
 
 <script>
     const inputs = document.querySelectorAll('.pin-input');
@@ -113,8 +111,14 @@
     document.getElementById('submit-pin').addEventListener('click', () => {
         const pin = Array.from(inputs).map(i => i.value).join('');
         if (pin.length === 4) {
-            if (pin === "2580") {
-                window.location.href = "http://localhost/WebDev_Repository/pages/admin/home.html";
+            if (pin === "1234") {
+                localStorage.setItem('currentRole', 'admin');
+                localStorage.setItem('activeLinkText', 'Dashboard');
+                window.location.href = "http://localhost/WebDev_Repository/pages/admin/admin_dashboard.html";
+            } else if (pin === "5678") {
+                localStorage.setItem('currentRole', 'librarian');
+                localStorage.setItem('activeLinkText', 'Requests');
+                window.location.href = "http://localhost/WebDev_Repository/pages/admin/request2.html";
             } else {
                 alert("Incorrect PIN. Try again.");
                 inputs.forEach(input => input.value = "");
@@ -125,7 +129,6 @@
         }
     });
 
-    // Auto-focus on first input when page loads
     window.addEventListener('DOMContentLoaded', () => {
         inputs[0].focus();
     });

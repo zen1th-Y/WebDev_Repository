@@ -5,12 +5,14 @@
       overflow-y: auto;
     }
 
+
     .dashboard-box {
       background-color: #ffffff;
       border-radius: 12px;
       padding: 30px;
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-      margin-left: 240px;
+      margin-left: 40px;
+      width: 1060px;
     }
 
     .dashboard-box h1 {

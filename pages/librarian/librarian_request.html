@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard - Admin</title>
+  <title>Requests - Librarian</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="http://localhost/WebDev_Repository/styles/admin_css/librarian_navbar.css" />
  
@@ -13,7 +13,7 @@
       margin: 0;
       font-family: 'Poppins', sans-serif;
       background-color: #f0f2f5;
-      overflow: hidden; 
+      overflow: auto; 
     }
 
 body {
@@ -23,6 +23,7 @@ body {
   background: linear-gradient(to bottom, #334155, #0f172a);
   color: #000000;
   font-family: 'Poppins', sans-serif;
+  overflow-y: auto; 
 }
 
 .logo-container {
@@ -81,28 +82,33 @@ body {
 .main-content {
   flex: 1;
   overflow-y: hidden;
-    padding-top: 1rem;
-    padding-right: 2rem;
-    padding-bottom: 2rem;
-    padding-left: 2rem;
+  padding-top: 1rem;
+  padding-right: 2rem;
+  padding-bottom: 2rem;
+  padding-left: 2rem;
   margin-left: 15rem;
   height: 100vh;
   display: flex;
+  overflow-x: hidden;
+  margin-bottom: 30px;
 }
     
 .content-box {
 
      margin-top: 10px;
      margin-right: 30px;
-     margin-bottom: 30px;
+     margin-bottom: 80px;
      margin-left: 26px;
       padding: 30px;
+      
       font-family: Arial, sans-serif;
       background-color: #f5f5f5;
-      min-height: 100vh;
+      min-height: calc(100vh - 40px);
       border-radius: 10px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       width: 93%;
+      height: fit-content;
+
 }
     table {
       width: 1000px;
@@ -162,20 +168,20 @@ body {
       </div>
 
       <nav class="nav-menu">
-        <a href="#" class="nav-link active">
-          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/askb.png" alt="Dashboard Icon" class="icon">
+        <a href="http://localhost/WebDev_Repository/pages/librarian/librarian_request.html" class="nav-link active">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/askb.png" alt="Requests Icon" class="icon">
           Requests
         </a>
-        <a href="#" class="nav-link">
-          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/timerbook.png" alt="Dashboard Icon" class="icon">
+        <a href="http://localhost/WebDev_Repository/pages/librarian/librarian_non-returned.html" class="nav-link">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/timerbook.png" alt="Non-Returned Icon" class="icon">
           Non-Returned
         </a>
-        <a href="http://localhost/WebDev_Repository/pages/admin/admin_book2.html" class="nav-link">
-          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/checkbook.png" alt="Dashboard Icon" class="icon">
+        <a href="http://localhost/WebDev_Repository/pages/librarian/librarian_issued_books.html" class="nav-link">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/checkbook.png" alt="Issued Books Icon" class="icon">
           Issued Books
         </a>
         <a href="#" class="nav-link logout">
-          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/outv.png" alt="Dashboard Icon" class="icon">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/outv.png" alt="Logout Icon" class="icon">
           Logout
         </a>
       </nav>

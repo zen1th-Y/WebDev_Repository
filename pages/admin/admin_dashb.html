@@ -179,15 +179,15 @@
           Dashboard
         </a>
         <a href="#" class="nav-link">
-          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/addgrey.png" alt="Dashboard Icon" class="icon">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/addgrey.png" alt="Create Icon" class="icon">
           Create
         </a>
         <a href="http://localhost/WebDev_Repository/pages/admin/admin_book2.html" class="nav-link">
-          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/bookpen.png" alt="Dashboard Icon" class="icon">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/bookpen.png" alt="Books Icon" class="icon">
           Books
         </a>
         <a href="#" class="nav-link logout">
-          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/outv.png" alt="Dashboard Icon" class="icon">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/outv.png" alt="Logout Icon" class="icon">
           Logout
         </a>
       </nav>
@@ -344,7 +344,7 @@ function checkPin(container, inputs, correctPin) {
   const enteredPin = Array.from(inputs).map(input => input.value).join('');
   if (enteredPin.length === 4) {
     if (enteredPin === correctPin) {
-      window.location.href = 'http://localhost/WebDev_Repository/pages/admin/librarian_request.html';
+      window.location.href = 'http://localhost/WebDev_Repository/pages/librarian/librarian_request.html';
     } else {
       roleText.textContent = 'Invalid PIN';
       roleText.style.display = '';

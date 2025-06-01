@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manage Students - Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="http://localhost/WebDev_Repository/styles/admin_css/admin_navbar.css" />
+  <style>
+    html, body {
+    height: auto; /* allow content height to grow */
+    overflow-x: hidden; /* optional */
+    background: linear-gradient(to bottom, #334155, #0f172a);
+
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: block; /* remove flex */
+    }
+  
+    .main-content {
+    margin-left: 290px;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    
+    }
+
+    button.suspend-btn {
+      padding: 6px 12px;
+      background-color: #f36466;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button.suspend-btn:hover {
+      background-color: #e24048;
+    }
+
+    .main-content {
+      margin-left: 293px;
+      height: 100vh;
+      overflow-y: auto; 
+      padding: 10px;
+      box-sizing: border-box;
+      
+    }
+.content-box {
+      margin-top: 20px;
+      padding: 30px;
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      min-height: calc(100vh - 40px);
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      width: 93%;
+      height: fit-content;
+
+}
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2px;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+      vertical-align: top;
+    }
+    th {
+      font-size: 14px;
+      background-color: #e1e8eb;
+    }
+    td {
+      background-color: #ffffff;
+      font-size: 14px;
+    }
+    button {
+      padding: 6px 12px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1e7e34;
+    }
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.header-row h2 {
+  margin: 0;
+}
+
+.search-radio-container input[type="text"] {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 350px;
+  
+}
+
+
+th:nth-child(1) { width: 60px; }      /* ID */
+th:nth-child(2) { width: 220px; }     /* Student Name */
+th:nth-child(3) { width: 220px; }     /* Email */
+th:nth-child(4) { width: 130px; }     /* Phone Number */
+th:nth-child(5) { width: 90px; }     /* Course */
+th:nth-child(6) { width: 90px; }     /* Year&Section */
+th:nth-child(7) { width: 90px; }  
+
+.search-radio-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2px;
+  padding: 10px;
+}
+
+.left-title {
+  flex: 1;
+}
+
+.center-controls {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+
+  .radio-inputs {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px; /* Adjust spacing between radio buttons */
+    border-radius: 0.5rem;
+    background-color: #c1d8e6;
+    box-sizing: border-box;
+    box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
+    padding: 0.25rem;
+    width: auto; /* Adjust width to fit content */
+    font-size: 14px;
+  }
+
+  .radio-inputs .radio {
+    flex: 1;
+    text-align: center;
+  }
+
+  .radio-inputs .radio input {
+    display: none;
+  }
+
+  .radio-inputs .radio .name {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    border: none;
+    padding: .5rem 1rem; /* Adjust padding for better alignment */
+    color: #555;
+    transition: all .15s ease-in-out;
+  }
+
+  .radio-inputs .radio input:checked + .name {
+    background-color: #f4f4f4;
+    font-weight: 600;
+  }
+  </style>
+</head>
+<body>
+
+<aside class="sidebar">
+    <div>
+      <div class="logo-container">
+        <img src="http://localhost/WebDev_Repository/assets/img_icon/granby_logo.png" alt="Logo" class="logo-img">
+        <h3 class="logo-title">GCST Library</h3>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="http://localhost/WebDev_Repository/pages/admin/admin_dashb.html" class="nav-link active">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/dashbc.png" alt="Dashboard Icon" class="icon">
+          Dashboard
+        </a>
+        <a href="http://localhost/WebDev_Repository/pages/admin/admin_create.html" class="nav-link">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/addgrey.png" alt="Dashboard Icon" class="icon">
+          Create
+        </a>
+        <a href="http://localhost/WebDev_Repository/pages/admin/admin_books.html" class="nav-link">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/bookpen.png" alt="Dashboard Icon" class="icon">
+          Books
+        </a>
+        <a href="http://localhost/WebDev_Repository/pages/user/user_home.html" class="nav-link logout">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/outv.png" alt="Dashboard Icon" class="icon">
+          Logout
+        </a>
+      </nav>
+    </div>
+
+    <div class="role-switch-container">
+      <h2 class="role-label">Role:</h2>
+      <label class="switch-label" id="switchLabel">
+        <input type="checkbox" id="roleSwitch" class="hidden" />
+        <span class="switch-bg"></span>
+        <span id="sliderIcon" class="slider-icon">😻</span>
+        <span id="roleText" class="role-text">Admin</span>
+
+        <div class="pin-container hidden left" id="pinContainerLeft">
+          <input type="password" maxlength="1" class="pin-input" />
+          <input type="password" maxlength="1" class="pin-input" />
+          <input type="password" maxlength="1" class="pin-input" />
+          <input type="password" maxlength="1" class="pin-input" />
+        </div>
+      </label>
+    </div>
+  </aside>
+
+<div class="main-content">
+  <div class="content-box">
+<div class="search-radio-container">
+  <div class="left-title">
+    <h2>Manage Students</h2>
+  </div>
+
+  <div class="center-controls">
+    <input type="text" id="studentSearch" placeholder="Search students..." />
+    <div class="radio-inputs">
+      <label class="radio">
+        <input type="radio" name="status-filter" value="active" checked>
+        <span class="name">Active</span>
+      </label>
+      <label class="radio">
+        <input type="radio" name="status-filter" value="suspended">
+        <span class="name">Suspended</span>
+      </label>
+    </div>
+  </div>
+</div>
+
+
+
+    <!-- Datalist -->
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Student Name</th>
+          <th>Email</th>
+          <th>Phone Number</th>
+          <th>Course</th>
+          <th>Year&Section</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Populated via JS -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('http://localhost/WebDev_Repository/utils/get_active_users.php')
+        .then(response => response.json())
+        .then(users => {
+            const tbody = document.querySelector('tbody');
+            tbody.innerHTML = '';
+            users.forEach(user => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${user.student_id}</td>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.contact_number || ''}</td>
+                    <td>${user.course || ''}</td>
+                    <td>${user.year_section || ''}</td>
+                    <td><!-- Action buttons here if needed --></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let allUsers = [];
+    let currentFilter = 'active';
+
+    // Fetch users based on filter
+    function fetchUsers(filter) {
+        const url = filter === 'active' 
+            ? 'http://localhost/WebDev_Repository/utils/get_active_users.php' 
+            : 'http://localhost/WebDev_Repository/utils/get_suspended_users.php';
+
+        fetch(url)
+            .then(response => response.json())
+            .then(users => {
+                allUsers = users;
+                renderTable(users, filter);
+            });
+    }
+
+    // Render table rows
+    function renderTable(users, filter) {
+        const tbody = document.querySelector('tbody');
+        tbody.innerHTML = '';
+        users.forEach(user => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${user.student_id}</td>
+                <td>${user.name}</td>
+                <td>${user.email}</td>
+                <td>${user.contact_number || ''}</td>
+                <td>${user.course || ''}</td>
+                <td>${user.year_section || ''}</td>
+                <td>
+                    <button class="${filter === 'active' ? 'suspend-btn' : 'activate-btn'}" data-id="${user.student_id}">
+                        ${filter === 'active' ? 'Suspend' : 'Activate'}
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        // Add event listeners for action buttons
+        document.querySelectorAll(`.${filter === 'active' ? 'suspend-btn' : 'activate-btn'}`).forEach(btn => {
+            btn.addEventListener('click', function() {
+                const studentId = this.getAttribute('data-id');
+                const confirmMessage = filter === 'active' 
+                    ? 'Are you sure you want to suspend this account?' 
+                    : 'Are you sure you want to activate this account?';
+
+                if (confirm(confirmMessage)) {
+                    const url = filter === 'active' 
+                        ? 'http://localhost/WebDev_Repository/utils/suspend_user.php' 
+                        : 'http://localhost/WebDev_Repository/utils/activate_user.php';
+
+                    fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: 'student_id=' + encodeURIComponent(studentId)
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            // Update table data
+                            allUsers = allUsers.filter(u => u.student_id !== studentId);
+                            renderTable(allUsers, filter);
+                        } else {
+                            alert(`Failed to ${filter === 'active' ? 'suspend' : 'activate'} user.`);
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    // Search functionality
+    document.getElementById('studentSearch').addEventListener('input', function() {
+        const search = this.value.toLowerCase();
+        const filtered = allUsers.filter(user =>
+            (user.student_id && user.student_id.toLowerCase().includes(search)) ||
+            (user.name && user.name.toLowerCase().includes(search)) ||
+            (user.email && user.email.toLowerCase().includes(search)) ||
+            (user.contact_number && user.contact_number.toLowerCase().includes(search)) ||
+            (user.course && user.course.toLowerCase().includes(search)) ||
+            (user.year_section && user.year_section.toLowerCase().includes(search))
+        );
+        renderTable(filtered, currentFilter);
+    });
+
+    // Handle radio button change
+    document.querySelectorAll('input[name="status-filter"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            currentFilter = this.value;
+            fetchUsers(currentFilter);
+        });
+    });
+
+    // Initial fetch for active users
+    fetchUsers(currentFilter);
+});
+</script>
+
+<script>
+  // This script handles the PIN input for the librarian role switch
+document.addEventListener('DOMContentLoaded', () => {
+  const pinContainerLeft = document.getElementById('pinContainerLeft');
+  const pinInputsLeft = pinContainerLeft.querySelectorAll('.pin-input');
+  const roleText = document.getElementById('roleText');
+
+function checkPin(container, inputs, correctPin) {
+  const enteredPin = Array.from(inputs).map(input => input.value).join('');
+  if (enteredPin.length === 4) {
+    if (enteredPin === correctPin) {
+      window.location.href = 'http://localhost/WebDev_Repository/pages/librarian/librarian_request.html';
+    } else {
+      roleText.textContent = 'Invalid PIN';
+      roleText.style.display = '';
+      roleText.classList.add('error');
+
+      // After 3 seconds, reset text to "Librarian"
+      setTimeout(() => {
+        roleText.textContent = 'Librarian';
+        roleText.classList.remove('error');
+      }, 1500);
+    }
+
+    inputs.forEach(input => input.value = '');
+    container.classList.add('hidden');
+  }
+}
+
+  pinInputsLeft.forEach((input, index) => {
+    input.addEventListener('input', () => {
+      input.value = input.value.replace(/\D/, '');
+      if (input.value.length === 1 && index < pinInputsLeft.length - 1) {
+        pinInputsLeft[index + 1].focus();
+      }
+      checkPin(pinContainerLeft, pinInputsLeft, '1111'); // Correct PIN for librarian
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && input.value === '' && index > 0) {
+        pinInputsLeft[index - 1].focus();
+      }
+    });
+  });
+
+document.getElementById('switchLabel').addEventListener('click', (e) => {
+  e.preventDefault();
+  if (!pinContainerLeft.classList.contains('hidden')) {
+    pinContainerLeft.classList.add('hidden');
+    roleText.style.display = '';
+    roleText.textContent = 'Librarian';
+    roleText.classList.remove('error');
+  } else {
+    pinContainerLeft.classList.remove('hidden');
+    pinInputsLeft[0].focus();
+    roleText.style.display = 'none';
+  }
+});
+});
+</script>
+
+</body>
+</html>

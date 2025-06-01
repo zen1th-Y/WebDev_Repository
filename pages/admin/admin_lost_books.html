@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lost Books - Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="http://localhost/WebDev_Repository/styles/admin_css/admin_navbar.css" />
+  <style>
+    html, body {
+    height: auto; /* allow content height to grow */
+    overflow-x: hidden; /* optional */
+    background: linear-gradient(to bottom, #334155, #0f172a);
+
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: block; /* remove flex */
+    }
+  
+    .main-content {
+    margin-left: 290px;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    height: 100vh; /* full height of the viewport */
+    }
+
+    button.suspend-btn {
+      padding: 6px 12px;
+      background-color: #f36466;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button.suspend-btn:hover {
+      background-color: #e24048;
+    }
+
+    .content-box {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      width: 1120px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td ,tr{
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+      vertical-align: top;
+      
+    }
+    th {
+      font-size: 12px;
+      background-color: #e1e8eb;
+      width: 59px;
+
+    }
+    button {
+      padding: 6px 12px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1e7e34;
+    }
+
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .header-row h2 {
+      margin: 0;
+    }
+
+    .header-row input[type="text"] {
+      padding: 8px 12px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      width: 450px;
+      margin-left: 20px;
+    }
+
+    .mark-paid-btn {
+      padding: 6px 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .mark-paid-btn:hover {
+      background-color: #0056b3;
+    }
+
+    th:nth-child(1) { width: 100px; }      
+    th:nth-child(2) { width: 70px; }     
+    th:nth-child(3) { width: 120px; }     
+    th:nth-child(7) { width: 90px; }  
+
+  </style>
+</head>
+<body>
+
+<aside class="sidebar">
+    <div>
+      <div class="logo-container">
+        <img src="http://localhost/WebDev_Repository/assets/img_icon/granby_logo.png" alt="Logo" class="logo-img">
+        <h3 class="logo-title">GCST Library</h3>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="http://localhost/WebDev_Repository/pages/admin/admin_dashb.html" class="nav-link active">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/dashbc.png" alt="Dashboard Icon" class="icon">
+          Dashboard
+        </a>
+        <a href="http://localhost/WebDev_Repository/pages/admin/admin_create.html" class="nav-link">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/addgrey.png" alt="Dashboard Icon" class="icon">
+          Create
+        </a>
+        <a href="http://localhost/WebDev_Repository/pages/admin/admin_books.html" class="nav-link">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/bookpen.png" alt="Dashboard Icon" class="icon">
+          Books
+        </a>
+        <a href="http://localhost/WebDev_Repository/pages/user/user_home.html" class="nav-link logout">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/outv.png" alt="Dashboard Icon" class="icon">
+          Logout
+        </a>
+      </nav>
+    </div>
+
+    <div class="role-switch-container">
+      <h2 class="role-label">Role:</h2>
+      <label class="switch-label" id="switchLabel">
+        <input type="checkbox" id="roleSwitch" class="hidden" />
+        <span class="switch-bg"></span>
+        <span id="sliderIcon" class="slider-icon">😻</span>
+        <span id="roleText" class="role-text">Admin</span>
+
+        <div class="pin-container hidden left" id="pinContainerLeft">
+          <input type="password" maxlength="1" class="pin-input" />
+          <input type="password" maxlength="1" class="pin-input" />
+          <input type="password" maxlength="1" class="pin-input" />
+          <input type="password" maxlength="1" class="pin-input" />
+        </div>
+      </label>
+    </div>
+  </aside>
+
+<div class="main-content">
+    <div class="content-box">
+        <div class="header-row">
+            <h2>Lost Books</h2>
+            <input type="text" id="studentSearch" placeholder="Search students..."/>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Book Name</th>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Email</th>
+                    
+                    <th>Total Price of Fine</th>
+                    <th>Fine Status</th>
+                </tr>
+            </thead>
+            <tbody id="studentTableBody">
+                <!-- Data will be loaded here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+</body>
+</html>

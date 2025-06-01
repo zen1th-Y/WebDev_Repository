@@ -162,6 +162,16 @@
       background-color: #e1e8eb;
       color: #040505;
     }
+    .icon img {
+  width: 30px;
+  height: 30px;
+}
+button img {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  margin-right: 6px;
+}
   </style>
 
 <body>
@@ -174,20 +184,20 @@
       </div>
 
       <nav class="nav-menu">
-        <a href="#" class="nav-link active">
+        <a href="http://localhost/WebDev_Repository/pages/admin/admin_dashb.html" class="nav-link active">
           <img src="http://localhost/WebDev_Repository/assets/sidebar_img/dashbc.png" alt="Dashboard Icon" class="icon">
           Dashboard
         </a>
-        <a href="#" class="nav-link">
-          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/addgrey.png" alt="Create Icon" class="icon">
+        <a href="http://localhost/WebDev_Repository/pages/admin/admin_create.html" class="nav-link">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/addgrey.png" alt="Dashboard Icon" class="icon">
           Create
         </a>
-        <a href="http://localhost/WebDev_Repository/pages/admin/admin_book2.html" class="nav-link">
-          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/bookpen.png" alt="Books Icon" class="icon">
+        <a href="http://localhost/WebDev_Repository/pages/admin/admin_books.html" class="nav-link">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/bookpen.png" alt="Dashboard Icon" class="icon">
           Books
         </a>
-        <a href="#" class="nav-link logout">
-          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/outv.png" alt="Logout Icon" class="icon">
+        <a href="http://localhost/WebDev_Repository/pages/user/user_home.html" class="nav-link logout">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/outv.png" alt="Dashboard Icon" class="icon">
           Logout
         </a>
       </nav>
@@ -211,6 +221,7 @@
     </div>
   </aside>
 
+
   <div class="main-content">
     <div class="dashboard-box">
       <h1>Dashboard Overview</h1>
@@ -218,7 +229,7 @@
 <div class="cards">
 <div class="card blue">
   <div class="card-content">
-    <div class="icon">📚</div>
+    <div class="icon"><img src="http://localhost/WebDev_Repository/assets/adb_icon/category.png" alt="Members" /></div>
     <div class="text"><h2>Available Books</h2></div>
   </div>
   <p id="totalBooks">0</p>
@@ -226,7 +237,7 @@
 
   <div class="card orange">
     <div class="card-content">
-      <div class="icon">📂</div>
+      <div class="icon"><img src="http://localhost/WebDev_Repository/assets/adb_icon/all.png" alt="Members" /></div>
       <div class="text"><h2>Categories</h2></div>
     </div>
     <p id="totalCategories">0</p>
@@ -234,7 +245,7 @@
 
   <div class="card green">
     <div class="card-content">
-      <div class="icon">👥</div>
+      <div class="icon"><img src="http://localhost/WebDev_Repository/assets/adb_icon/stud.png" alt="Members" /></div>
       <div class="text"><h2>Members</h2></div>
     </div>
     <p id="totalMembers">0</p>
@@ -242,7 +253,7 @@
 
   <div class="card red">
     <div class="card-content">
-      <div class="icon">🔒</div>
+      <div class="icon"><img src="http://localhost/WebDev_Repository/assets/adb_icon/suspend.png" alt="Members" /></div>
       <div class="text"><h2>Suspended Accounts</h2></div>
     </div>
     <p id="totalSuspended">0</p>
@@ -250,7 +261,7 @@
 
 <div class="card cyan">
   <div class="card-content">
-    <div class="icon">📥</div>
+    <div class="icon"><img src="http://localhost/WebDev_Repository/assets/adb_icon/pending.png" alt="Members" /></div>
     <div class="text"><h2>Pending Requests</h2></div>
   </div>
   <p id="pendingRequests">0</p>
@@ -258,7 +269,7 @@
 
   <div class="card yellow">
     <div class="card-content">
-      <div class="icon">🎯</div>
+      <div class="icon"><img src="http://localhost/WebDev_Repository/assets/adb_icon/overd.png" alt="Members" /></div>
       <div class="text"><h2>Overdue book</h2></div>
     </div>
     <p id="totalOverdueBooks">0</p>
@@ -266,7 +277,7 @@
 
   <div class="card purple">
     <div class="card-content">
-      <div class="icon">🛠️</div>
+      <div class="icon"><img src="http://localhost/WebDev_Repository/assets/adb_icon/dead.png" alt="Members" /></div>
       <div class="text"><h2>Unavailable Books</h2></div>
     </div>
     <p id="totalUnavailableBooks">0</p>
@@ -274,7 +285,7 @@
 
   <div class="card pink">
     <div class="card-content">
-      <div class="icon">⌛</div>
+      <div class="icon"><img src="http://localhost/WebDev_Repository/assets/adb_icon/nonre.png" alt="Members" /></div>
       <div class="text"><h2>Non-return Books</h2></div>
     </div>
     <p id="totalNonReturnedBooks">0</p>
@@ -282,7 +293,7 @@
 
   <div class="card lime">
     <div class="card-content">
-      <div class="icon">🥰</div>
+      <div class="icon"><img src="http://localhost/WebDev_Repository/assets/adb_icon/donepng.png" alt="Members" /></div>
       <div class="text"><h2>Issued Books</h2></div>
     </div>
     <p id="totalIssuedBooks">0</p>
@@ -292,17 +303,18 @@
 
       <div class="quick-actions">
         <h3>More Actions:</h3>
-          <a href="http://localhost/WebDev_Repository/pages/admin/add_category.html" class="add" style="display: inline-block; padding: 6px 6px; background-color: #ffffff; color: white; border-radius: 4px; text-decoration: none; font-family: sans-serif;">
-            <button class="add">📝 Manage Category</button>
+          <a href="http://localhost/WebDev_Repository/pages/admin/admin_category.html" class="add" style="display: inline-block; padding: 6px 6px; background-color: #ffffff; color: white; border-radius: 4px; text-decoration: none; font-family: sans-serif;">
+            <button class="add"><img src="http://localhost/WebDev_Repository/assets/adb_icon/mcateg.png" alt="Manage Account" /> Manage Categories</button>
           </a>  
-          <a href="http://localhost/WebDev_Repository/pages/admin/admin_manage_members.html" class="add" style="display: inline-block; padding: 6px 6px; background-color: #ffffff; color: white; border-radius: 4px; text-decoration: none; font-family: sans-serif;">
-        <button class="suspend">⛔ Suspend Account</button>
+          <a href="http://localhost/WebDev_Repository/pages/admin/admin_manage_students.html" class="add" style="display: inline-block; padding: 6px 6px; background-color: #ffffff; color: white; border-radius: 4px; text-decoration: none; font-family: sans-serif;">
+        <button class="suspend"><img src="http://localhost/WebDev_Repository/assets/adb_icon/pfp.png" alt="Manage Account" /> Manage Account</button>
         </a>
         <a href="http://localhost/WebDev_Repository/pages/admin/admin_activate_account.html" class="add" style="display: inline-block; padding: 6px 6px; background-color: #ffffff; color: white; border-radius: 4px; text-decoration: none; font-family: sans-serif;">
-        <button class="suspend">🔓 Activate Account</button>
+        <button class="suspend"><img src="http://localhost/WebDev_Repository/assets/adb_icon/key.png" alt="Manage Account" /> Librarian PIN</button>
+        
         </a>
-        <a href="#" class="add" style="display: inline-block; padding: 6px 6px; background-color: #ffffff; color: white; border-radius: 4px; text-decoration: none; font-family: sans-serif;">
-        <button class="suspend">🪄 Re-activate Books</button>
+        <a href="http://localhost/WebDev_Repository/pages/admin/admin_lost_books.html" class="add" style="display: inline-block; padding: 6px 6px; background-color: #ffffff; color: white; border-radius: 4px; text-decoration: none; font-family: sans-serif;">
+        <button class="suspend"><img src="http://localhost/WebDev_Repository/assets/adb_icon/finder.png" alt="Manage Account" /> Lost Books</button>
         </a>
       </div>
     </div>

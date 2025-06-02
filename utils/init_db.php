@@ -98,15 +98,6 @@ CREATE TABLE IF NOT EXISTS favorites (
     FOREIGN KEY (book_id) REFERENCES books(book_id)
 )");
 
-// Create messages table
-$conn->query("
-CREATE TABLE IF NOT EXISTS messages (
-    message_id INT AUTO_INCREMENT PRIMARY KEY,
-    student_id VARCHAR(50),
-    message_content TEXT,
-    message_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (student_id) REFERENCES users(student_id)
-)");
 
 // Create non_returned_books table
 $conn->query("
@@ -116,7 +107,9 @@ CREATE TABLE IF NOT EXISTS non_returned_books (
     student_id VARCHAR(50),
     date_student_received_book DATE,
     return_date DATE,
-    days_left INT,
+    borrow_duration_days INT, 
+    remaining_days_before_due INT, 
+    overdue_days INT,                     
     overdued_book BOOLEAN,
     FOREIGN KEY (book_id) REFERENCES books(book_id),
     FOREIGN KEY (student_id) REFERENCES users(student_id)
@@ -168,18 +161,19 @@ CREATE TABLE IF NOT EXISTS student_notification (
     FOREIGN KEY (book_id) REFERENCES books(book_id)
 )");
 
-/* $conn->query("
+$conn->query("
 CREATE TABLE IF NOT EXISTS lost_books (
     lost_id INT AUTO_INCREMENT PRIMARY KEY,
     book_id INT,
     student_id VARCHAR(50),
-    report_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fined_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fine_amount DECIMAL(10,2) DEFAULT 0.00,
+    days_overdue INT DEFAULT 0,
     status ENUM('pending fine', 'fined', 'paid') DEFAULT 'pending fine',
     paid_at TIMESTAMP NULL DEFAULT NULL,
     FOREIGN KEY (book_id) REFERENCES books(book_id),
     FOREIGN KEY (student_id) REFERENCES users(student_id)
-)"); */
+)");
 
 echo "Database and tables created successfully.";
 $conn->close();

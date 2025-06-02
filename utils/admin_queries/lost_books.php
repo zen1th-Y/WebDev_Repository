@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 // Output JSON headers
 header('Content-Type: application/json');
 
+
 // DB connection
 $host = 'localhost';
 $db = 'library_db';
@@ -17,7 +18,6 @@ if ($conn->connect_error) {
     echo json_encode(['error' => 'Database connection failed']);
     exit;
 }
-
 // Determine action
 $action = $_GET['action'] ?? 'list';
 

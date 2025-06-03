@@ -309,10 +309,6 @@ button img {
           <a href="http://localhost/WebDev_Repository/pages/admin/admin_manage_students.html" class="add" style="display: inline-block; padding: 6px 6px; background-color: #ffffff; color: white; border-radius: 4px; text-decoration: none; font-family: sans-serif;">
         <button class="suspend"><img src="http://localhost/WebDev_Repository/assets/adb_icon/pfp.png" alt="Manage Account" /> Manage Account</button>
         </a>
-        <a href="http://localhost/WebDev_Repository/pages/admin/admin_activate_account.html" class="add" style="display: inline-block; padding: 6px 6px; background-color: #ffffff; color: white; border-radius: 4px; text-decoration: none; font-family: sans-serif;">
-        <button class="suspend"><img src="http://localhost/WebDev_Repository/assets/adb_icon/key.png" alt="Manage Account" /> Librarian PIN</button>
-        
-        </a>
         <a href="http://localhost/WebDev_Repository/pages/admin/admin_lost_books.html" class="add" style="display: inline-block; padding: 6px 6px; background-color: #ffffff; color: white; border-radius: 4px; text-decoration: none; font-family: sans-serif;">
         <button class="suspend"><img src="http://localhost/WebDev_Repository/assets/adb_icon/finder.png" alt="Manage Account" /> Lost Books</button>
         </a>
@@ -341,6 +337,7 @@ fetch('/WebDev_Repository/utils/get_counts.php')
     document.getElementById('totalIssuedBooks').textContent = data.total_issued_books ?? 0;
     document.getElementById('totalSuspended').textContent = data.total_suspended ?? 0;
     document.getElementById('totalOverdueBooks').textContent = data.overdue_books ?? 0;
+    document.getElementById('totalUnavailableBooks').textContent = data.total_unavailable_books ?? 0;
   });
 </script>
 

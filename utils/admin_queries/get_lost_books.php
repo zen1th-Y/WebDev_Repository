@@ -11,6 +11,9 @@ if ($conn->connect_error) {
     exit;
 }
 
+// Get the status parameter from the request
+$status = isset($_GET['status']) ? $_GET['status'] : 'pending fine';
+
 // Step 1: Insert new overdue books into lost_books
 $insert_sql = "
     INSERT INTO lost_books (book_id, student_id, fine_amount, days_overdue, status)
@@ -27,7 +30,7 @@ $insert_sql = "
 ";
 $conn->query($insert_sql); 
 
-// Step 2: Select updated list from lost_books
+// Step 2: Select updated list from lost_books based on the status
 $sql = "
 SELECT 
     lb.book_id,
@@ -40,10 +43,14 @@ SELECT
 FROM lost_books lb
 JOIN users u ON lb.student_id = u.student_id
 JOIN books b ON lb.book_id = b.book_id
-ORDER BY lb.days_overdue DESC 
-
+WHERE lb.status = ?
+ORDER BY lb.days_overdue DESC
 ";
-$result = $conn->query($sql);
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $status);
+$stmt->execute();
+$result = $stmt->get_result();
 
 $data = [];
 while ($row = $result->fetch_assoc()) {

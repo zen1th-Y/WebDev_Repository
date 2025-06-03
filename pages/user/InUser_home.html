@@ -729,6 +729,9 @@ window.addEventListener('DOMContentLoaded', () => {
                 <h3>${book.book_name}</h3>
                 <div class="book-author"><strong>Author:</strong> ${book.book_author}</div>
                 <div class="category">${book.book_category || 'Unknown Category'}</div>
+                <div class="quantity" style="background: #e0e7ff; padding: 6px 12px; border-radius: 6px; font-size: 0.9rem; font-weight: 500; display: inline-block; margin-top: 5px;">
+                  <strong>Quantity:</strong> ${book.quantity || 'Unavailable'}
+                </div>
                 
                 <p class="description">${book.book_description || 'No description available.'}</p>
                 <div class="modal-buttons">
@@ -879,12 +882,25 @@ function renderCategories() {
 function renderBooks() {
   const container = document.querySelector('.books-grid');
   container.innerHTML = '';
-  let filtered = allBooks;
+  let filtered = allBooks.filter(book => book.book_status !== 'unavailable'); // Exclude unavailable books
+
+  // Filter by category if selected
   if (selectedCategory) {
-    filtered = allBooks.filter(book => book.book_category === selectedCategory);
+    filtered = filtered.filter(book => book.book_category === selectedCategory);
   }
+
+  // Filter by search term
+  if (searchTerm && searchTerm.length > 0) {
+    const term = searchTerm.toLowerCase();
+    filtered = filtered.filter(book =>
+      (book.book_name && book.book_name.toLowerCase().includes(term)) ||
+      (book.book_author && book.book_author.toLowerCase().includes(term)) ||
+      (book.book_category && book.book_category.toLowerCase().includes(term))
+    );
+  }
+
   if (filtered.length === 0) {
-    container.innerHTML = '<p>No books found for this category.</p>';
+    container.innerHTML = '<p>No books found.</p>';
     return;
   }
   filtered.forEach(book => {
@@ -914,6 +930,9 @@ function showBookModal(book, imgSrc) {
       <h3>${book.book_name}</h3>
       <div class="book-author"><strong>Author:</strong> ${book.book_author}</div>
       <div class="category">${book.book_category || 'Unknown Category'}</div>
+      <div class="quantity" style="background: #e0e7ff; padding: 6px 12px; border-radius: 6px; font-size: 0.9rem; font-weight: 500; display: inline-block; margin-top: 5px;">
+        <strong>Quantity:</strong> ${book.quantity || 'Unavailable'}
+      </div>
       <p class="description">${book.book_description || 'No description available.'}</p>
       <div class="modal-buttons">
         <button class="btn-favorite">Add to Favorite</button>
@@ -1054,7 +1073,7 @@ function updateBooksTitle() {
 function renderBooks() {
   const container = document.querySelector('.books-grid');
   container.innerHTML = '';
-  let filtered = allBooks;
+  let filtered = allBooks.filter(book => book.book_status !== 'unavailable'); // Exclude unavailable books
 
   // Filter by category if selected
   if (selectedCategory) {

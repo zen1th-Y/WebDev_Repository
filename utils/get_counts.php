@@ -9,7 +9,9 @@ if ($conn->connect_error) {
         'pending_requests' => 0,
         'total_non_returned_books' => 0,
         'total_issued_books' => 0,
-        'total_suspended' => 0
+        'total_suspended' => 0,
+        'total_unavailable_books' => 0
+
     ]);
     exit;
 }
@@ -23,6 +25,11 @@ $overdue_books_result = $conn->query($overdue_books_query);
 $overdue_books_row = $overdue_books_result->fetch_assoc();
 $overdue_books = (int)($overdue_books_row['overdue_books'] ?? 0);
 
+// Get unavailable books count
+$unavailable_books_query = "SELECT COUNT(*) as unavailable_books FROM books WHERE book_status = 'unavailable'";
+$unavailable_books_result = $conn->query($unavailable_books_query);
+$unavailable_books_row = $unavailable_books_result->fetch_assoc();
+$unavailable_books = (int)($unavailable_books_row['unavailable_books'] ?? 0);
 
 echo json_encode([
     'total_books' => (int)($row['total_books'] ?? 0),
@@ -32,7 +39,8 @@ echo json_encode([
     'total_non_returned_books' => (int)($row['total_non_returned_books'] ?? 0),
     'total_issued_books' => (int)($row['total_issued_books'] ?? 0),
     'total_suspended' => (int)($row['total_suspended'] ?? 0),
-    'overdue_books' => $overdue_books 
+    'overdue_books' => $overdue_books,
+    'total_unavailable_books' => $unavailable_books
 ]);
 $conn->close();
 ?>

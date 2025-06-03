@@ -317,12 +317,14 @@ p {
     <!-- Radio Toggle Group -->
     <div class="filter-controls">
       <div class="radio-toggle-group">
-        <input type="radio" id="pending" name="status" checked>
-        <label for="pending">Pending</label>
-        <input type="radio" id="fined" name="status">
-        <label for="fined">Fined</label>
-        <input type="radio" id="paid" name="status">
-        <label for="paid">Paid</label>
+<input type="radio" id="pending fine" name="status" checked>
+<label for="pending fine">Pending</label>
+
+<input type="radio" id="fined" name="status">
+<label for="fined">Fined</label>
+
+<input type="radio" id="paid" name="status">
+<label for="paid">Paid</label>
       </div>
     </div>
 
@@ -362,6 +364,7 @@ p {
       <button id="sendEmailBtn">Send to Email</button>
       <button id="printReceiptBtn">Print Receipt</button>
       <button id="markFinedBtn">Mark as Fined</button>
+      <button id="markPaidBtn">Mark as Paid</button> <!-- New button -->
     </div>
   </div>
 </div>
@@ -430,8 +433,8 @@ document.getElementById('switchLabel').addEventListener('click', (e) => {
 
 
 <script>
-function loadLostBooks() {
-  fetch("http://localhost/WebDev_Repository/utils/admin_queries/get_lost_books.php")
+function loadLostBooks(status = 'pending fine') {
+  fetch(`http://localhost/WebDev_Repository/utils/admin_queries/get_lost_books.php?status=${status}`)
     .then(res => res.json())
     .then(data => {
       const tbody = document.getElementById("studentTableBody");
@@ -485,10 +488,61 @@ document.getElementById("printReceiptBtn").addEventListener("click", () => {
 });
 
 document.getElementById("markFinedBtn").addEventListener("click", () => {
-  alert("Marked as fined");
-  document.getElementById("fineNoticeModal").classList.add("hidden");
+  const studentId = document.getElementById("modalStudentName").dataset.studentId;
+  const bookId = document.getElementById("modalBookTitle").dataset.bookId;
+
+  fetch("http://localhost/WebDev_Repository/utils/admin_queries/mark_as_fined.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ student_id: studentId, book_id: bookId })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        alert("Marked as fined successfully");
+        document.getElementById("fineNoticeModal").classList.add("hidden");
+        loadLostBooks(); // Reload table
+      } else {
+        alert("Failed to mark as fined");
+      }
+    })
+    .catch(err => {
+      console.error("Error:", err);
+      alert("An error occurred");
+    });
 });
 
+document.getElementById("markPaidBtn").addEventListener("click", () => {
+  const studentId = document.getElementById("modalStudentName").dataset.studentId;
+  const bookId = document.getElementById("modalBookTitle").dataset.bookId;
+
+  fetch("http://localhost/WebDev_Repository/utils/admin_queries/mark_as_paid.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ student_id: studentId, book_id: bookId })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        alert("Marked as paid successfully");
+        document.getElementById("fineNoticeModal").classList.add("hidden");
+        loadLostBooks(); // Reload table
+      } else {
+        alert("Failed to mark as paid");
+      }
+    })
+    .catch(err => {
+      console.error("Error:", err);
+      alert("An error occurred");
+    });
+});
+
+
+document.querySelectorAll(".radio-toggle-group input[type='radio']").forEach(radio => {
+  radio.addEventListener("change", () => {
+    loadLostBooks(radio.id); // Maglo-load ng data base sa `id` ng napiling radio button
+  });
+});
 
 function showFineNoticeModal(row) {
   // Reset modal content to avoid retaining old data
@@ -504,13 +558,17 @@ function showFineNoticeModal(row) {
   document.getElementById("modalTotalFine").textContent = (row.days_overdue * 20).toFixed(2);
   document.getElementById("modalFineValue").textContent = parseFloat(row.fine_amount).toFixed(2);
   document.getElementById("modalStudentName").textContent = row.student_name;
+  document.getElementById("modalStudentName").dataset.studentId = row.student_id;
+  document.getElementById("modalBookTitle").dataset.bookId = row.book_id;
 
   document.getElementById("fineNoticeModal").classList.remove("hidden");
 }
 
-
 // Load lost books on page load
-document.addEventListener("DOMContentLoaded", loadLostBooks);
+document.addEventListener("DOMContentLoaded", () => {
+  loadLostBooks(); // Load lost books initially
+  document.getElementById("pending fine").dispatchEvent(new Event("change")); // Trigger change event for pending fine
+});
 </script>
 
 

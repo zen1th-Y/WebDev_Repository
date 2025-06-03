@@ -135,12 +135,11 @@ CREATE TABLE IF NOT EXISTS count_items (
     total_categories INT DEFAULT 0,
     total_members INT DEFAULT 0,
     total_suspended INT DEFAULT 0,
-    total_messages INT DEFAULT 0,
     pending_requests INT DEFAULT 0,
     overdue_books INT DEFAULT 0,
-    total_reports INT DEFAULT 0,
     total_non_returned_books INT DEFAULT 0,
-    total_issued_books INT DEFAULT 0
+    total_issued_books INT DEFAULT 0,
+    total_unavailable_books INT DEFAULT 0
 )");
 
 $conn->query("

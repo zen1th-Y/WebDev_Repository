@@ -1,3 +1,4 @@
+
 <?php
 header('Content-Type: application/json');
 $data = json_decode(file_get_contents('php://input'), true);
@@ -51,11 +52,11 @@ switch (strtolower($unit)) {
     default:
         $return_date = date('Y-m-d', strtotime("+$duration days"));
 }
-$days_left = (strtotime($return_date) - strtotime($date_received)) / (60 * 60 * 24);
+$borrow_duration_days = (strtotime($return_date) - strtotime($date_received)) / (60 * 60 * 24);
 
 // 3. Insert into non_returned_books
-$stmt = $conn->prepare("INSERT INTO non_returned_books (book_id, student_id, date_student_received_book, return_date, days_left, overdued_book) VALUES (?, ?, ?, ?, ?, 0)");
-$stmt->bind_param("isssi", $book_id, $student_id, $date_received, $return_date, $days_left);
+$stmt = $conn->prepare("INSERT INTO non_returned_books (book_id, student_id, date_student_received_book, return_date, borrow_duration_days, overdued_book) VALUES (?, ?, ?, ?, ?, 0)");
+$stmt->bind_param("isssi", $book_id, $student_id, $date_received, $return_date, $borrow_duration_days);
 $success = $stmt->execute();
 
 if ($success) {
@@ -66,7 +67,7 @@ if ($success) {
     $notif->bind_param("si", $student_id, $book_id);
     $notif->execute();
 }
-
+$conn->query("UPDATE books SET quantity = quantity - 1 WHERE book_id = $book_id");
 // 4. Update request status to 'approved'
 $conn->query("UPDATE request SET status='approved' WHERE request_id=$request_id");
 

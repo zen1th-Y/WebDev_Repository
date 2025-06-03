@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Add Book - Admin</title>
-  <link rel="stylesheet" href="http://localhost/WebDev_Repository/styles/admin_sidebar.css" />
+  <title>Edit Book - Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="http://localhost/WebDev_Repository/styles/admin_css/admin_navbar.css" />
   <link rel="stylesheet" href="http://localhost/WebDev_Repository/styles/admin_create.css" />
 </head>
 <style>
@@ -20,14 +21,16 @@
       padding: 40px;
       border-radius: 10px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      width: 1000px; /* wider for side-by-side */
+      width: 960px; /* wider for side-by-side */
       max-width: 100;
       text-align: center;
       display: flex;
       gap: 40px;
       justify-content: center;
       align-items: flex-start;
-      margin-left: 229px;
+      margin-left: 45px;
+      margin-top: 15px;
+      height: 600px; /* Adjusted height for better layout */
     }
 
     .form-left,
@@ -54,7 +57,7 @@
     .form-container input[type="text"],
     .form-container input[type="file"],
     .form-container input[type="number"]{
-      width: 100%;
+      width: 94%;
       padding: 12px;
       margin: 10px 0;
       border: 1px solid #ccc;
@@ -80,7 +83,7 @@
 .form-right textarea {
   height: auto !important;
   min-height: 340px;
-  width: 100%;
+  width: 93%;
   padding: 14px; 
   border-radius: 6px;
   border: 1px solid #ccc;
@@ -137,22 +140,50 @@
 </style>
 <body>
 
-    <div class="sidebar">
-      <div class="admin-header">
-      <img src="http://localhost/WebDev_Repository/assets/img_icon/granby_logo.png" alt="Logo" class="logo">
-         <h3> GCST Library
-         </h3>
+<aside class="sidebar">
+    <div>
+      <div class="logo-container">
+        <img src="http://localhost/WebDev_Repository/assets/img_icon/granby_logo.png" alt="Logo" class="logo-img">
+        <h3 class="logo-title">GCST Library</h3>
       </div>
-      <a href="http://localhost/WebDev_Repository/pages/admin/home.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/home-color.png" class="icon"><strong>Home</strong> </a>
-      <a href="http://localhost/WebDev_Repository/pages/admin/admin_book.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/book-colored.png" class="icon"> <strong>Books</strong></a>
-       <div class="sidebar-divider"></div>
-      <a href="http://localhost/WebDev_Repository/pages/admin/create.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/create-color.png" class="icon"><strong>Create</strong></a>
-      <div class="sidebar-divider"></div>
-      <a href="http://localhost/WebDev_Repository/pages/admin/request.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/request-color.png" class="icon"><strong>Requests</strong></a>
-      <a href="http://localhost/WebDev_Repository/pages/admin/profile.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/students-color.png" class="icon"><strong>Profile</strong></a>
-      <a href="http://localhost/WebDev_Repository/pages/admin/report.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/report-color.png" class="icon"><strong>Reports</strong></a>
-      <a href="http://localhost/WebDev_Repository/pages/user/user_home.html"><img src="http://localhost/WebDev_Repository/assets/img_icon/logout-color.png" class="icon"> <strong>Logout</strong></a>
+
+      <nav class="nav-menu">
+        <a href="http://localhost/WebDev_Repository/pages/admin/admin_dashb.html" class="nav-link active">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/dashbc.png" alt="Dashboard Icon" class="icon">
+          Dashboard
+        </a>
+        <a href="http://localhost/WebDev_Repository/pages/admin/admin_create.html" class="nav-link">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/addgrey.png" alt="Dashboard Icon" class="icon">
+          Create
+        </a>
+        <a href="http://localhost/WebDev_Repository/pages/admin/admin_books.html" class="nav-link">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/bookpen.png" alt="Dashboard Icon" class="icon">
+          Books
+        </a>
+        <a href="http://localhost/WebDev_Repository/pages/user/user_home.html" class="nav-link logout">
+          <img src="http://localhost/WebDev_Repository/assets/sidebar_img/outv.png" alt="Dashboard Icon" class="icon">
+          Logout
+        </a>
+      </nav>
     </div>
+
+    <div class="role-switch-container">
+      <h2 class="role-label">Role:</h2>
+      <label class="switch-label" id="switchLabel">
+        <input type="checkbox" id="roleSwitch" class="hidden" />
+        <span class="switch-bg"></span>
+        <span id="sliderIcon" class="slider-icon">😻</span>
+        <span id="roleText" class="role-text">Admin</span>
+
+        <div class="pin-container hidden left" id="pinContainerLeft">
+          <input type="password" maxlength="1" class="pin-input" />
+          <input type="password" maxlength="1" class="pin-input" />
+          <input type="password" maxlength="1" class="pin-input" />
+          <input type="password" maxlength="1" class="pin-input" />
+        </div>
+      </label>
+    </div>
+  </aside>
 
   <div class="main-content">
     <form action="http://localhost/WebDev_Repository/utils/edit_book2.php" method="POST" enctype="multipart/form-data">
@@ -282,6 +313,66 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 </script>
 
+<script>
+  // This script handles the PIN input for the librarian role switch
+document.addEventListener('DOMContentLoaded', () => {
+  const pinContainerLeft = document.getElementById('pinContainerLeft');
+  const pinInputsLeft = pinContainerLeft.querySelectorAll('.pin-input');
+  const roleText = document.getElementById('roleText');
+
+function checkPin(container, inputs, correctPin) {
+  const enteredPin = Array.from(inputs).map(input => input.value).join('');
+  if (enteredPin.length === 4) {
+    if (enteredPin === correctPin) {
+      window.location.href = 'http://localhost/WebDev_Repository/pages/librarian/librarian_request.html';
+    } else {
+      roleText.textContent = 'Invalid PIN';
+      roleText.style.display = '';
+      roleText.classList.add('error');
+
+      // After 3 seconds, reset text to "Librarian"
+      setTimeout(() => {
+        roleText.textContent = 'Librarian';
+        roleText.classList.remove('error');
+      }, 1500);
+    }
+
+    inputs.forEach(input => input.value = '');
+    container.classList.add('hidden');
+  }
+}
+
+  pinInputsLeft.forEach((input, index) => {
+    input.addEventListener('input', () => {
+      input.value = input.value.replace(/\D/, '');
+      if (input.value.length === 1 && index < pinInputsLeft.length - 1) {
+        pinInputsLeft[index + 1].focus();
+      }
+      checkPin(pinContainerLeft, pinInputsLeft, '1111'); // Correct PIN for librarian
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && input.value === '' && index > 0) {
+        pinInputsLeft[index - 1].focus();
+      }
+    });
+  });
+
+document.getElementById('switchLabel').addEventListener('click', (e) => {
+  e.preventDefault();
+  if (!pinContainerLeft.classList.contains('hidden')) {
+    pinContainerLeft.classList.add('hidden');
+    roleText.style.display = '';
+    roleText.textContent = 'Librarian';
+    roleText.classList.remove('error');
+  } else {
+    pinContainerLeft.classList.remove('hidden');
+    pinInputsLeft[0].focus();
+    roleText.style.display = 'none';
+  }
+});
+});
+</script>
 
 </body>
 </html>

@@ -9,7 +9,14 @@ if (!$connection) {
 }
 
 // Fetch all relevant fields, including quantity and fine_value
-$sql = "SELECT book_id, book_name, book_author, book_category, book_description, book_image, book_status, quantity, fine_value FROM books ORDER BY created_at DESC";
+$sql = "SELECT book_id, book_name, book_author, book_category, book_description, book_image, 
+        CASE 
+          WHEN quantity = 0 THEN 'unavailable' 
+          ELSE book_status 
+        END AS book_status, 
+        quantity, fine_value 
+        FROM books 
+        ORDER BY created_at DESC";
 $result = mysqli_query($connection, $sql);
 
 $books = [];

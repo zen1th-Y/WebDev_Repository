@@ -337,71 +337,77 @@
   let booksData = [];
 
 // Add modal logic for admin
+// Add modal logic for admin
 function showAdminBookModal(book, imgSrc) {
   const modal = document.getElementById("adminBookModal");
   const modalBody = document.getElementById("admin-modal-body");
-modalBody.innerHTML = `
-  <img src="${imgSrc}" alt="Cover of ${book.book_name}" style="width:120px;height:190px;object-fit:cover;border-radius:8px;">
-  <div class="book-info" style="flex:1;">
-    <h3 style="margin:0 0 10px;font-size:1.2rem;">${book.book_name}</h3>
-    <div class="book-author"><strong>Author:</strong> ${book.book_author}</div>
-    
-    <!-- CATEGORY + QUANTITY GROUP -->
-    <div style="display: flex; gap: 10px; align-items: center; margin-top: 5px; margin-bottom: 10px;">
-      <div class="category" style="background:#e0e7ff;padding:6px 12px;border-radius:6px;font-size:0.9rem;font-weight:500;">
-        ${book.book_category || 'Unknown Category'}
+  modalBody.innerHTML = `
+    <img src="${imgSrc}" alt="Cover of ${book.book_name}" style="width:120px;height:190px;object-fit:cover;border-radius:8px;">
+    <div class="book-info" style="flex:1;">
+      <h3 style="margin:0 0 10px;font-size:1.2rem;">${book.book_name}</h3>
+      <div class="book-author"><strong>Author:</strong> ${book.book_author}</div>
+      
+      <!-- CATEGORY + QUANTITY GROUP -->
+      <div style="display: flex; gap: 10px; align-items: center; margin-top: 5px; margin-bottom: 10px;">
+        <div class="category" style="background:#e0e7ff;padding:6px 12px;border-radius:6px;font-size:0.9rem;font-weight:500;">
+          ${book.book_category || 'Unknown Category'}
+        </div>
+        <div class="quantity" style="background:#fef3c7;padding:6px 12px;border-radius:6px;font-size:0.9rem;font-weight:500;color:#92400e;">
+          Qty: ${book.quantity ?? 'N/A'}
+        </div>
       </div>
-      <div class="quantity" style="background:#fef3c7;padding:6px 12px;border-radius:6px;font-size:0.9rem;font-weight:500;color:#92400e;">
-        Qty: ${book.quantity ?? 'N/A'}
+
+      <!-- DESCRIPTION -->
+      <p class="description" style="margin:15px 0;font-size:0.95rem;color:#444;line-height:1.5;">
+        ${book.book_description || 'No description available.'}
+      </p>
+
+      <!-- BUTTONS -->
+      <div class="modal-buttons" style="display:flex;gap:10px;margin-top:10px;">
+        <button class="btn-edit" style="padding:8px 14px;border:none;border-radius:6px;font-weight:600;cursor:pointer;background:#60a5fa;color:#fff;">Edit Book</button>
+        <button class="btn-status-toggle" style="padding:8px 14px;border:none;border-radius:6px;font-weight:600;cursor:pointer;background:${book.book_status === 'unavailable' ? '#10b981' : '#ef4444'};color:#fff;">
+          ${book.book_status === 'unavailable' ? 'Set Available' : 'Set Unavailable'}
+        </button>
       </div>
     </div>
-
-    <!-- DESCRIPTION -->
-    <p class="description" style="margin:15px 0;font-size:0.95rem;color:#444;line-height:1.5;">
-      ${book.book_description || 'No description available.'}
-    </p>
-
-    <!-- BUTTONS -->
-    <div class="modal-buttons" style="display:flex;gap:10px;margin-top:10px;">
-      <button class="btn-edit" style="padding:8px 14px;border:none;border-radius:6px;font-weight:600;cursor:pointer;background:#60a5fa;color:#fff;">Edit Book</button>
-      <button class="btn-unavailable" style="padding:8px 14px;border:none;border-radius:6px;font-weight:600;cursor:pointer;background:#ef4444;color:#fff;">Set Unavailable</button>
-    </div>
-  </div>
-`;
+  `;
 
   // Edit button logic
-    modalBody.querySelector('.btn-edit').addEventListener('click', () => {
-      if (book.quantity && book.fine_value) {
-        window.location.href = `edit_book.html?book_id=${encodeURIComponent(book.book_id)}&quantity=${encodeURIComponent(book.quantity)}&fine_value=${encodeURIComponent(book.fine_value)}`;
-      } else {
-        alert('Missing quantity or fine value for this book.');
-      }
-    });
+  modalBody.querySelector('.btn-edit').addEventListener('click', () => {
+    if (book.quantity && book.fine_value) {
+      window.location.href = `edit_book.html?book_id=${encodeURIComponent(book.book_id)}&quantity=${encodeURIComponent(book.quantity)}&fine_value=${encodeURIComponent(book.fine_value)}`;
+    } else {
+      alert('Missing quantity or fine value for this book.');
+    }
+  });
 
-// Update modal logic for unavailable button
-modalBody.querySelector('.btn-unavailable').addEventListener('click', () => {
-  if (confirm('Are you sure you want to set this book as unavailable?')) {
-    fetch('http://localhost/WebDev_Repository/utils/set_book_unavailable.php', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ book_id: book.book_id })
-    })
-    .then(res => res.json())
-    .then(res => {
-      if (res.success) {
-        alert('Book set to unavailable!');
-        modal.style.display = "none";
-        // Re-render books with unavailable status
-        renderBooks(booksData, 'unavailable');
-      } else {
-        alert('Failed to update book: ' + (res.message || 'Unknown error.'));
-      }
-    })
-    .catch(() => {
-      alert('Failed to update book: Network error.');
-    });
-  }
-});
+  // Status toggle button logic
+  modalBody.querySelector('.btn-status-toggle').addEventListener('click', () => {
+    const newStatus = book.book_status === 'unavailable' ? 'available' : 'unavailable';
+    const confirmationMessage = `Are you sure you want to set this book as ${newStatus}?`;
+
+    if (confirm(confirmationMessage)) {
+      fetch('http://localhost/WebDev_Repository/utils/set_book_status.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ book_id: book.book_id, new_status: newStatus })
+      })
+      .then(res => res.json())
+      .then(res => {
+        if (res.success) {
+          alert(`Book set to ${newStatus}!`);
+          modal.style.display = "none";
+          // Re-render books with updated status
+          renderBooks(booksData, newStatus === 'available' ? 'unavailable' : 'available');
+        } else {
+          alert('Failed to update book: ' + (res.message || 'Unknown error.'));
+        }
+      })
+      .catch(() => {
+        alert('Failed to update book: Network error.');
+      });
+    }
+  });
 
   modal.style.display = "flex";
 }
@@ -423,6 +429,7 @@ function renderBooks(books, filterStatus = 'available') {
   
   // Filter books based on the status
   const filteredBooks = books.filter(book => book.book_status === filterStatus);
+
   if (filteredBooks.length === 0) {
     container.innerHTML = `<p>No ${filterStatus} books found.</p>`;
     return;

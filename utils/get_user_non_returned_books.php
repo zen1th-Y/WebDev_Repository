@@ -24,7 +24,7 @@ $sql = "SELECT nrb.nrb_id, nrb.book_id, nrb.date_student_received_book, nrb.retu
         FROM non_returned_books nrb
         JOIN books b ON nrb.book_id = b.book_id
         WHERE nrb.student_id = ?
-        ORDER BY nrb.return_date ASC";
+        ORDER BY nrb.return_date DESC";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $student_id);
 $stmt->execute();

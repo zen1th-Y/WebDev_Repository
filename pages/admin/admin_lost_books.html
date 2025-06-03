@@ -19,11 +19,12 @@
     }
   
     .main-content {
-    margin-left: 290px;
-    padding: 10px;
-    box-sizing: border-box;
-    overflow-y: auto;
-    height: 100vh; /* full height of the viewport */
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: auto;
+  box-sizing: border-box; 
     }
 
     button.suspend-btn {
@@ -40,11 +41,15 @@
     }
 
     .content-box {
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      width: 1120px;
+  background: #ffffff;
+  width: 100%;
+  max-width: 993px;
+  padding: 17px;
+  margin: 0 auto; 
+  margin-left: 34px;
+  border-radius: 16px;
+  background-attachment: fixed;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
     table {
       width: 100%;
@@ -56,6 +61,7 @@
       text-align: left;
       border-bottom: 1px solid #ddd;
       vertical-align: top;
+      font-size: 11px;
       
     }
     th {
@@ -114,8 +120,143 @@
     th:nth-child(2) { width: 70px; }     
     th:nth-child(3) { width: 120px; }     
     th:nth-child(7) { width: 90px; }  
+  
+    .radio-toggle-group {
+  display: flex;
+  background-color: #cbd5e1;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 40px;
+  padding: 4px;
+}
+
+.radio-toggle-group input[type="radio"] {
+  display: none;
+}
+
+.radio-toggle-group label {
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: transparent;
+  transition: background 0.3s, color 0.3s;
+  color: #1e293b;
+  font-weight: 600;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.radio-toggle-group input[type="radio"]:checked + label {
+  background-color: #f1f5f9;
+  border-radius: 6px;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-search-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.filter-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.search-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.search-wrapper input[type="text"] {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 450px;
+}
 
   </style>
+
+  <style>
+    /* modal Styles */
+.modal {
+  display: flex;  /* visible by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* to be on top */
+}
+
+  .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    text-align: center;
+  }
+
+  .modal-buttons button {
+    margin: 5px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .modal-buttons button:hover {
+    opacity: 0.9;
+  }
+
+.hidden {
+  display: none !important; /* hide when hidden */
+}
+
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    unicode-bidi: isolate;
+    font-size: 10px;
+}
+
+#sendEmailBtn {
+  background-color: #0ea5e9; /* blue */
+  color: white;
+}
+
+#printReceiptBtn {
+  background-color: #22c55e; /* green */
+  color: white;
+}
+
+#markFinedBtn {
+  background-color: #ef4444; /* red */
+  color: white;
+}
+
+.modal-buttons button:hover {
+  opacity: 0.9;
+}
+
+</style>
 </head>
 <body>
 
@@ -166,10 +307,30 @@
 
 <div class="main-content">
     <div class="content-box">
-        <div class="header-row">
-            <h2>Lost Books</h2>
-            <input type="text" id="studentSearch" placeholder="Search students..."/>
-        </div>
+<div class="header-row">
+    <h2>Lost Books</h2>
+  <div class="filter-search-wrapper">
+        <!-- Search Bar Centered -->
+    <div class="search-wrapper">
+      <input type="text" id="studentSearch" placeholder="Search students..."/>
+    </div>
+    <!-- Radio Toggle Group -->
+    <div class="filter-controls">
+      <div class="radio-toggle-group">
+        <input type="radio" id="pending" name="status" checked>
+        <label for="pending">Pending</label>
+        <input type="radio" id="fined" name="status">
+        <label for="fined">Fined</label>
+        <input type="radio" id="paid" name="status">
+        <label for="paid">Paid</label>
+      </div>
+    </div>
+
+
+  </div>
+
+
+</div>
         <table>
             <thead>
                 <tr>
@@ -188,7 +349,169 @@
     </div>
 </div>
 
+<div id="fineNoticeModal" class="modal hidden">
+  <div class="modal-content">
+    <h3>Library Fine Notice</h3>
 
+    <p>Dear <span id="modalStudentName"></span>,</p>
+    <p>This is a friendly reminder that the book "<span id="modalBookTitle"></span>" borrowed under your name is overdue by <span id="modalDaysOverdue"></span> day(s). The fine is ₱20.00 per day, so your current total fine is ₱<span id="modalTotalFine"></span>.</p>
+    <p><strong>IMPORTANT NOTICE:</strong></p>
+    <p>If the book has been lost, please be advised that you will need to pay the full replacement cost of ₱<span id="modalFineValue"></span>.</p>
+    <p>Kindly return the book as soon as possible or contact the library if the book is lost.</p>
+    <div class="modal-buttons">
+      <button id="sendEmailBtn">Send to Email</button>
+      <button id="printReceiptBtn">Print Receipt</button>
+      <button id="markFinedBtn">Mark as Fined</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  // This script handles the PIN input for the librarian role switch
+document.addEventListener('DOMContentLoaded', () => {
+  const pinContainerLeft = document.getElementById('pinContainerLeft');
+  const pinInputsLeft = pinContainerLeft.querySelectorAll('.pin-input');
+  const roleText = document.getElementById('roleText');
+
+function checkPin(container, inputs, correctPin) {
+  const enteredPin = Array.from(inputs).map(input => input.value).join('');
+  if (enteredPin.length === 4) {
+    if (enteredPin === correctPin) {
+      window.location.href = 'http://localhost/WebDev_Repository/pages/librarian/librarian_request.html';
+    } else {
+      roleText.textContent = 'Invalid PIN';
+      roleText.style.display = '';
+      roleText.classList.add('error');
+
+      // After 3 seconds, reset text to "Librarian"
+      setTimeout(() => {
+        roleText.textContent = 'Librarian';
+        roleText.classList.remove('error');
+      }, 1500);
+    }
+
+    inputs.forEach(input => input.value = '');
+    container.classList.add('hidden');
+  }
+}
+
+  pinInputsLeft.forEach((input, index) => {
+    input.addEventListener('input', () => {
+      input.value = input.value.replace(/\D/, '');
+      if (input.value.length === 1 && index < pinInputsLeft.length - 1) {
+        pinInputsLeft[index + 1].focus();
+      }
+      checkPin(pinContainerLeft, pinInputsLeft, '1111'); // Correct PIN for librarian
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && input.value === '' && index > 0) {
+        pinInputsLeft[index - 1].focus();
+      }
+    });
+  });
+
+document.getElementById('switchLabel').addEventListener('click', (e) => {
+  e.preventDefault();
+  if (!pinContainerLeft.classList.contains('hidden')) {
+    pinContainerLeft.classList.add('hidden');
+    roleText.style.display = '';
+    roleText.textContent = 'Librarian';
+    roleText.classList.remove('error');
+  } else {
+    pinContainerLeft.classList.remove('hidden');
+    pinInputsLeft[0].focus();
+    roleText.style.display = 'none';
+  }
+});
+});
+</script>
+
+
+<script>
+function loadLostBooks() {
+  fetch("http://localhost/WebDev_Repository/utils/admin_queries/get_lost_books.php")
+    .then(res => res.json())
+    .then(data => {
+      const tbody = document.getElementById("studentTableBody");
+      tbody.innerHTML = "";
+
+      if (data.error) {
+        console.error("Error:", data.error);
+        tbody.innerHTML = `<tr><td colspan="6">Failed to load data: ${data.error}</td></tr>`;
+        return;
+      }
+
+      if (data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6">No lost books found.</td></tr>`;
+        return;
+      }
+
+      data.forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${row.book_name}</td>
+          <td>${row.student_id}</td>
+          <td>${row.student_name}</td>
+          <td>${row.days_overdue}</td>
+          <td>₱${parseFloat(row.fine_amount).toFixed(2)}</td>
+          <td>${row.status}</td>
+        `;
+        tr.addEventListener("click", () => showFineNoticeModal(row));
+        tbody.appendChild(tr);
+      });
+    })
+    .catch(err => {
+      console.error("Failed to load data:", err);
+      const tbody = document.getElementById("studentTableBody");
+      tbody.innerHTML = `<tr><td colspan="6">Failed to load data.</td></tr>`;
+    });
+}
+
+//exit modal when clicking outside the modal content
+document.getElementById("fineNoticeModal").addEventListener("click", function (e) {
+  if (e.target === this) {
+    this.classList.add("hidden");
+  }
+});
+
+document.getElementById("sendEmailBtn").addEventListener("click", () => {
+  alert("Email sent");
+});
+
+document.getElementById("printReceiptBtn").addEventListener("click", () => {
+  window.print();
+});
+
+document.getElementById("markFinedBtn").addEventListener("click", () => {
+  alert("Marked as fined");
+  document.getElementById("fineNoticeModal").classList.add("hidden");
+});
+
+
+function showFineNoticeModal(row) {
+  // Reset modal content to avoid retaining old data
+  document.getElementById("modalBookTitle").textContent = "";
+  document.getElementById("modalDaysOverdue").textContent = "";
+  document.getElementById("modalTotalFine").textContent = "";
+  document.getElementById("modalFineValue").textContent = "";
+  document.getElementById("modalStudentName").textContent = "";
+
+  // Update modal content with new data
+  document.getElementById("modalBookTitle").textContent = row.book_name;
+  document.getElementById("modalDaysOverdue").textContent = row.days_overdue;
+  document.getElementById("modalTotalFine").textContent = (row.days_overdue * 20).toFixed(2);
+  document.getElementById("modalFineValue").textContent = parseFloat(row.fine_amount).toFixed(2);
+  document.getElementById("modalStudentName").textContent = row.student_name;
+
+  document.getElementById("fineNoticeModal").classList.remove("hidden");
+}
+
+
+// Load lost books on page load
+document.addEventListener("DOMContentLoaded", loadLostBooks);
+</script>
 
 
 

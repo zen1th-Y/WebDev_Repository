@@ -111,14 +111,14 @@
     document.getElementById('submit-pin').addEventListener('click', () => {
         const pin = Array.from(inputs).map(i => i.value).join('');
         if (pin.length === 4) {
-            if (pin === "1234") {
+            if (pin === "2222") {
                 localStorage.setItem('currentRole', 'admin');
                 localStorage.setItem('activeLinkText', 'Dashboard');
-                window.location.href = "http://localhost/WebDev_Repository/pages/admin/admin_dashboard.html";
-            } else if (pin === "5678") {
+                window.location.href = "http://localhost/WebDev_Repository/pages/admin/admin_dashb.html";
+            } else if (pin === "1111") {
                 localStorage.setItem('currentRole', 'librarian');
                 localStorage.setItem('activeLinkText', 'Requests');
-                window.location.href = "http://localhost/WebDev_Repository/pages/admin/request2.html";
+                window.location.href = "http://localhost/WebDev_Repository/pages/librarian/librarian_request.html";
             } else {
                 alert("Incorrect PIN. Try again.");
                 inputs.forEach(input => input.value = "");
